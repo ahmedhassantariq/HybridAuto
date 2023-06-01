@@ -19,7 +19,8 @@ public class MainScreen {
         viewPane.setPrefWidth(Constants.screenWidth);
         viewPane.setPrefHeight(Constants.screenHeight);
         //CSS viewPane
-        viewPane.setStyle("-fx-background-color: WHITE");
+//        viewPane.setStyle("-fx-background-color: #e8e8e8");
+        viewPane.setBackground(new Background(new BackgroundFill(Color.web("#e8e8e8"),new CornerRadii(0,0,0,0,false),null)));
 
         //SelectionPane
         VBox selectionPane = new VBox();
@@ -33,6 +34,7 @@ public class MainScreen {
         MFXButton salesFormButton = Buttons.DashboardButton("Sales", FontIcon.of(PrestaShopIcons.MAGNIFYING_GLASS));
         MFXButton reportsFormButton = Buttons.DashboardButton("Reports", FontIcon.of(PrestaShopIcons.PAPER_TABLET));
         MFXButton serviceFormButton = Buttons.DashboardButton("Services", FontIcon.of(PrestaShopIcons.SALE_TAG));
+        MFXButton utilitiesFormButton = Buttons.DashboardButton("Utilities", FontIcon.of(LigatureSymbols.EXTERNAL));
         MFXButton logoutButton = Buttons.DashboardButton("Logout", FontIcon.of(LigatureSymbols.LOGOUT));
 
         //Adding nodes to SelectionPane
@@ -41,6 +43,7 @@ public class MainScreen {
                 InventoryFormButton,
                 salesFormButton,
                 serviceFormButton,
+                utilitiesFormButton,
                 reportsFormButton,
                 logoutButton
         );
@@ -50,10 +53,13 @@ public class MainScreen {
 
 
         //Buttons Functions
+        dashboardFormButton.setOnAction(e->{
+            viewPane.setCenter(DashboardForm.dashboardForm());
+        });
+
         InventoryFormButton.setOnAction(e->{
             viewPane.setCenter(InventoryForm.inventoryForm());
         });
-
 
         logoutButton.setOnMouseClicked(e->{
             try {

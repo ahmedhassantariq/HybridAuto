@@ -64,7 +64,8 @@ public class ProductForm {
         productBox.setSpacing(10);
         productBox.setAlignment(Pos.TOP_CENTER);
         productBox.setMinSize(300,400);
-        productBox.setBackground(new Background(new BackgroundFill(Color.web("#03a9f4"),new CornerRadii(15,0,0,15,false),null)));
+        productBox.setBackground(new Background(new BackgroundFill(Color.WHITE,new CornerRadii(15,0,0,15,false),null)));
+        productBox.setBorder(new Border(new BorderStroke(Color.web("02557a"),BorderStrokeStyle.SOLID,new CornerRadii(15,0,0,15,false), BorderStroke.THICK)));
 
         productBox.getStylesheets().add(Stylesheets.COMBO_BOX.loadTheme());
         return productBox;

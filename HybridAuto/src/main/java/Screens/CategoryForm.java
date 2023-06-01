@@ -14,6 +14,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 
 public class CategoryForm {
 
@@ -51,7 +52,8 @@ public class CategoryForm {
         categoryBox.setSpacing(10);
         categoryBox.setAlignment(Pos.TOP_CENTER);
         categoryBox.setMinSize(300,400);
-        categoryBox.setBackground(new Background(new BackgroundFill(Color.web("#03a9f4"),new CornerRadii(15,0,0,15,false),null)));
+        categoryBox.setBackground(new Background(new BackgroundFill(Color.WHITE,new CornerRadii(15,0,0,15,false),null)));
+        categoryBox.setBorder(new Border(new BorderStroke(Color.web("02557a"),BorderStrokeStyle.SOLID,new CornerRadii(15,0,0,15,false), BorderStroke.THICK)));
         categoryBox.getStylesheets().add(Stylesheets.COMBO_BOX.loadTheme());
         return categoryBox;
 

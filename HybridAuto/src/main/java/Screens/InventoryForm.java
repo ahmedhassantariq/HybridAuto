@@ -37,6 +37,8 @@ public class InventoryForm {
 
 
         HBox fieldBox = new HBox(searchField,searchButton,createCategoryButton,addNewProductButton);
+        fieldBox.setBackground(new Background(new BackgroundFill(Color.WHITE,new CornerRadii(   15,15,15,15,false),null)));
+
         fieldBox.setAlignment(Pos.CENTER_LEFT);
         fieldBox.setPadding(new Insets(10));
         fieldBox.setSpacing(10);
