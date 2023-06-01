@@ -10,7 +10,7 @@ public class Main extends Application {
     public void start(Stage stage) throws Exception {
         Main.stage = stage;
         stage.setTitle("Hybrid AutoTech");
-        stage.setResizable(false);
+//        stage.setResizable(false);
         stage.setScene(Constants.scene);
         stage.setOnCloseRequest(e->{
 

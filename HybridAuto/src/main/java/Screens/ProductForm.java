@@ -1,0 +1,73 @@
+package Screens;
+
+import Styles.Buttons;
+import Styles.Fields;
+import Styles.Labels;
+import io.github.palexdev.materialfx.controls.MFXButton;
+import io.github.palexdev.materialfx.controls.MFXCheckbox;
+import io.github.palexdev.materialfx.controls.MFXComboBox;
+import io.github.palexdev.materialfx.controls.MFXTextField;
+import io.github.palexdev.materialfx.css.themes.Stylesheets;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.control.Label;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+
+public class ProductForm {
+
+    public static VBox productForm(){
+        Label title = Labels.titleLabel("New Product");
+
+        //Combo Boxes
+        MFXComboBox makeComboBox = new MFXComboBox();
+        makeComboBox.setText("Make");
+        MFXComboBox modelComboBox = new MFXComboBox();
+        modelComboBox.setText("Model");
+        MFXComboBox yearComboBox = new MFXComboBox();
+        yearComboBox.setText("Year");
+        MFXComboBox conditionComboBox = new MFXComboBox();
+        conditionComboBox.setText("Condition");
+        MFXComboBox typeComboBox = new MFXComboBox();
+        typeComboBox.setText("Product");
+
+        HBox comboBoxContainer = new HBox(makeComboBox,modelComboBox,yearComboBox);
+        comboBoxContainer.setAlignment(Pos.CENTER);
+        comboBoxContainer.setPadding(new Insets(10));
+        comboBoxContainer.setSpacing(10);
+
+
+
+        MFXTextField costField = Fields.textField("Cost",100,40);
+
+
+
+        MFXTextField descriptionField = Fields.textField("Description",300,40);
+        HBox costCond = new HBox(typeComboBox,conditionComboBox,costField);
+        costCond.setAlignment(Pos.CENTER);
+        costCond.setPadding(new Insets(10));
+        costCond.setSpacing(10);
+
+
+        MFXTextField serialField = Fields.textField("SerialNo.",300,40);
+
+        MFXButton addButton = Buttons.FunctionButton("Add",100,40);
+        MFXButton cancelButton = Buttons.FunctionButton("Cancel",100,40);
+
+        HBox buttonBox = new HBox(addButton,cancelButton);
+        buttonBox.setAlignment(Pos.CENTER);
+        buttonBox.setPadding(new Insets(10));
+        buttonBox.setSpacing(10);
+
+        VBox productBox = new VBox(title,comboBoxContainer,costCond,descriptionField,serialField,buttonBox);
+        productBox.setSpacing(10);
+        productBox.setAlignment(Pos.TOP_CENTER);
+        productBox.setMinSize(300,400);
+        productBox.setBackground(new Background(new BackgroundFill(Color.web("#03a9f4"),new CornerRadii(15,0,0,15,false),null)));
+
+        productBox.getStylesheets().add(Stylesheets.COMBO_BOX.loadTheme());
+        return productBox;
+
+    }
+}
