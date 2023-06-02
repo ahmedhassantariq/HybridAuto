@@ -1,5 +1,7 @@
 package Screens;
 
+import Entities.Product;
+import Functionality.InventoryService;
 import Styles.Buttons;
 import Styles.Fields;
 import Styles.Labels;
@@ -54,6 +56,15 @@ public class ProductForm {
 
         MFXButton addButton = Buttons.FunctionButton("Add",100,40);
         MFXButton cancelButton = Buttons.FunctionButton("Cancel",100,40);
+
+        addButton.setOnAction((e) -> {
+            // TODO: 6/2/2023 correctly pass a product to InventoryService.addProduct()
+//            Product p1 = new Product(makeComboBox.getSelectedText(), modelComboBox.getSelectedText(),
+//                    yearComboBox.getSelectedText(), typeComboBox.getSelectedText(),  conditionComboBox.getSelectedText(),
+//                    descriptionField.getText(), serialField.getText());
+//            Product p = new Product(inventoryProductID, carID, productID, serialField.getText(), cost, descriptionField.getText(), conditionComboBox.getSelectedText());
+//            InventoryService.addProduct(p);
+        });
 
         HBox buttonBox = new HBox(addButton,cancelButton);
         buttonBox.setAlignment(Pos.CENTER);

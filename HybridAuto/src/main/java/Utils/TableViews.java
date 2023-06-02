@@ -47,7 +47,7 @@ public class TableViews {
         ageColumn.setAlignment(Pos.CENTER_RIGHT);
 
         table.getTableColumns().addAll(nameColumn, surnameColumn, ageColumn);
-        table.getFilters().addAll(
+        table.getFilters().addAll( // TODO: 6/2/2023 update type of filter to match with type of product attribute
                 new StringFilter<>("Name", Product::getProductID),
                 new StringFilter<>("Surname", Product::getCondition)
         );

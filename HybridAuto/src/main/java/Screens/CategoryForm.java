@@ -1,5 +1,6 @@
 package Screens;
 
+import Functionality.InventoryService;
 import Styles.Buttons;
 import Styles.Fields;
 import Styles.Labels;
@@ -42,6 +43,12 @@ public class CategoryForm {
 
         MFXButton addButton = Buttons.FunctionButton("Add",100,40);
         MFXButton cancelButton = Buttons.FunctionButton("Cancel",100,40);
+
+        addButton.setOnAction((e) -> {
+            InventoryService.addCategory(makeComboBox.getSelectedText(), modelComboBox.getSelectedText(),
+                    yearComboBox.getSelectedText(), typeComboBox.getSelectedText(),  conditionComboBox.getSelectedText()
+            );
+        });
 
         HBox buttonBox = new HBox(addButton,cancelButton);
         buttonBox.setAlignment(Pos.CENTER);
