@@ -12,6 +12,20 @@ public class Product {
     private final String serialNumber;
     private final boolean display;
 
+    public Product(String make, String model, int year, String condition, int cost, String description, String serialNumber) {
+        // TODO: 6/2/2023 Product Constructor, generate ID
+        this.inventoryProductID = String.valueOf(Math.random());
+        this.productID = String.valueOf(Math.random());
+        this.make = make;
+        this.model = model;
+        this.year = year;
+        this.condition = condition;
+        this.cost = cost;
+        this.description = description;
+        this.serialNumber = serialNumber;
+        this.display = true;
+    }
+
     public Product(String inventoryProductID,String productID, String make, String model, int year, String condition, int cost, String description, String serialNumber, boolean display) {
         this.inventoryProductID = inventoryProductID;
         this.productID = productID;
@@ -97,5 +111,9 @@ public class Product {
     }
     public Object getDisplay(Product product) {
         return display;
+    }
+
+    public static Product getDummy() {
+        return new Product("", "", "", "", 0, "", 0, "", "", false);
     }
 }

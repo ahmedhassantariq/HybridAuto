@@ -1,4 +1,4 @@
-package Functionality;
+package Functionality.Database;
 
 import Entities.Car;
 import Entities.Category;
@@ -27,18 +27,19 @@ public class InventoryService {
     }
     public static boolean addProduct(Product p) {
         //todo deal with product type in addProduct()
-        return addProduct(p.getCarID(), "", p.getCondition(), p.getDescription(), p.getSerialNumber());
+        return addProduct(p.getMake(), p.getModel(), String.valueOf(p.getYear()), "", p.getCondition(), p.getDescription(), p.getSerialNumber());
     }
-    private static boolean addProduct(String carID, String type, String condition, String desc, String serial) {
+    private static boolean addProduct(String make, String model, String year, String type, String condition, String desc, String serial) {
 //        try{
-            Car car = CarService.getCar(carID);
+            Car car = CarService.getCar(make, model, year);
             Category category = getCategory(type, condition);
 
             if(car == null || category == null) return false;
 
+        // TODO: 6/2/2023 update add product query /// other queries also
             String queryStr = String.format("insert into products(make, model, year, condition, description, serial)" +
-                            "values(%s, %s, %s, %s)",
-                    car.getCarID(), category.getCategoryID(), desc, serial);
+                            "values(%s, %s, %s, %s)", // TODO: 6/2/2023 category.GetCategoryID()
+                    car.getCarID(), "category.getCategoryID()", desc, serial);
             return DatabaseService.executeQuery(queryStr);
 //        }catch (SQLException ex) {
 //        }
@@ -87,7 +88,7 @@ public class InventoryService {
     public static List<Product> getAllProducts() {
         try{
             String queryStr = "select * from products";
-            return DatabaseService.<Product>executeInline().orElseThrow(
+            return DatabaseService.<Product>executeInline(queryStr).orElseThrow(
                     () -> new SQLException("No Products Found")
             );
         }catch (SQLException ex) {
@@ -111,4 +112,44 @@ public class InventoryService {
         return filteredList;
     }
 
+    public static List<String> getAllMakeDistinct() {
+        try{
+            String queryStr = "select distinct p.make from products p";
+            return DatabaseService.executeInlineStr(queryStr).orElseThrow(
+                    () -> new SQLException("No Make Found")
+            );
+        }catch (SQLException ex) {
+            return null;
+        }
+    }
+    public static List<String> getAllModelsDistinct() {
+        try{
+            String queryStr = "select distinct p.model from products p";
+            return DatabaseService.executeInlineStr(queryStr).orElseThrow(
+                    () -> new SQLException("No Model Found")
+            );
+        }catch (SQLException ex) {
+            return null;
+        }
+    }
+    public static List<String> getAllConditionsDistinct() {
+        try{
+            String queryStr = "select distinct p.condition from products p";
+            return DatabaseService.executeInlineStr(queryStr).orElseThrow(
+                    () -> new SQLException("No Condition Found")
+            );
+        }catch (SQLException ex) {
+            return null;
+        }
+    }
+    public static List<String> getAllProductTypesDistinct() {
+        try{
+            String queryStr = "select distinct p.type from products p";
+            return DatabaseService.executeInlineStr(queryStr).orElseThrow(
+                    () -> new SQLException("No Type Found")
+            );
+        }catch (SQLException ex) {
+            return null;
+        }
+    }
 }

@@ -1,31 +1,39 @@
 package Entities;
 
 public class Category {
-    private final String categoryID;
-    private final String carID; // TODO: 6/2/2023 confirm category and other tables attributes
-    private final String type;
-    private final String condition;
+    private final String make;
+    private final String model;
+    private final String year;
+    private final String product;
 
-    public Category(String categoryID, String carID, String type, String condition) {
-        this.categoryID = categoryID;
-        this.carID = carID;
-        this.type = type;
-        this.condition = condition;
+    public Category(String make, String model, String year, String product) {
+        this.make = make;
+        this.model = model;
+        this.year = year;
+        this.product = product;
     }
 
-    public String getCategoryID() {
-        return categoryID;
+    public Category() {
+        this("", "", "", "");
     }
 
-    public String getCarID() {
-        return carID;
+    public String getMake() {
+        return make;
     }
 
-    public String getType() {
-        return type;
+    public String getModel() {
+        return model;
     }
 
-    public String getCondition() {
-        return condition;
+    public String getYear() {
+        return year;
+    }
+
+    public String getProduct() {
+        return product;
+    }
+
+    public static Category getDummy() {
+        return new Category("", "", "", "");
     }
 }

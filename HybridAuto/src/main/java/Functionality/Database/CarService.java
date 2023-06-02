@@ -1,9 +1,8 @@
-package Functionality;
+package Functionality.Database;
 
 import Entities.Car;
 
 import java.sql.SQLException;
-import java.util.List;
 
 public class CarService {
     public static Car getCar(String cID) {
