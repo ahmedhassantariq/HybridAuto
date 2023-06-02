@@ -41,7 +41,7 @@ public class CategoryForm {
 
 
         MFXButton addButton = Buttons.FunctionButton("Add",100,40);
-        MFXButton cancelButton = Buttons.FunctionButton_Border("Cancel",100,40);
+        MFXButton cancelButton = Buttons.FunctionButton_Border("Reset",100,40);
 
         HBox buttonBox = new HBox(addButton,cancelButton);
         buttonBox.setAlignment(Pos.CENTER);
