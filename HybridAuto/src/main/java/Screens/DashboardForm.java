@@ -21,13 +21,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 public class DashboardForm {
-    private static Parent dashboardFormRoot;
 
     public static Parent dashboardForm(){
-        if(dashboardFormRoot != null)
-            return dashboardFormRoot; //don't recreate if already initialized
-
-        Label title = Labels.titleLabel("Dashboard");
         Parent p1 = Cards.card("Total Sales","Rs. 42M","Invoice");
         Parent p2 = Cards.card("Open Sales","Rs. 102M","");
         Parent p3 = Cards.card("Open Purchase","Rs. 62M","");
@@ -40,7 +35,7 @@ public class DashboardForm {
         cardBox.setSpacing(10);
         cardBox.setBorder(Border.stroke(Color.web("#dcdcdc")));
 
-        VBox dashboardBox = new VBox(title,cardBox);
+        VBox dashboardBox = new VBox(Labels.titleLabel("Dashboard"),cardBox);
         dashboardBox.setPadding(new Insets(10,0,0,0));
         dashboardBox.setSpacing(10);
         dashboardBox.setMinSize(300,400);

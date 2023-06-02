@@ -1,5 +1,6 @@
 package Screens;
 
+import Functionality.Database.DbConnection;
 import Styles.Buttons;
 import Utils.Constants;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -14,7 +15,9 @@ import org.kordamp.ikonli.prestashopicons.PrestaShopIcons;
 import java.sql.SQLException;
 
 public class MainScreen {
-    public static Parent mainScreen() {
+    public static Parent mainScreen() throws SQLException, ClassNotFoundException {
+        DbConnection dbConnection = new DbConnection();
+
         BorderPane viewPane = new BorderPane();
         viewPane.setPrefWidth(Constants.screenWidth);
         viewPane.setPrefHeight(Constants.screenHeight);
@@ -30,8 +33,8 @@ public class MainScreen {
 
         //Buttons
         MFXButton dashboardFormButton = Buttons.DashboardButton("Dashboard", FontIcon.of(PrestaShopIcons.DASHBOARD));
-        MFXButton InventoryFormButton = Buttons.DashboardButton("Inventory", FontIcon.of(PrestaShopIcons.BOOK));
-        MFXButton salesFormButton = Buttons.DashboardButton("Sales", FontIcon.of(PrestaShopIcons.MAGNIFYING_GLASS));
+        MFXButton inventoryFormButton = Buttons.DashboardButton("Inventory", FontIcon.of(PrestaShopIcons.BOOK));
+        MFXButton ordersFormButton = Buttons.DashboardButton("Orders", FontIcon.of(PrestaShopIcons.MAGNIFYING_GLASS));
         MFXButton reportsFormButton = Buttons.DashboardButton("Reports", FontIcon.of(PrestaShopIcons.PAPER_TABLET));
         MFXButton serviceFormButton = Buttons.DashboardButton("Services", FontIcon.of(PrestaShopIcons.SALE_TAG));
         MFXButton utilitiesFormButton = Buttons.DashboardButton("Utilities", FontIcon.of(LigatureSymbols.EXTERNAL));
@@ -40,8 +43,8 @@ public class MainScreen {
         //Adding nodes to SelectionPane
         selectionPane.getChildren().addAll(
                 dashboardFormButton,
-                InventoryFormButton,
-                salesFormButton,
+                inventoryFormButton,
+                ordersFormButton,
                 serviceFormButton,
                 utilitiesFormButton,
                 reportsFormButton,
@@ -57,8 +60,11 @@ public class MainScreen {
             viewPane.setCenter(DashboardForm.dashboardForm());
         });
 
-        InventoryFormButton.setOnAction(e-> {
+        inventoryFormButton.setOnAction(e->{
             viewPane.setCenter(InventoryForm.inventoryForm());
+        });
+        ordersFormButton.setOnAction(e->{
+            viewPane.setCenter(OrderForm.orderForm());
         });
 
         logoutButton.setOnMouseClicked(e->{

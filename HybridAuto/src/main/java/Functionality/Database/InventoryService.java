@@ -25,10 +25,10 @@ public class InventoryService {
 //
 //        }
     }
-    public static boolean addProduct(Product p) {
-        //todo deal with product type in addProduct()-> plus set price into product table price is fixed now...User required changed
-        return addProduct(p.getMake(), p.getModel(), String.valueOf(p.getYear()), "", p.getCondition(), p.getDescription(), p.getSerialNumber());
-    }
+//    public static boolean addProduct(Product p) {
+//        //todo deal with product type in addProduct()-> plus set price into product table price is fixed now...User required changed
+//        return addProduct(p.getMake(), p.getModel(), String.valueOf(p.getYear()), "", p.getCondition(), p.getDescription(), p.getSerialNumber());
+//    }
     private static boolean addProduct(String make, String model, String year, String type, String condition, String desc, String serial) {
 //        try{
             Car car = CarService.getCar(make, model, year);

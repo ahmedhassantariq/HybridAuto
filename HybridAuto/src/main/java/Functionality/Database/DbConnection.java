@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.sql.*;
 
 public class DbConnection {
-    private static final String dbUrl="jdbc:sqlserver://DESKTOP-919RBUB:1433;database=db_lab2;encrypt=false;integratedSecurity=true;";
+    private static final String dbUrl="jdbc:sqlserver://DESKTOP-919RBUB:1433;database=hybrid_autotech;encrypt=false;integratedSecurity=true;";
     private static final String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
     static Connection connection;
     private static ResultSet resultSet;
