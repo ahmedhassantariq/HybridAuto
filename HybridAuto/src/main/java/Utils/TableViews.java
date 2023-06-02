@@ -25,8 +25,6 @@ public class TableViews {
 
     public TableViews(){
         table = new MFXPaginatedTableView<>();
-        table.setFooterVisible(false);
-
         setupTable();
     }
     public MFXPaginatedTableView<Product> getTable(){
@@ -35,21 +33,45 @@ public class TableViews {
 
 
     private void setupTable() {
-        MFXTableColumn<Product> nameColumn = new MFXTableColumn<>("ProductID", true);
-        MFXTableColumn<Product> surnameColumn = new MFXTableColumn<>("Cost", true);
-        MFXTableColumn<Product> ageColumn = new MFXTableColumn<>("Description", true);
+        MFXTableColumn<Product> idColumn = new MFXTableColumn<>("ID", true);
+        MFXTableColumn<Product> makeColumn = new MFXTableColumn<>("Make", true);
+        MFXTableColumn<Product> modelColumn = new MFXTableColumn<>("Model", true);
+        MFXTableColumn<Product> yearColumn = new MFXTableColumn<>("Year", true);
+        MFXTableColumn<Product> productIDColumn = new MFXTableColumn<>("Product", true);
+        MFXTableColumn<Product> conditionColumn = new MFXTableColumn<>("Condition", true);
+        MFXTableColumn<Product> serialColumn = new MFXTableColumn<>("Serial", true);
+        MFXTableColumn<Product> costColumn = new MFXTableColumn<>("Cost", true);
+        MFXTableColumn<Product> descriptionColumn = new MFXTableColumn<>("Description", true);
 
-        nameColumn.setRowCellFactory(Product -> new MFXTableRowCell<>(Product::getProductID));
-        surnameColumn.setRowCellFactory(Product -> new MFXTableRowCell<>(Product::getCondition));
-        ageColumn.setRowCellFactory(Product -> new MFXTableRowCell<>(Product::getCarID) {{
+
+        idColumn.setRowCellFactory(Product -> new MFXTableRowCell<>(Product::getInventoryProductID));
+        makeColumn.setRowCellFactory(Product -> new MFXTableRowCell<>(Product::getMake));
+        modelColumn.setRowCellFactory(Product -> new MFXTableRowCell<>(Product::getModel));
+        yearColumn.setRowCellFactory(Product -> new MFXTableRowCell<>(Product::getYear));
+        productIDColumn.setRowCellFactory(Product -> new MFXTableRowCell<>(Product::getPID));
+        conditionColumn.setRowCellFactory(Product -> new MFXTableRowCell<>(Product::getCondition));
+        serialColumn.setRowCellFactory(Product -> new MFXTableRowCell<>(Product::getSerial));
+        costColumn.setRowCellFactory(Product -> new MFXTableRowCell<>(Product::getCost));
+        descriptionColumn.setRowCellFactory(Product -> new MFXTableRowCell<>(Product::getDescription));
+
+
+        costColumn.setRowCellFactory(Product -> new MFXTableRowCell<>(Product::getCost) {{
             setAlignment(Pos.CENTER_RIGHT);
         }});
-        ageColumn.setAlignment(Pos.CENTER_RIGHT);
+        costColumn.setAlignment(Pos.CENTER_RIGHT);
 
-        table.getTableColumns().addAll(nameColumn, surnameColumn, ageColumn);
+        table.getTableColumns().addAll(
+                idColumn,
+                makeColumn, modelColumn, yearColumn,
+                productIDColumn,conditionColumn,
+                serialColumn, costColumn, descriptionColumn);
+
         table.getFilters().addAll(
-                new StringFilter<>("Name", Product::getProductID),
-                new StringFilter<>("Surname", Product::getCondition)
+                new StringFilter<>("Make", Product::getMake),
+                new StringFilter<>("Model", Product::getModel),
+                new IntegerFilter<>("Year",Product::getYear),
+                new IntegerFilter<>("Cost",Product::getCost),
+                new StringFilter<>("Product",Product::getProductID)
         );
         table.setItems(Model.products);
     }

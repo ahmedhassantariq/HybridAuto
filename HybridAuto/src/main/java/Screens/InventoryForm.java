@@ -55,30 +55,34 @@ public class InventoryForm {
         VBox categoryBox = CategoryForm.categoryForm();
 
 
-        BorderPane borderContainer = new BorderPane();
-
-        Platform.runLater(() -> {
-            MFXTableView<Product> tableView = new TableViews().getTable();
-            tableView.autosizeColumnsOnInitialization();
-            searchButton.setOnAction(e->{
-                Model.products.remove(0);
-                tableView.update();
-            });
-            tableView.setPrefSize(800,300);
-            borderContainer.setCenter(tableView);
-
-        });
+        StackPane borderContainer = new StackPane();
+//
+//        Platform.runLater(() -> {
+//            MFXTableView<Product> tableView = new TableViews().getTable();
+//            tableView.autosizeColumnsOnInitialization();
+//            searchButton.setOnAction(e->{
+//                Model.products.remove(0);
+//                tableView.update();
+//            });
+//            tableView.setMaxSize(500,300);
+//            borderContainer.getChildren().add(tableView);
+//
+//        });
 
 
         addNewProductButton.setOnAction(e->{
             if(borderContainer.getChildren().contains(productBox))
                 borderContainer.getChildren().remove(productBox);
-            else borderContainer.setRight(productBox);
+            else borderContainer.getChildren().add(productBox);
+            if(borderContainer.getChildren().contains(categoryBox))
+                borderContainer.getChildren().remove(categoryBox);
         });
         createCategoryButton.setOnAction(e->{
             if(borderContainer.getChildren().contains(categoryBox))
                 borderContainer.getChildren().remove(categoryBox);
-            else borderContainer.setRight(categoryBox);
+            else borderContainer.getChildren().add(categoryBox);
+            if(borderContainer.getChildren().contains(productBox))
+                borderContainer.getChildren().remove(productBox);
         });
 
 

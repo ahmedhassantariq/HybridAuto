@@ -53,7 +53,7 @@ public class ProductForm {
         MFXTextField serialField = Fields.textField("SerialNo.",300,40);
 
         MFXButton addButton = Buttons.FunctionButton("Add",100,40);
-        MFXButton cancelButton = Buttons.FunctionButton("Cancel",100,40);
+        MFXButton cancelButton = Buttons.FunctionButton_Border("Reset",100,40);
 
         HBox buttonBox = new HBox(addButton,cancelButton);
         buttonBox.setAlignment(Pos.CENTER);
@@ -63,10 +63,9 @@ public class ProductForm {
         VBox productBox = new VBox(title,comboBoxContainer,costCond,descriptionField,serialField,buttonBox);
         productBox.setSpacing(10);
         productBox.setAlignment(Pos.TOP_CENTER);
-        productBox.setMinSize(300,400);
-        productBox.setBackground(new Background(new BackgroundFill(Color.WHITE,new CornerRadii(15,0,0,15,false),null)));
-        productBox.setBorder(new Border(new BorderStroke(Color.web("02557a"),BorderStrokeStyle.SOLID,new CornerRadii(15,0,0,15,false), BorderStroke.THICK)));
-
+        productBox.setBackground(new Background(new BackgroundFill(Color.WHITE,new CornerRadii(15,15,15,15,false),null)));
+        productBox.setBorder(new Border(new BorderStroke(Color.web("02557a"),BorderStrokeStyle.SOLID,new CornerRadii(15,15,15,15,false), BorderStroke.THICK)));
+        productBox.setMaxSize(600,300);
         productBox.getStylesheets().add(Stylesheets.COMBO_BOX.loadTheme());
         return productBox;
 
