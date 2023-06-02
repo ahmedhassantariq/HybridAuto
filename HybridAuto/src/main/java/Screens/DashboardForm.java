@@ -21,8 +21,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 public class DashboardForm {
+    private static Parent dashboardFormRoot;
 
     public static Parent dashboardForm(){
+        if(dashboardFormRoot != null)
+            return dashboardFormRoot; //don't recreate if already initialized
+
         Label title = Labels.titleLabel("Dashboard");
         Parent p1 = Cards.card("Total Sales","Rs. 42M","Invoice");
         Parent p2 = Cards.card("Open Sales","Rs. 102M","");

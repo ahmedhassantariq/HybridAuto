@@ -29,8 +29,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 public class InventoryForm {
-
+    private static Parent inventoryFormRoot;
     public static Parent inventoryForm(){
+        if(inventoryFormRoot != null)
+            return inventoryFormRoot; //don't recreate if already initialized
 
 
 
@@ -96,6 +98,8 @@ public class InventoryForm {
             mainPane.getStylesheets().add(Stylesheets.TEXT_FIELD.loadTheme());
             mainPane.getStylesheets().add(Stylesheets.TABLE_VIEW.loadTheme());
         });
+
+        inventoryFormRoot = mainPane;
         return mainPane;
     }
 }

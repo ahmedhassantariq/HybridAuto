@@ -30,6 +30,8 @@ public class Constants {
     }
 
     public static void setScene(Parent view) {
+        //don't change scene if already there
+        if(scene.getRoot() == view) return;
         scene = new Scene(view,screenWidth,screenHeight);
         Main.stage.setScene(scene);
     }

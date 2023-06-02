@@ -57,7 +57,7 @@ public class MainScreen {
             viewPane.setCenter(DashboardForm.dashboardForm());
         });
 
-        InventoryFormButton.setOnAction(e->{
+        InventoryFormButton.setOnAction(e-> {
             viewPane.setCenter(InventoryForm.inventoryForm());
         });
 
