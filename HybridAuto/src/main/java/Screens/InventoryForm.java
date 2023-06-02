@@ -3,6 +3,7 @@ package Screens;
 import Entities.Model;
 import Entities.Person;
 import Entities.Product;
+import Functionality.Forms.InventoryController;
 import Styles.Buttons;
 import Styles.Fields;
 import Styles.Labels;

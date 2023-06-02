@@ -1,51 +1,41 @@
 package Entities;
 
+import java.util.Objects;
+
 public class Product {
     private final String inventoryProductID;
+    private final String carID;
     private final String productID;
-    private final String make;
-    private final String model;
-    private final int year;
-    private final String condition;
+    private final String serialNumber;
     private final int cost;
     private final String description;
-    private final String serialNumber;
-    private final boolean display;
+    private final String condition;
 
-    public Product(String inventoryProductID,String productID, String make, String model, int year, String condition, int cost, String description, String serialNumber, boolean display) {
+
+    public Product(String inventoryProductID, String carID, String productID, String serialNumber, int cost, String description, String condition) {
         this.inventoryProductID = inventoryProductID;
+        this.carID = carID;
         this.productID = productID;
-        this.make = make;
-        this.model = model;
-        this.year = year;
-        this.condition = condition;
+        this.serialNumber = serialNumber;
         this.cost = cost;
         this.description = description;
-        this.serialNumber = serialNumber;
-        this.display = display;
+        this.condition = condition;
     }
 
     public String getInventoryProductID() {
         return inventoryProductID;
     }
+
+    public String getCarID() {
+        return carID;
+    }
+
     public String getProductID() {
         return productID;
     }
 
-    public String getMake() {
-        return make;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public int getYear() {
-        return year;
-    }
-
-    public String getCondition() {
-        return condition;
+    public String getSerialNumber() {
+        return serialNumber;
     }
 
     public int getCost() {
@@ -56,46 +46,24 @@ public class Product {
         return description;
     }
 
-    public String getSerialNumber() {
-        return serialNumber;
+    public String getCondition() {
+        return condition;
     }
 
-    public boolean isDisplay() {
-        return display;
+    @Override
+    public int hashCode() {
+        return Objects.hash(getProductID());
     }
 
-    public Object getInventoryProductID(Product product) {
-        return inventoryProductID;
-    }
-
-    public Object getPID(Product product) {
+    public Object getProductID(Product product) {
         return productID;
     }
-    public String getMake(Product product) {
-        return make;
-    }
-    public Object getModel(Product product) {
-        return model;
-    }
-    public Object getYear(Product product) {
-        return year;
-    }
-    public Object getProduct(Product product) {
-        return product;
-    }
+
     public Object getCondition(Product product) {
         return condition;
     }
-    public Object getCost(Product product) {
-        return cost;
-    }
-    public Object getSerial(Product product) {
-        return serialNumber;
-    }
-    public Object getDescription(Product product) {
-        return description;
-    }
-    public Object getDisplay(Product product) {
-        return display;
+
+    public Object getCarID(Product product) {
+        return carID;
     }
 }

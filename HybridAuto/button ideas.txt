@@ -1,0 +1,6 @@
+get {insert condition like OLD/NEW} products
+get most & least purchased products of specified car
+get most & maybe least frequent customers
+show recent customer arrivals/customer frequency (weekly maybe)
+show sales history (yearly, monthly)
+bills/expenses related CRUD
