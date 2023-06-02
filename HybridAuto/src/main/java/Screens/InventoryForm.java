@@ -1,8 +1,12 @@
 package Screens;
 
+import Entities.Model;
+import Entities.Person;
+import Entities.Product;
 import Styles.Buttons;
 import Styles.Fields;
 import Styles.Labels;
+import Utils.TableViews;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXProgressSpinner;
 import io.github.palexdev.materialfx.controls.MFXTableView;
@@ -50,11 +54,21 @@ public class InventoryForm {
         VBox productBox = ProductForm.productForm();
         VBox categoryBox = CategoryForm.categoryForm();
 
-        TableView tableView = new TableView<>();
-        tableView.setMinSize(500,200);
 
         BorderPane borderContainer = new BorderPane();
-        borderContainer.setCenter(tableView);
+
+        Platform.runLater(() -> {
+            MFXTableView<Product> tableView = new TableViews().getTable();
+            tableView.autosizeColumnsOnInitialization();
+            searchButton.setOnAction(e->{
+                Model.products.remove(0);
+                tableView.update();
+            });
+            tableView.setPrefSize(800,300);
+            borderContainer.setCenter(tableView);
+
+        });
+
 
         addNewProductButton.setOnAction(e->{
             if(borderContainer.getChildren().contains(productBox))
@@ -72,8 +86,11 @@ public class InventoryForm {
         mainPane.setPadding(new Insets(10,0,0,0));
         mainPane.setSpacing(10);
 
-        mainPane.getStylesheets().add(Stylesheets.TEXT_FIELD.loadTheme());
-//        mainPane.getStylesheets().add(Stylesheets.TABLE_VIEW.loadTheme());
+
+        Platform.runLater(() -> {
+            mainPane.getStylesheets().add(Stylesheets.TEXT_FIELD.loadTheme());
+            mainPane.getStylesheets().add(Stylesheets.TABLE_VIEW.loadTheme());
+        });
         return mainPane;
     }
 }
