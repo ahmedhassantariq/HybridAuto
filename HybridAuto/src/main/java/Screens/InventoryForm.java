@@ -4,6 +4,7 @@ import Entities.Product;
 import Styles.Buttons;
 import Styles.Fields;
 import Styles.Labels;
+import Utils.SaleTable;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTableView;
 import io.github.palexdev.materialfx.controls.MFXTextField;
@@ -39,17 +40,18 @@ public class InventoryForm {
         StackPane borderContainer = new StackPane();
         VBox productBox = ProductForm.productForm();
         VBox categoryBox = CategoryForm.categoryForm();
-        Platform.runLater(() -> {
-            MFXTableView<Product> tableView = new MFXTableView<>();
-            tableView.autosizeColumnsOnInitialization();
-            searchButton.setOnAction(e->{
-
-                tableView.update();
-            });
-            tableView.setMaxSize(500,300);
-            borderContainer.getChildren().add(tableView);
-
-        });
+//        Platform.runLater(() -> {
+//            MFXTableView<Product> tableView = new MFXTableView<>();
+//            tableView.autosizeColumnsOnInitialization();
+//            searchButton.setOnAction(e->{
+//
+//                tableView.update();
+//            });
+//            tableView.setMaxSize(500,300);
+//            borderContainer.getChildren().add(tableView);
+//
+//        });
+        borderContainer.getChildren().add(SaleTable.saleTable());
 
 
         addNewProductButton.setOnAction(e->{
