@@ -171,17 +171,26 @@ public class Model {
 		);
 
 		products = FXCollections.observableArrayList(
-				new Product("1","2","3","4",5,"6","7"),
-				new Product("1","2","3","4",5,"6","7"),
-				new Product("1","2","3","4",5,"6","7"),
-				new Product("1","2","3","4",5,"6","7"),
-				new Product("1","2","3","4",5,"6","7"),
-				new Product("1","2","3","4",5,"6","7"),
-				new Product("1","2","3","4",5,"6","7"),
-				new Product("1","2","3","4",5,"6","7"),
-				new Product("1","2","3","4",5,"6","7"),
-				new Product("1","2","3","4",5,"6","7"),
-				new Product("1","2","3","4",5,"6","7")
+				new Product("1","2","3","4",5,"6",5,null,"123",true),
+				new Product("1","2","3","4",5,"6",5,null,"123",true),
+				new Product("1","2","3","4",5,"6",5,null,"123",true),
+				new Product("1","2","3","4",5,"6",5,null,"123",true),
+				new Product("1","2","3","4",5,"6",5,null,"123",true),
+				new Product("1","2","3","4",5,"6",5,null,"123",true),
+				new Product("1","2","3","4",5,"6",5,null,"123",true),
+				new Product("1","2","3","4",5,"6",5,null,"123",true),
+				new Product("1","2","3","4",5,"6",5,null,"123",true),
+				new Product("1","2","3","4",5,"6",5,null,"123",true),
+				new Product("1","2","3","4",5,"6",5,null,"123",true),
+				new Product("1","2","3","4",5,"6",5,null,"123",true),
+				new Product("1","2","3","4",5,"6",5,null,"123",true),
+				new Product("1","2","3","4",5,"6",5,null,"123",true),
+				new Product("1","2","3","4",5,"6",5,null,"123",true),
+				new Product("1","2","3","4",5,"6",5,null,"123",true),
+				new Product("1","2","3","4",5,"6",5,null,"123",true),
+				new Product("1","2","3","4",5,"6",5,null,"123",true),
+				new Product("1","2","3","4",5,"6",5,null,"123",true),
+				new Product("9","2","3","4",5,"6",5,null,"123",true)
 		);
 	}
 }

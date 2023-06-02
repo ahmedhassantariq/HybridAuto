@@ -3,9 +3,7 @@ package Styles;
 import Utils.Constants;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.geometry.Pos;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import org.kordamp.ikonli.javafx.FontIcon;
@@ -46,7 +44,17 @@ public class Buttons {
         button.setAlignment(Pos.CENTER);
         button.setTextFill(Color.WHITE);
         button.setFont(Font.font("Cooper",12));
-
+        return button;
+    }
+    public static MFXButton FunctionButton_Border(String buttonLabel,double width,double height){
+        MFXButton button = new MFXButton(buttonLabel);
+        button.setBackground(new Background(new BackgroundFill(Color.WHITE,new CornerRadii(7,7,7,7,false),null)));
+        button.setBorder(new Border(new BorderStroke(Color.web("02557a"),BorderStrokeStyle.SOLID,new CornerRadii(7,7,7,7,false), BorderStroke.THIN)));
+        button.setMinSize(width,height);
+        button.setPrefSize(width,height);
+        button.setAlignment(Pos.CENTER);
+        button.setTextFill(Color.web("02557a"));
+        button.setFont(Font.font("Cooper",12));
         return button;
     }
 }
