@@ -16,8 +16,10 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 public class InventoryForm {
-
+    private static Parent inventoryFormRoot;
     public static Parent inventoryForm(){
+        if(inventoryFormRoot != null)
+            return inventoryFormRoot; //don't recreate if already initialized
 
         MFXTextField searchField = Fields.textField("Search",300,40);
         MFXButton searchButton = Buttons.FunctionButton_Border("Search",100,40);
@@ -75,6 +77,8 @@ public class InventoryForm {
             mainPane.getStylesheets().add(Stylesheets.TEXT_FIELD.loadTheme());
             mainPane.getStylesheets().add(Stylesheets.TABLE_VIEW.loadTheme());
         });
+
+        inventoryFormRoot = mainPane;
         return mainPane;
     }
 }
