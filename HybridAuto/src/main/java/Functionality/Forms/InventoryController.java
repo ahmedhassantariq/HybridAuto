@@ -51,8 +51,8 @@ public class InventoryController {
                     case "product" -> { cb.getItems().addAll("What", "Goes", "Here?"); }
                 }
 //                switch (what) {
-//                    case "make" -> { cb.getItems().addAll(InventoryService.getAllMakeDistinct()); }
-//                    case "model" -> { cb.getItems().addAll(InventoryService.getAllModelsDistinct()); }
+//                    case "make" -> { cb.getItems().addAll(CarService.getAllMakeDistinct()); }
+//                    case "model" -> { cb.getItems().addAll(CarService.getAllModelsDistinct()); }
 //                    case "year" -> { cb.getItems().addAll("2023", "2022", "2021", "2020"); }
 //                    case "condition" -> { cb.getItems().addAll(InventoryService.getAllConditionsDistinct()); }
 //                    case "product" -> { cb.getItems().addAll(InventoryService.getAllProductTypesDistinct()); }
@@ -73,8 +73,8 @@ public class InventoryController {
                     case "product" -> { cb.getItems().addAll("What", "Goes", "Here?"); }
                 }
 //                switch (what) {
-//                    case "make" -> { cb.getItems().addAll(InventoryService.getAllMakeDistinct()); }
-//                    case "model" -> { cb.getItems().addAll(InventoryService.getAllModelsDistinct()); }
+//                    case "make" -> { cb.getItems().addAll(CarService.getAllMakeDistinct()); }
+//                    case "model" -> { cb.getItems().addAll(CarService.getAllModelsDistinct()); }
 //                    case "year" -> { cb.getItems().addAll("2023", "2022", "2021", "2020"); }
 //                    case "condition" -> { cb.getItems().addAll(InventoryService.getAllConditionsDistinct()); }
 //                    case "product" -> { cb.getItems().addAll(InventoryService.getAllProductTypesDistinct()); }
