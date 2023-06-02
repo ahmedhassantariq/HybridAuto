@@ -1,32 +1,17 @@
 package Screens;
 
-import Entities.Model;
-import Entities.Person;
-import Entities.Product;
-import Functionality.Forms.InventoryController;
 import Styles.Buttons;
 import Styles.Fields;
 import Styles.Labels;
-import Utils.TableViews;
 import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXProgressSpinner;
-import io.github.palexdev.materialfx.controls.MFXTableView;
 import io.github.palexdev.materialfx.controls.MFXTextField;
-import io.github.palexdev.materialfx.controls.base.MFXLabeled;
-import io.github.palexdev.materialfx.css.themes.MFXThemeManager;
 import io.github.palexdev.materialfx.css.themes.Stylesheets;
-import io.github.palexdev.materialfx.css.themes.Themes;
-import io.github.palexdev.materialfx.skins.MFXProgressSpinnerSkin;
-import io.github.palexdev.materialfx.utils.others.loader.MFXLoader;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 
 public class InventoryForm {
 
@@ -36,7 +21,7 @@ public class InventoryForm {
 
         MFXTextField searchField = Fields.textField("Search",300,40);
 
-        MFXButton searchButton = Buttons.FunctionButton("Search",100,40);
+        MFXButton searchButton = Buttons.FunctionButton_Border("Search",100,40);
         MFXButton createCategoryButton = Buttons.FunctionButton("Create New Category ",150,40);
         MFXButton addNewProductButton = Buttons.FunctionButton("Add Product",100,40);
 
