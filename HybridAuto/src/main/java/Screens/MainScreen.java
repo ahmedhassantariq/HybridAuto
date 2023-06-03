@@ -1,6 +1,6 @@
 package Screens;
 
-import Functionality.Database.DbConnection;
+import Functionality.Database.DB.DbConnection;
 import Styles.Buttons;
 import Utils.Constants;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -16,7 +16,8 @@ import java.sql.SQLException;
 
 public class MainScreen {
     public static Parent mainScreen() throws SQLException, ClassNotFoundException {
-        DbConnection dbConnection = new DbConnection();
+//        DbConnection dbConnection = new DbConnection();
+        DbConnection.connectDB();
 
         BorderPane viewPane = new BorderPane();
         viewPane.setPrefWidth(Constants.screenWidth);

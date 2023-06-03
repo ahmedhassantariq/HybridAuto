@@ -1,5 +1,6 @@
 package Screens;
 
+import Entities.Product;
 import Styles.Buttons;
 import Styles.Fields;
 import Styles.Labels;
@@ -10,12 +11,15 @@ import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.css.themes.Stylesheets;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
-public class ProductForm {
+import java.lang.reflect.Field;
+
+public class ProductForm{
 
     public static VBox productForm(){
         //Combo Boxes

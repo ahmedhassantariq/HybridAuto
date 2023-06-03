@@ -7,6 +7,7 @@ import io.github.palexdev.mfxcore.filter.base.AbstractFilter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.function.BiPredicate;
@@ -14,68 +15,94 @@ import java.util.function.BiPredicate;
 public class InventoryService {
     public static boolean addCategory(String make, String model, String year,
                                       String type, String condition) {
-//        try{
-            Car car = CarService.getCar(make, model, year);
-            if(car == null) return false;
-            String queryStr = String.format("insert into category" +
-                        "values(%s, %s, %s)",
-                car.getCarID(), type, condition);
-        return DatabaseService.executeQuery(queryStr);
-//        }catch (SQLException ex) {
-//
-//        }
-    }
-//    public static boolean addProduct(Product p) {
-//        //todo deal with product type in addProduct()-> plus set price into product table price is fixed now...User required changed
-//        return addProduct(p.getMake(), p.getModel(), String.valueOf(p.getYear()), "", p.getCondition(), p.getDescription(), p.getSerialNumber());
-//    }
-    private static boolean addProduct(String make, String model, String year, String type, String condition, String desc, String serial) {
-//        try{
-            Car car = CarService.getCar(make, model, year);
-            Category category = getCategory(type, condition);
 
-            if(car == null || category == null) return false;
+        Car car = CarService.getCar(make, model, year).get(0);
+        if (car == null) return false;
+
+        PreparedStatement pSt = DatabaseService.getPreparedFrom("INSERT INTO tbl_category VALUES (?, ?, ?)");
+        try {
+            pSt.setString(1, car.getCarID());
+            pSt.setString(2, type);
+            pSt.setString(3, condition);
+
+            return DatabaseService.executeQueryDML(pSt);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public static boolean addProduct(Product p) {
+        //todo deal with product type in addProduct()-> plus set price into product table price is fixed now...User required changed
+        return addProduct(p.getCarID(), p.getSerialNumber(), p.getCost(), p.getDescription(), p.getCondition());
+    }
+    private static boolean addProduct(String carID, String serial, int cost, String desc, String condition) {
+
+//        Car car = CarService.getCar(carID);
+//        Category category = getCategory(type, condition);
+
+//        if (car == null || category == null) return false;
 
         // TODO: 6/2/2023 update add product query /// other queries also
-            String queryStr = String.format("insert into products(make, model, year, condition, description, serial)" +
-                            "values(%s, %s, %s, %s)", // TODO: 6/2/2023 category.GetCategoryID()
-                    car.getCarID(), "category.getCategoryID()", desc, serial);
-            return DatabaseService.executeQuery(queryStr);
-//        }catch (SQLException ex) {
-//        }
+//        String queryStr = String.format("insert into products(make, model, year, condition, description, serial)" +
+//                        "values(%s, %s, %s, %s)", // TODO: 6/2/2023 category.GetCategoryID()
+//                car.getCarID(), "category.getCategoryID()", desc, serial);
+
+        PreparedStatement pSt = DatabaseService.getPreparedFrom(
+                // assume product ID and inventory product ID are auto increment/auto generated
+                "INSERT INTO tbl_products(carId, serialNumber, cost, description, condition)" +
+                        "values(?, ?, ?, ?, ?)"
+        );
+
+        try {
+            pSt.setString(1, carID);
+            pSt.setInt(2, Integer.parseInt(serial));
+            pSt.setInt(3, cost);
+            pSt.setString(4, desc);
+            pSt.setString(5, condition);
+
+            return DatabaseService.executeQueryDML(pSt);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
     public static boolean deleteProduct(String pID) {
-        //        try{
-        String queryStr = String.format("delete from products where products.id = %s", pID);
-        return DatabaseService.executeQuery(queryStr);
-//        }catch (SQLException ex) {
-//        }
+        PreparedStatement pSt = DatabaseService.getPreparedFrom("DELETE FROM tbl_product p WHERE p.pID = ?");
+        try {
+            pSt.setString(1, pID);
+
+            return DatabaseService.executeQueryDML(pSt);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
-    public static Product searchProduct(String productSerial) {
-        try{
-        String queryStr = String.format("select * from products p where p.serial = %d", Integer.valueOf(productSerial));
-        return DatabaseService.<Product>executeScalar(queryStr).orElseThrow(
-                () -> new SQLException(String.format("Product with Serial %07d Does Not Exist", Integer.valueOf(productSerial)))
-        );
-        }catch (SQLException ex) {
-            return null;
+    public static Product searchProduct(int productSerial) {
+        PreparedStatement pSt = DatabaseService.getPreparedFrom("SELECT * FROM tbl_products p where p.serial = ?");
+        try {
+            pSt.setInt(1, productSerial);
+
+            return DatabaseService.executeScalar(pSt, Product.class).orElseThrow(
+                    () -> new SQLException(String.format("Product with Serial %07d Does Not Exist", productSerial))
+            );
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
     public static Category getCategory(String type, String condition) {
         try{
-            String queryStr = "select * from category c where";
+            PreparedStatement pSt = DatabaseService.getPreparedFrom("SELECT * FROM tbl_category c WHERE "
+                    + (type.isBlank()? "" : " c.type = ? ")
+                    + (condition.isBlank()? "" : ((type.isBlank()? "" : "AND") + " c.condition = ? ")));
 
-            if(!type.isBlank()) {
-                queryStr += String.format(" c.type = %s", type);
-            }
+            if(!type.isBlank())
+                pSt.setString(1, type);
+
             if(!condition.isBlank()) {
-                if(queryStr.endsWith("where"))
-                    queryStr += " ";
-                else queryStr += " AND ";
-                queryStr += String.format("c.condition = %s", condition);
+                int idx = 1;
+                if (!type.isBlank())
+                    idx++;
+                pSt.setString(idx, condition);
             }
 
-            return DatabaseService.<Category>executeScalar(queryStr).orElseThrow(
+            return DatabaseService.<Category>executeScalar(pSt, Category.class).orElseThrow(
                     () -> new SQLException(String.format("Category with %s%s Does Not Exist",
                             type.isBlank()? "" : "Type " + type,
                             condition.isBlank()? "" : " Condition " + condition
@@ -87,8 +114,8 @@ public class InventoryService {
     }
     public static List<Product> getAllProducts() {
         try{
-            String queryStr = "select * from products";
-            return DatabaseService.<Product>executeInline(queryStr).orElseThrow(
+            PreparedStatement pSt = DatabaseService.getPreparedFrom("SELECT * FROM tbl_products");
+            return DatabaseService.<Product>executeInline(pSt, Product.class).orElseThrow(
                     () -> new SQLException("No Products Found")
             );
         }catch (SQLException ex) {
@@ -112,30 +139,9 @@ public class InventoryService {
         return filteredList;
     }
 
-    public static List<String> getAllMakeDistinct() {
-        try{
-            String queryStr = "select distinct p.make from products p";
-            return DatabaseService.executeInlineStr(queryStr).orElseThrow(
-                    () -> new SQLException("No Make Found")
-            );
-        }catch (SQLException ex) {
-            return null;
-        }
-    }
-    public static List<String> getAllModelsDistinct() {
-        try{
-            String queryStr = "select distinct p.model from products p";
-            return DatabaseService.executeInlineStr(queryStr).orElseThrow(
-                    () -> new SQLException("No Model Found")
-            );
-        }catch (SQLException ex) {
-            return null;
-        }
-    }
     public static List<String> getAllConditionsDistinct() {
         try{
-            String queryStr = "select distinct p.condition from products p";
-            return DatabaseService.executeInlineStr(queryStr).orElseThrow(
+            return DatabaseService.getAllProductConditions().orElseThrow(
                     () -> new SQLException("No Condition Found")
             );
         }catch (SQLException ex) {
@@ -144,8 +150,7 @@ public class InventoryService {
     }
     public static List<String> getAllProductTypesDistinct() {
         try{
-            String queryStr = "select distinct p.type from products p";
-            return DatabaseService.executeInlineStr(queryStr).orElseThrow(
+            return DatabaseService.getAllProductTypes().orElseThrow(
                     () -> new SQLException("No Type Found")
             );
         }catch (SQLException ex) {
