@@ -24,7 +24,7 @@ public class InventoryService {
     //Populates Inventory Main Table
     public static void getInventoryProducts() throws SQLException {
         resultSet = null;
-        String queryString = "select * from inventory";
+        String queryString = "select * from inventory where display = 1";
         resultSet = DbConnection.getPrepared(queryString).executeQuery();
         while(resultSet.next()) {
             InventoryController.inventoryList.add(new Product(
@@ -127,6 +127,52 @@ public class InventoryService {
         pSt.setString(6, product.getDescription());
         pSt.setString(7, product.getCondition());
         pSt.execute();
+        System.out.println("Product Inserted");
+    }
+
+    public static void updateInventoryProduct(Product product) throws SQLException {
+        resultSet = null;
+        String queryString = "UPDATE [dbo].[inventory] SET [car_ID] = ? ,[product_ID] = ?,[serial_number] = ?,[cost] = ?,[description] = ?,[condition] = ? WHERE [inventory_product_ID]=?";
+
+        PreparedStatement pSt = DbConnection.getPrepared(queryString);
+        pSt.setString(1, product.getCarID());
+        pSt.setString(2, product.getProductID());
+        pSt.setString(3, product.getSerialNumber());
+        pSt.setString(4, product.getCost());
+        pSt.setString(5, product.getDescription());
+        pSt.setString(6, product.getCondition());
+        pSt.setString(7, product.getInventoryProductID());
+        pSt.execute();
+        System.out.println("Product Updated");
+
+    }
+
+    public static void deleteInventoryProduct(String inventoryProductID) throws SQLException {
+        String queryString = "update inventory set display = 0 where inventory_product_ID = ?";
+        PreparedStatement pSt = DbConnection.getPrepared(queryString);
+        pSt.setString(1, inventoryProductID);
+        pSt.execute();
+        System.out.println("Product Deleted");
+
+    }
+
+
+    public static Car getCar(String carID) throws SQLException {
+        resultSet = null;
+        Car car = null;
+        String queryString = "select * from car where car_ID = ?";
+        PreparedStatement pSt = DbConnection.getPrepared(queryString);
+        pSt.setString(1,carID);
+        resultSet = pSt.executeQuery();
+        while(resultSet.next()) {
+            car = new Car(
+                    resultSet.getInt("car_ID"),
+                    resultSet.getString("car_make"),
+                    resultSet.getString("car_model"),
+                    resultSet.getString("model_year")
+            );
+        }
+        return car;
     }
 
 

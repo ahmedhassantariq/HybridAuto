@@ -1,5 +1,6 @@
 package Functionality.Forms;
 
+import Entities.Car;
 import Entities.Category;
 import Entities.Product;
 import Functionality.Database.InventoryService;
@@ -15,6 +16,7 @@ import java.sql.SQLException;
 public class InventoryController {
 
     public static ObservableList<Product> inventoryList = FXCollections.observableArrayList();
+    public static ObservableList<Car> carList = FXCollections.observableArrayList();
     public static ObservableList<String> makeComboList = FXCollections.observableArrayList();
     public static ObservableList<String> modelComboList = FXCollections.observableArrayList();
     public static ObservableList<String> yearComboList = FXCollections.observableArrayList();
@@ -53,12 +55,25 @@ public class InventoryController {
         InventoryService.getProductList();
     }
 
-
+    //Insert product into DB from New Product Form
     public static void insertProduct(String make,String model,String year,String type,String condition,String cost, String serial,String description) throws SQLException {
         String carID = InventoryService.getCarID(make,model,year);
         String inventoryProductID = String.valueOf(InventoryService.getNewInventoryProductID());
         Product product = new Product(inventoryProductID,carID,type,serial,cost,description,condition);
         InventoryService.insertInventoryProduct(product);
+    }
+    public static void updateProduct(String inventoryProductID,String make,String model,String year,String type,String condition,String cost, String serial,String description) throws SQLException {
+        String carID = InventoryService.getCarID(make,model,year);
+        Product product = new Product(inventoryProductID,carID,type,serial,cost,description,condition);
+        InventoryService.updateInventoryProduct(product);
+    }
+    public static void deleteProduct(String inventoryProductID) throws SQLException {
+        System.out.println("delete Function called");
+        InventoryService.deleteInventoryProduct(inventoryProductID);
+    }
+
+    public static Car getCar(String carID) throws SQLException {
+        return InventoryService.getCar(carID);
     }
 
 
