@@ -1,15 +1,12 @@
-package Functionality.Database.DB;
+package Functionality.Database.DB_Backup;
 
 import Entities.Product;
-import Functionality.Forms.InventoryController;
+import Functionality.Forms.OldControllerStuff.InventoryController;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.sql.*;
 
 public class DbConnection {
-    private static final String dbUrl="jdbc:sqlserver://DESKTOP-919RBUB:1433;database=hybrid_autotech;encrypt=false;integratedSecurity=true;";
+    private static final String dbUrl="jdbc:sqlserver:/DESKTOP-919RBUB:1433;database=hybrid_autotech;encrypt=false;integratedSecurity=true;";
     private static final String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
     private static final ConnectionWrapper connWrapper;
     private static ResultSet resultSet;

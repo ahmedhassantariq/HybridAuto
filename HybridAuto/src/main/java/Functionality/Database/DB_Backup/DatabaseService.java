@@ -1,8 +1,7 @@
-package Functionality.Database;
+package Functionality.Database.DB_Backup;
 
 import Entities.Car;
 import Entities.Product;
-import Functionality.Database.DB.DbConnection;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -46,6 +45,8 @@ public class DatabaseService {
                             new Car(carID, manufacturerID, make, model, String.valueOf(year))
                     );
                 } // TODO: 6/2/2023 add other cases for all tables
+                else if (targetClass == Integer.class)
+                    return (Optional<T>) Optional.of(rs.getInt(0));
             }
             else return Optional.empty();
         } catch (SQLException e) {
@@ -80,8 +81,10 @@ public class DatabaseService {
                         results.add(
                                 (T) new Car(carID, manufacturerID, make, model, String.valueOf(year))
                         );
+                    } else if(targetClass == String.class) {
+                        results.add((T) rs.getString(results.size()));
                     }
-                } // TODO: 6/2/2023 add other cases for all tables
+                } // TODO: 6/2/2023 add other cases for all tables)
                 return Optional.of(results);
             }
             else return Optional.empty();

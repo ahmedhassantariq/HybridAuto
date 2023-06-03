@@ -1,8 +1,12 @@
 package Entities;
 
+import com.sun.javafx.beans.IDProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import jdk.jfr.*;
+import jdk.jfr.Category;
 
+import java.beans.ConstructorProperties;
 import java.util.Objects;
 
 public class Product {
@@ -126,4 +130,8 @@ public class Product {
         return carID;
     }
 
+
+    public static Product dummy() {
+        return new Product("", "", "", "", "", "", "");
+    }
 }

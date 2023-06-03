@@ -1,15 +1,11 @@
 package Screens;
 
-import Entities.Product;
-import Functionality.Database.DB.DbConnection;
-import Functionality.Database.InventoryService;
-import Functionality.Forms.InventoryController;
+import Functionality.Forms.OldControllerStuff.InventoryController;
 import Styles.Buttons;
 import Styles.Fields;
 import Styles.Labels;
 import Utils.SaleTable;
 import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXTableView;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.css.themes.Stylesheets;
 import javafx.application.Platform;
@@ -58,7 +54,7 @@ public class InventoryForm {
 //        });
         borderContainer.getChildren().add(SaleTable.saleTable());
         SaleTable.tableView.setItems(InventoryController.inventoryList);
-        DbConnection.getInventoryProducts();
+//        DbConnection.getInventoryProducts();
         addNewProductButton.setOnAction(e->{
             if(borderContainer.getChildren().contains(productBox))
                 borderContainer.getChildren().remove(productBox);

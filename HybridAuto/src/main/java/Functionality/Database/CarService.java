@@ -1,6 +1,7 @@
 package Functionality.Database;
 
 import Entities.Car;
+import Functionality.Database.DB_Backup.DatabaseService;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -68,6 +69,18 @@ public class CarService {
             );
         }catch (SQLException ex) {
             return null;
+        }
+    }
+
+    public static List<String> getAllModelsOfMake(String make) {
+        PreparedStatement pSt = DatabaseService.getPreparedFrom("SELECT model FROM tbl_car c WHERE c.make = ?");
+        try {
+            pSt.setString(1, make);
+            return DatabaseService.executeInline(pSt, String.class).orElseThrow(
+                    () -> new SQLException(String.format("No Model with Make %s Found", make))
+            );
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }

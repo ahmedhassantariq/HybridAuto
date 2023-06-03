@@ -3,12 +3,10 @@ package Functionality.Database;
 import Entities.Car;
 import Entities.Category;
 import Entities.Product;
-import Functionality.Forms.InventoryController;
-import Utils.Constants;
+import Functionality.Database.DB_Backup.DatabaseService;
 import io.github.palexdev.mfxcore.filter.base.AbstractFilter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import org.kordamp.ikonli.prestashopicons.PrestaShopIcons;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,6 +16,10 @@ import java.util.function.BiPredicate;
 
 public class InventoryService {
     private static ResultSet resultSet;
+
+    public static boolean addCategory(Category category) {
+        return addCategory(category.getMake(), category.getModel(), category.getYear(), category.getProduct(), "");
+    }
     public static boolean addCategory(String make, String model, String year,
                                       String type, String condition) {
 
@@ -35,11 +37,11 @@ public class InventoryService {
             throw new RuntimeException(e);
         }
     }
-//    public static boolean addProduct(Product p) {
-//        //todo deal with product type in addProduct()-> plus set price into product table price is fixed now...User required changed
-//        return addProduct(p.getCarID(), p.getSerialNumber(), p.getCost(), p.getDescription(), p.getCondition());
-//    }
-    private static boolean addProduct(String carID, String serial, int cost, String desc, String condition) {
+    public static boolean addProduct(Product p) {
+        //todo deal with product type in addProduct()-> plus set price into product table price is fixed now...User required changed
+        return addProduct(p.getCarID(), p.getProductID(), p.getSerialNumber(), Integer.parseInt(p.getCost()), p.getDescription(), p.getCondition());
+    }
+    public static boolean addProduct(String carID, String productID, String serial, int cost, String desc, String condition) {
 
 //        Car car = CarService.getCar(carID);
 //        Category category = getCategory(type, condition);
@@ -53,16 +55,17 @@ public class InventoryService {
 
         PreparedStatement pSt = DatabaseService.getPreparedFrom(
                 // assume product ID and inventory product ID are auto increment/auto generated
-                "INSERT INTO tbl_products(carId, serialNumber, cost, description, condition)" +
-                        "values(?, ?, ?, ?, ?)"
+                "INSERT INTO tbl_products(carId, productId, serialNumber, cost, description, condition)" +
+                        "values(?, ?, ?, ?, ?, ?)"
         );
 
         try {
             pSt.setString(1, carID);
-            pSt.setInt(2, Integer.parseInt(serial));
-            pSt.setInt(3, cost);
-            pSt.setString(4, desc);
-            pSt.setString(5, condition);
+            pSt.setString(2, productID);
+            pSt.setInt(3, Integer.parseInt(serial));
+            pSt.setInt(4, cost);
+            pSt.setString(5, desc);
+            pSt.setString(6, condition);
 
             return DatabaseService.executeQueryDML(pSt);
         } catch (SQLException e) {
@@ -127,6 +130,7 @@ public class InventoryService {
             return null;
         }
     }
+
     public static <T, U> ObservableList<Product> filterProductsList(ObservableList<Product> products,
                                                            ObservableList<AbstractFilter<T, U>> filters) {
         ObservableList<Product> filteredList = FXCollections.observableArrayList(products);
@@ -143,7 +147,6 @@ public class InventoryService {
         });
         return filteredList;
     }
-
     public static List<String> getAllConditionsDistinct() {
         try{
             return DatabaseService.getAllProductConditions().orElseThrow(
@@ -153,6 +156,7 @@ public class InventoryService {
             return null;
         }
     }
+
     public static List<String> getAllProductTypesDistinct() {
         try{
             return DatabaseService.getAllProductTypes().orElseThrow(
@@ -163,7 +167,9 @@ public class InventoryService {
         }
     }
 
-
-
+    public static int getMaxInventoryProductID() {
+        PreparedStatement pSt =  DatabaseService.getPreparedFrom("SELECT MAX(inventoryProductID) from tbl_products");
+        return DatabaseService.executeScalar(pSt, Integer.class).orElse(0);
+    }
 
 }
