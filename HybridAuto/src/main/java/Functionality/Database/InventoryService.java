@@ -3,6 +3,7 @@ package Functionality.Database;
 import Entities.Car;
 import Entities.Category;
 import Entities.Product;
+import Functionality.Database.DB.DbConnection;
 import Functionality.Forms.InventoryController;
 import Utils.Constants;
 import io.github.palexdev.mfxcore.filter.base.AbstractFilter;
@@ -18,150 +19,117 @@ import java.util.function.BiPredicate;
 
 public class InventoryService {
     private static ResultSet resultSet;
-    public static boolean addCategory(String make, String model, String year,
-                                      String type, String condition) {
 
-        Car car = CarService.getCar(make, model, year).get(0);
-        if (car == null) return false;
 
-        PreparedStatement pSt = DatabaseService.getPreparedFrom("INSERT INTO tbl_category VALUES (?, ?, ?)");
-        try {
-            pSt.setString(1, car.getCarID());
-            pSt.setString(2, type);
-            pSt.setString(3, condition);
-
-            return DatabaseService.executeQueryDML(pSt);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    //Populates Inventory Main Table
+    public static void getInventoryProducts() throws SQLException {
+        resultSet = null;
+        String queryString = "select * from inventory";
+        resultSet = DbConnection.getPrepared(queryString).executeQuery();
+        while(resultSet.next()) {
+            InventoryController.inventoryList.add(new Product(
+                    resultSet.getString("inventory_product_ID"),
+                    resultSet.getString("car_ID"),
+                    resultSet.getString("product_ID"),
+                    resultSet.getString("serial_number"),
+                    resultSet.getString("cost"),
+                    resultSet.getString("description"),
+                    resultSet.getString("condition")
+            ));}
     }
-//    public static boolean addProduct(Product p) {
-//        //todo deal with product type in addProduct()-> plus set price into product table price is fixed now...User required changed
-//        return addProduct(p.getCarID(), p.getSerialNumber(), p.getCost(), p.getDescription(), p.getCondition());
-//    }
-    private static boolean addProduct(String carID, String serial, int cost, String desc, String condition) {
 
-//        Car car = CarService.getCar(carID);
-//        Category category = getCategory(type, condition);
-
-//        if (car == null || category == null) return false;
-
-        // TODO: 6/2/2023 update add product query /// other queries also
-//        String queryStr = String.format("insert into products(make, model, year, condition, description, serial)" +
-//                        "values(%s, %s, %s, %s)", // TODO: 6/2/2023 category.GetCategoryID()
-//                car.getCarID(), "category.getCategoryID()", desc, serial);
-
-        PreparedStatement pSt = DatabaseService.getPreparedFrom(
-                // assume product ID and inventory product ID are auto increment/auto generated
-                "INSERT INTO tbl_products(carId, serialNumber, cost, description, condition)" +
-                        "values(?, ?, ?, ?, ?)"
-        );
-
-        try {
-            pSt.setString(1, carID);
-            pSt.setInt(2, Integer.parseInt(serial));
-            pSt.setInt(3, cost);
-            pSt.setString(4, desc);
-            pSt.setString(5, condition);
-
-            return DatabaseService.executeQueryDML(pSt);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+    public static void getMakeList() throws SQLException {
+        resultSet = null;
+        String queryString = "select * from manufacturer";
+        resultSet = DbConnection.getPrepared(queryString).executeQuery();
+        while(resultSet.next()) {
+            InventoryController.makeComboList.add(resultSet.getString("manufacturer_ID"));
         }
+
     }
-    public static boolean deleteProduct(String pID) {
-        PreparedStatement pSt = DatabaseService.getPreparedFrom("DELETE FROM tbl_product p WHERE p.pID = ?");
-        try {
-            pSt.setString(1, pID);
+    public static void getModelList(String make)throws SQLException {
+        resultSet = null;
+        String queryString = "select car_model from car where car_make = ?";
+        PreparedStatement pSt = DbConnection.getPrepared(queryString);
+        pSt.setString(1, make);
 
-            return DatabaseService.executeQueryDML(pSt);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-    public static Product searchProduct(int productSerial) {
-        PreparedStatement pSt = DatabaseService.getPreparedFrom("SELECT * FROM tbl_products p where p.serial = ?");
-        try {
-            pSt.setInt(1, productSerial);
-
-            return DatabaseService.executeScalar(pSt, Product.class).orElseThrow(
-                    () -> new SQLException(String.format("Product with Serial %07d Does Not Exist", productSerial))
-            );
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-    public static Category getCategory(String type, String condition) {
-        try{
-            PreparedStatement pSt = DatabaseService.getPreparedFrom("SELECT * FROM tbl_category c WHERE "
-                    + (type.isBlank()? "" : " c.type = ? ")
-                    + (condition.isBlank()? "" : ((type.isBlank()? "" : "AND") + " c.condition = ? ")));
-
-            if(!type.isBlank())
-                pSt.setString(1, type);
-
-            if(!condition.isBlank()) {
-                int idx = 1;
-                if (!type.isBlank())
-                    idx++;
-                pSt.setString(idx, condition);
+        resultSet = pSt.executeQuery();
+        String model = null;
+        while (resultSet.next()) {
+            model = resultSet.getString("car_model");
+            if (!InventoryController.modelComboList.contains(model)) {
+                InventoryController.modelComboList.add(resultSet.getString("car_model"));
             }
+        }
+    }
 
-            return DatabaseService.<Category>executeScalar(pSt, Category.class).orElseThrow(
-                    () -> new SQLException(String.format("Category with %s%s Does Not Exist",
-                            type.isBlank()? "" : "Type " + type,
-                            condition.isBlank()? "" : " Condition " + condition
-                    ))
-            );
-        }catch (SQLException ex) {
-            return null;
-        }
-    }
-    public static List<Product> getAllProducts() {
-        try{
-            PreparedStatement pSt = DatabaseService.getPreparedFrom("SELECT * FROM tbl_products");
-            return DatabaseService.<Product>executeInline(pSt, Product.class).orElseThrow(
-                    () -> new SQLException("No Products Found")
-            );
-        }catch (SQLException ex) {
-            return null;
-        }
-    }
-    public static <T, U> ObservableList<Product> filterProductsList(ObservableList<Product> products,
-                                                           ObservableList<AbstractFilter<T, U>> filters) {
-        ObservableList<Product> filteredList = FXCollections.observableArrayList(products);
-        filteredList.forEach(p -> {
-            boolean doesProductSatisfy = filters.stream().map(f -> {
-                BiPredicate<U, U> allPreds = f.getPredicates().get(0).getPredicate();
-                for (int i = 0; i < f.getPredicates().size(); i++) {
-                    allPreds = allPreds.and(f.getPredicates().get(i).getPredicate());
+        public static void getYearList(String model)throws SQLException{
+            resultSet = null;
+            String queryString = "select model_year from car where car_model = ?";
+            PreparedStatement pSt = DbConnection.getPrepared(queryString);
+            pSt.setString(1,model);
+
+            resultSet = pSt.executeQuery();
+            String year = null;
+            while(resultSet.next()) {
+                year = resultSet.getString("model_year");
+                if(!InventoryController.yearComboList.contains(year)) {
+                    InventoryController.yearComboList.add(resultSet.getString("model_year"));
                 }
-                return allPreds.test((U) p, null);
-            }).reduce(Boolean.TRUE, (a, b) -> a && b);
-            if(!doesProductSatisfy)
-                filteredList.remove(p);
-        });
-        return filteredList;
+            }
     }
 
-    public static List<String> getAllConditionsDistinct() {
-        try{
-            return DatabaseService.getAllProductConditions().orElseThrow(
-                    () -> new SQLException("No Condition Found")
-            );
-        }catch (SQLException ex) {
-            return null;
+    public static void getProductList()throws SQLException{
+        resultSet = null;
+        String queryString = "select * from product";
+        resultSet = DbConnection.getPrepared(queryString).executeQuery();
+        while(resultSet.next()) {
+                InventoryController.productComboList.add(resultSet.getString("product_ID"));
         }
     }
-    public static List<String> getAllProductTypesDistinct() {
-        try{
-            return DatabaseService.getAllProductTypes().orElseThrow(
-                    () -> new SQLException("No Type Found")
-            );
-        }catch (SQLException ex) {
-            return null;
+    public static String getCarID(String make,String model,String year) throws SQLException {
+        resultSet = null;
+        String carID = null;
+        String queryString = "select car_ID from car where car_make = ? and car_model = ? and model_year = ?";
+        PreparedStatement pSt = DbConnection.getPrepared(queryString);
+        pSt.setString(1,make);
+        pSt.setString(2,model);
+        pSt.setString(3,year);
+        resultSet = pSt.executeQuery();
+        while(resultSet.next()) {
+            carID = resultSet.getString("car_ID");
         }
+        return carID;
     }
+
+    public static int getNewInventoryProductID() throws SQLException {
+        resultSet = null;
+        int inventoryProductID = 0;
+        String queryString = "select count(*) from inventory";
+        resultSet = DbConnection.getPrepared(queryString).executeQuery();
+        while(resultSet.next()) {
+            inventoryProductID = resultSet.getInt(1);
+        }
+        return ++inventoryProductID;
+    }
+
+    public static void insertInventoryProduct(Product product) throws SQLException {
+        resultSet = null;
+        String queryString = "insert into inventory([inventory_product_ID],[car_ID],[product_ID],[serial_number],[cost],[description],[created_datetime],[condition],[display])values" +
+                "(?,?,?,?,?,?,GETDATE(),?,'1')";
+        PreparedStatement pSt = DbConnection.getPrepared(queryString);
+        System.out.println(product.getInventoryProductID());
+        pSt.setString(1, product.getInventoryProductID());
+        pSt.setString(2, product.getCarID());
+        pSt.setString(3, product.getProductID());
+        pSt.setString(4, product.getSerialNumber());
+        pSt.setString(5, product.getCost());
+        pSt.setString(6, product.getDescription());
+        pSt.setString(7, product.getCondition());
+        pSt.execute();
+    }
+
+
 
 
 

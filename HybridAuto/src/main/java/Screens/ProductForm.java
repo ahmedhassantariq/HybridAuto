@@ -1,5 +1,6 @@
 package Screens;
 
+import Functionality.Forms.InventoryController;
 import Styles.Buttons;
 import Styles.Fields;
 import Styles.Labels;
@@ -16,42 +17,50 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
-import java.util.Date;
+import java.sql.SQLException;
 
 public class ProductForm {
 
-    public static VBox productForm(){
-        //Combo Boxes
-        ObservableList<String> makeList = FXCollections.observableArrayList(
-                "Toyota","Honda","Nissan","Hyundai","Daihatsu");
-        ObservableList<String> modelList = FXCollections.observableArrayList(
-                "Corolla","Prius","Aqua","Vigo","ZX","V8"
-        );
-        ObservableList<String> yearList = FXCollections.observableArrayList();
-        for (int i = 1950;i<= LocalDate.now().getYear();i++) {
-            yearList.add(String.valueOf(i));
-        }
-        ObservableList<String> conditionList = FXCollections.observableArrayList(
-                "New","Used"
-        );
-        ObservableList<String> productList = FXCollections.observableArrayList(
-                "ABS","Battery"
-        );
+    public static VBox productForm() throws SQLException {
 
 
-        MFXFilterComboBox makeComboBox = new MFXFilterComboBox(makeList);
-        makeComboBox.setOnAction(e-> System.out.println("Cliked"));
 
+        InventoryController.setMakeComboList();
+        MFXComboBox makeComboBox = new MFXComboBox(InventoryController.makeComboList);
         makeComboBox.setFloatingText("Make");
-        MFXFilterComboBox modelComboBox = new MFXFilterComboBox(modelList);
+        makeComboBox.setOnAction(e-> {
+            try {
+                if(makeComboBox.getValue()!=null) {
+                    InventoryController.setModelComboList(makeComboBox.getValue().toString());
+                }
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
+        MFXComboBox modelComboBox = new MFXComboBox(InventoryController.modelComboList);
         modelComboBox.setFloatingText("Model");
-        MFXFilterComboBox yearComboBox = new MFXFilterComboBox(yearList);
+        modelComboBox.setOnAction(e->{
+            try {
+                if(modelComboBox.getValue()!=null) {
+                    InventoryController.setYearComboList(modelComboBox.getValue().toString());
+                }
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
+
+        MFXComboBox yearComboBox = new MFXComboBox(InventoryController.yearComboList);
         yearComboBox.setFloatingText("Year");
-        MFXFilterComboBox conditionComboBox = new MFXFilterComboBox(conditionList);
+
+        ObservableList<String> conditionList = FXCollections.observableArrayList("New","Used");
+        MFXComboBox conditionComboBox = new MFXComboBox(conditionList);
         conditionComboBox.setFloatingText("Condition");
-        MFXFilterComboBox typeComboBox = new MFXFilterComboBox(productList);
+
+
+        InventoryController.setProductComboList();
+        MFXComboBox typeComboBox = new MFXComboBox(InventoryController.productComboList);
         typeComboBox.setFloatingText("Product");
 
         HBox comboBoxContainer = new HBox(makeComboBox,modelComboBox,yearComboBox);
@@ -85,16 +94,45 @@ public class ProductForm {
             conditionComboBox.clear();
             costField.clear();
             descriptionField.clear();
+            serialField.clear();
         });
 
         addButton.setOnAction(e->{
-
+            if(
+                    makeComboBox.getValue()!=null&
+                            modelComboBox.getValue()!=null&
+                            yearComboBox.getValue()!=null&
+                            typeComboBox.getValue()!=null&
+                            conditionComboBox.getValue()!=null&
+                            costField.getText()!=null&
+                            !serialField.getText().isEmpty()&
+                            !serialField.getText().isBlank()
+            ){
+                try {
+                            InventoryController.insertProduct(
+                                    makeComboBox.getValue().toString(),
+                                    modelComboBox.getValue().toString(),
+                                    yearComboBox.getValue().toString(),
+                                    typeComboBox.getValue().toString(),
+                                    conditionComboBox.getValue().toString(),
+                                    costField.getText(),
+                                    serialField.getText(),
+                                    descriptionField.getText());
+                } catch (SQLException ex) {
+                    System.out.println(ex.getMessage());
+                }
+            }
 
             serialField.clear();
-                });
+            try {
+                InventoryController.setInventoryList();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
         serialField.setOnKeyPressed(e->{
             if(e.getCode()==KeyCode.ENTER)
-
                 serialField.clear();
         });
 

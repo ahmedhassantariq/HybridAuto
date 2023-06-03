@@ -20,10 +20,11 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 import java.awt.*;
+import java.sql.SQLException;
 
 public class ItemForm {
 
-    public static VBox newOrderForm() {
+    public static VBox newOrderForm() throws SQLException {
 
         MFXComboBox makeComboBox = new MFXComboBox();
         makeComboBox.setText("Make");

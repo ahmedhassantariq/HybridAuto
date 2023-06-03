@@ -2,6 +2,7 @@ package Functionality.Forms;
 
 import Entities.Category;
 import Entities.Product;
+import Functionality.Database.InventoryService;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,93 +10,56 @@ import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 
 import java.lang.reflect.Field;
+import java.sql.SQLException;
 
 public class InventoryController {
-    private BaseController<Category> categoryController;
-    private BaseController<Product> productController;
-    private static InventoryController inventoryControllerInstance;
-
-    private InventoryController() {
-    }
-
-    public static InventoryController getInstance() {
-        if(inventoryControllerInstance == null)
-            inventoryControllerInstance = new InventoryController();
-        return inventoryControllerInstance;
-    }
-
-    public InventoryController initProductController(Field[] prodFields, Node[] inputNodes) {
-            if(productController == null) {
-                productController = new BaseController<>(prodFields, inputNodes);
-                populateProductOptions(inputNodes);
-            }
-        return this;
-    }
-
-    public InventoryController initCategoryController(Field[] categFields, Node[] inputNodes) {
-        if(categoryController == null) {
-            categoryController = new BaseController<>(categFields, inputNodes);
-            populateCategoryOptions(inputNodes);
-        }
-        return this;
-    }
-
-    private void populateProductOptions(Node[] inputs) {
-        for (Node n : inputs) {
-            if(n instanceof MFXComboBox<?> cbx) {
-                MFXComboBox<String> cb = (MFXComboBox<String>) cbx;
-                String what = cb.getPromptText().toLowerCase();
-                switch (what) {
-                    case "make" -> { cb.getItems().addAll("What", "Is", "A", "Make"); }
-                    case "model" -> { cb.getItems().addAll("What", "Color", "Is", "Your", "Bugatti"); }
-                    case "year" -> { cb.getItems().addAll("2023", "2022", "2021", "2020"); }
-                    case "condition" -> { cb.getItems().addAll("Sigma", "Alpha", "Beta", "Gamma", "Zeta", "Eta", "Theta", "Omega"); }
-                    case "product" -> { cb.getItems().addAll("What", "Goes", "Here?"); }
-                }
-//                switch (what) {
-//                    case "make" -> { cb.getItems().addAll(CarService.getAllMakeDistinct()); }
-//                    case "model" -> { cb.getItems().addAll(CarService.getAllModelsDistinct()); }
-//                    case "year" -> { cb.getItems().addAll("2023", "2022", "2021", "2020"); }
-//                    case "condition" -> { cb.getItems().addAll(InventoryService.getAllConditionsDistinct()); }
-//                    case "product" -> { cb.getItems().addAll(InventoryService.getAllProductTypesDistinct()); }
-//                }
-            }
-        }
-    }
-    private void populateCategoryOptions(Node[] inputs) {
-        for (Node n : inputs) {
-            if(n instanceof MFXComboBox<?> cbx) {
-                MFXComboBox<String> cb = (MFXComboBox<String>) cbx;
-                String what = cb.getPromptText().toLowerCase();
-                switch (what) {
-                    case "make" -> { cb.getItems().addAll("What", "Is", "A", "Make"); }
-                    case "model" -> { cb.getItems().addAll("What", "Color", "Is", "Your", "Bugatti"); }
-                    case "year" -> { cb.getItems().addAll("2023", "2022", "2021", "2020"); }
-                    case "condition" -> { cb.getItems().addAll("Sigma", "Alpha", "Beta", "Gamma", "Zeta", "Eta", "Theta", "Omega"); }
-                    case "product" -> { cb.getItems().addAll("What", "Goes", "Here?"); }
-                }
-//                switch (what) {
-//                    case "make" -> { cb.getItems().addAll(CarService.getAllMakeDistinct()); }
-//                    case "model" -> { cb.getItems().addAll(CarService.getAllModelsDistinct()); }
-//                    case "year" -> { cb.getItems().addAll("2023", "2022", "2021", "2020"); }
-//                    case "condition" -> { cb.getItems().addAll(InventoryService.getAllConditionsDistinct()); }
-//                    case "product" -> { cb.getItems().addAll(InventoryService.getAllProductTypesDistinct()); }
-//                }
-            }
-        }
-    }
-
-    public BaseController<Category> getCategoryController() {
-        return categoryController;
-    }
-
-    public BaseController<Product> getProductController() {
-        return productController;
-    }
-
 
     public static ObservableList<Product> inventoryList = FXCollections.observableArrayList();
+    public static ObservableList<String> makeComboList = FXCollections.observableArrayList();
+    public static ObservableList<String> modelComboList = FXCollections.observableArrayList();
+    public static ObservableList<String> yearComboList = FXCollections.observableArrayList();
+    public static ObservableList<String> productComboList = FXCollections.observableArrayList();
 
+    //Populates InventoryTable ObservableList from DB
+    public static void setInventoryList() throws SQLException {
+        inventoryList.clear();
+        InventoryService.getInventoryProducts();
+    }
+    public static ObservableList getInventoryList() throws SQLException {
+        inventoryList.clear();
+        InventoryService.getInventoryProducts();
+        return inventoryList;
+    }
+
+    //Populates makeComboBox ObservableList from DB
+    public static void setMakeComboList() throws SQLException {
+        makeComboList.clear();
+        InventoryService.getMakeList();
+    }
+    //Populates modelComboBox ObservableList from DB
+    public static void setModelComboList(String make) throws SQLException {
+        modelComboList.clear();
+        InventoryService.getModelList(make);
+    }
+
+    //Populates yearComboBox ObservableList from DB
+    public static void setYearComboList(String model) throws SQLException {
+        yearComboList.clear();
+        InventoryService.getYearList(model);
+    }
+
+    //Populates productComboBox ObservableList from DB
+    public static void setProductComboList() throws SQLException {
+        InventoryService.getProductList();
+    }
+
+
+    public static void insertProduct(String make,String model,String year,String type,String condition,String cost, String serial,String description) throws SQLException {
+        String carID = InventoryService.getCarID(make,model,year);
+        String inventoryProductID = String.valueOf(InventoryService.getNewInventoryProductID());
+        Product product = new Product(inventoryProductID,carID,type,serial,cost,description,condition);
+        InventoryService.insertInventoryProduct(product);
+    }
 
 
 }

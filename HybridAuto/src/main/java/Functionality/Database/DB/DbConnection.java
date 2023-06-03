@@ -66,24 +66,7 @@ public class DbConnection {
 
 
 
-    public static void getInventoryProducts() throws SQLException {
-        resultSet = null;
-        String queryString = "select * from inventory";
-        PreparedStatement preparedStatement = connWrapper.getPreparedStatementFrom(queryString);
-//        Constants.tableData.clear();
-        resultSet = preparedStatement.executeQuery();
-        while(resultSet.next()) {
-            InventoryController.inventoryList.add(new Product(
-                    resultSet.getString(1),
-                    resultSet.getString(2),
-                    resultSet.getString(3),
-                    resultSet.getString(4),
-                    resultSet.getString(5),
-                    resultSet.getString(6),
-                    resultSet.getString(7)
-            ));
-        }
-    }
+
 
 
 

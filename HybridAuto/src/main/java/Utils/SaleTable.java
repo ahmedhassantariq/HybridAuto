@@ -1,6 +1,7 @@
 package Utils;
 
 import Entities.Product;
+import Functionality.Forms.InventoryController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Parent;
@@ -12,13 +13,16 @@ import javafx.scene.layout.Border;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 
+import java.sql.SQLException;
+
 public class SaleTable {
     public static TableView<Product> tableView;
 
-    public static Parent saleTable() {
+    public static Parent saleTable() throws SQLException {
         tableView = new TableView<>();
         tableView.setBorder(Border.EMPTY);
         tableView.setEditable(false);
+        tableView.setItems(InventoryController.getInventoryList());
 //        tableView.setBackground(new Background(new BackgroundFill(Color.BLUE,new CornerRadii(   15,15,15,15,false),null)));
 
         //Description Cell
@@ -63,14 +67,6 @@ public class SaleTable {
         scrollPane.setFitToHeight(true);
         scrollPane.setPrefWidth(tableView.getPrefWidth());
 
-        ObservableList<Product> observableList = FXCollections.observableArrayList(
-                new Product(null,null,null,null,null,null,null),
-                new Product(null,null,null,null,null,null,null),
-                new Product(null,null,null,null,null,null,null),
-                new Product(null,null,null,null,null,null,null)
-
-                );
-        tableView.setItems(observableList);
         return scrollPane;
     }
 }
