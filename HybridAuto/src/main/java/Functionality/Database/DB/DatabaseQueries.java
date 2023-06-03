@@ -2,13 +2,11 @@ package Functionality.Database.DB;
 
 import Functionality.Utils.ArrayUtils;
 
-import java.util.Arrays;
-import java.util.List;
-
 public class DatabaseQueries {
     public static class SEARCH_QUERIES {
         public static final String GET_ALL_DISTINCT_CAR_MODELS = queryGeneratorDistinct("model", "tbl_car");
         public static final String GET_ALL_DISTINCT_CAR_MAKES = queryGeneratorDistinct("make", "tbl_car");
+        public static final String GET_ALL_DISTINCT_CAR_YEARS = queryGeneratorDistinct("year", "tbl_car");
         public static final String GET_ALL_DISTINCT_PRODUCT_TYPES = queryGeneratorDistinct("type", "tbl_product");
         public static final String GET_ALL_DISTINCT_PRODUCT_CONDITION = queryGeneratorDistinct("condition", "tbl_product");
 
@@ -25,11 +23,27 @@ public class DatabaseQueries {
             return String.format("SELECT * FROM %s", tableName);
         }
 
-        public static class MAX {
-            public static final String GET_MAX_INVENTORY_PRODUCT_ID = queryGeneratorMax("tbl_product", "inventoryProductId");
+        public static class AGGREGATES {
+            public static class FUNCTION_NAMES {
+                public static final String MAX = "MAX";
+                public static final String COUNT = "COUNT";
+            }
 
-            private static String queryGeneratorMax(String tableName, String fieldName) {
-                return String.format("SELECT MAX(%s) FROM %s", fieldName, tableName);
+            public static class MAX {
+                public static final String GET_MAX_INVENTORY_PRODUCT_ID = queryGeneratorAggregate(
+                        FUNCTION_NAMES.MAX, "tbl_product", "inventoryProductId"
+                );
+
+            }
+
+            public static class COUNT {
+                public static final String GET_COUNT_INVENTORY_PRODUCT_ID = queryGeneratorAggregate(
+                        FUNCTION_NAMES.COUNT, "tbl_product", "*"
+                );
+            }
+
+            private static String queryGeneratorAggregate(String aggregateFunction, String tableName, String fieldName) {
+                return String.format("SELECT %s(%s) FROM %s", aggregateFunction, fieldName, tableName);
             }
         }
 
@@ -73,7 +87,7 @@ public class DatabaseQueries {
         public static final String INSERT_PRODUCT = insertQueryGenerator(
                 //assuming inventory product id is auto-increment, it is not included here
                 "tbl_product", "carId", "productId", "serialNumber", "cost",
-                "description", "condition"
+                "description", "created_datetime", "condition", "display"
         );
         public static final String INSERT_CAR = insertQueryGenerator(
                 //assuming car id is auto-increment

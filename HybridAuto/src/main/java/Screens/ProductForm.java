@@ -20,6 +20,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 import java.lang.reflect.Field;
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 import static Functionality.Forms.Controllers.BaseController.makeList;
@@ -84,7 +85,11 @@ public class ProductForm {
 
         addButton.setOnAction(e->{
             // TODO: 6/4/2023 have a global class which has all controllers, then statically call this method
-            new ProductController<Product>().create();
+            try{
+                new ProductController<Product>().create();
+            } catch (NullPointerException ex) {
+                //display some message
+            }
 
 
             serialField.clear();

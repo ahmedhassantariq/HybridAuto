@@ -1,16 +1,10 @@
 package Functionality.Forms.Controllers;
 
-import Entities.Car;
 import Entities.Category;
-import Entities.Product;
 import Functionality.Database.CarService;
 import Functionality.Database.InventoryService;
-import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXFilterComboBox;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
-import java.time.LocalDate;
 import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.Map;
@@ -59,14 +53,12 @@ public class CategoryController<T> extends BaseController<T> {
     }
 
     @Override
-    public T create() {
+    public void create() {
         Category c = new Category(
                 inputs.get("make").getStringInput(), inputs.get("model").getStringInput(),
                 inputs.get("year").getStringInput(), inputs.get("type").getStringInput()
         );
         InventoryService.addCategory(c);
-
-        return (T) c;
     }
 
     @Override

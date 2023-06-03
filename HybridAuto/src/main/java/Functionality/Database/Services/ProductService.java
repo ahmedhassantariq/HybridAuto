@@ -12,7 +12,8 @@ public class ProductService {
         try {
             return DatabaseQueryExecutor.executeInsert(
                     DatabaseQueries.INSERT_QUERIES.INSERT_PRODUCT,
-                    p.getCarID(), p.getProductID(), p.getSerialNumber(), p.getCost(), p.getDescription(), p.getCondition()
+                    p.getCarID(), p.getProductID(), p.getSerialNumber(), p.getCost(), p.getDescription(),
+                    "GETDATE()", p.getCondition(), String.valueOf(1)
                     );
         } catch (SQLException e) {
             // TODO: 6/4/2023 maybe display dialog explaining error, maybe do this in ProductController and not Service instead
@@ -77,7 +78,19 @@ public class ProductService {
     public static int searchMaxInventoryProductId() {
         try {
             return (int) DatabaseQueryExecutor.executeGet(
-                    DatabaseQueries.SEARCH_QUERIES.MAX.GET_MAX_INVENTORY_PRODUCT_ID,
+                    DatabaseQueries.SEARCH_QUERIES.AGGREGATES.MAX.GET_MAX_INVENTORY_PRODUCT_ID,
+                    "integer"
+            ).get(0);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    public static int searchCountOfProducts() {
+        try {
+            return (int) DatabaseQueryExecutor.executeGet(
+                    DatabaseQueries.SEARCH_QUERIES.AGGREGATES.COUNT.GET_COUNT_INVENTORY_PRODUCT_ID,
                     "integer"
             ).get(0);
         } catch (SQLException e) {

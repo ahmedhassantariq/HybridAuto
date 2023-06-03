@@ -87,6 +87,17 @@ public class CarService {
         }
     }
 
+    public static List<String> searchAllYears() {
+        try {
+            return DatabaseQueryExecutor.executeGet(
+                    DatabaseQueries.SEARCH_QUERIES.GET_ALL_DISTINCT_CAR_YEARS,
+                    "car"
+            );
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static List<String> searchAllModelsWIthMake(String make) {
         try {
             return DatabaseQueryExecutor.executeGetWithCondition(
