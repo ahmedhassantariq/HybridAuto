@@ -1,15 +1,85 @@
 package Functionality.Database.DB;
 
+import Functionality.Utils.ArrayUtils;
+
 public class DatabaseQueries {
-    public static class READ_QUERIES {
+    public static class SEARCH_QUERIES {
         public static final String GET_ALL_DISTINCT_CAR_MODELS = queryGeneratorDistinct("model", "tbl_car");
         public static final String GET_ALL_DISTINCT_CAR_MAKES = queryGeneratorDistinct("make", "tbl_car");
+        public static final String GET_ALL_DISTINCT_CAR_YEARS = queryGeneratorDistinct("year", "tbl_car");
         public static final String GET_ALL_DISTINCT_PRODUCT_TYPES = queryGeneratorDistinct("type", "tbl_product");
         public static final String GET_ALL_DISTINCT_PRODUCT_CONDITION = queryGeneratorDistinct("condition", "tbl_product");
 
 
+        public static final String GET_ALL_PRODUCTS = queryGeneratorGetAll("tbl_product");
+        public static final String GET_ALL_CARS = queryGeneratorGetAll("tbl_car");
+        public static final String GET_ALL_CATEGORIES = queryGeneratorGetAll("tbl_category");
+
+
         private static String queryGeneratorDistinct(String fieldName, String tableName) {
             return String.format("SELECT DISTINCT %s FROM %s", fieldName, tableName);
+        }
+        private static String queryGeneratorGetAll(String tableName) {
+            return String.format("SELECT * FROM %s", tableName);
+        }
+
+        public static class AGGREGATES {
+            public static class FUNCTION_NAMES {
+                public static final String MAX = "MAX";
+                public static final String COUNT = "COUNT";
+            }
+
+            public static class MAX {
+                public static final String GET_MAX_INVENTORY_PRODUCT_ID = queryGeneratorAggregate(
+                        FUNCTION_NAMES.MAX, "tbl_product", "inventoryProductId"
+                );
+
+            }
+
+            public static class COUNT {
+                public static final String GET_COUNT_INVENTORY_PRODUCT_ID = queryGeneratorAggregate(
+                        FUNCTION_NAMES.COUNT, "tbl_product", "*"
+                );
+            }
+
+            private static String queryGeneratorAggregate(String aggregateFunction, String tableName, String fieldName) {
+                return String.format("SELECT %s(%s) FROM %s", aggregateFunction, fieldName, tableName);
+            }
+        }
+
+        public static class WITH_CONDITION {
+            public static final String SEARCH_PRODUCT_WITH_SERIAL = queryGeneratorSearch(
+                    "tbl_product", ArrayUtils.from("*"), "serialNumber"
+            );
+            public static final String SEARCH_CAR_WITH_ID = queryGeneratorSearch(
+                    "tbl_car", ArrayUtils.from("*"), "carId"
+            );
+            public static final String SEARCH_CAR_WITH_MAKE_MODEL_AND_YEAR = queryGeneratorSearch(
+                    "tbl_car", ArrayUtils.from("*"), "make", "model", "year"
+            );
+            public static final String SEARCH_CATEGORY_WITH_TYPE_AND_CONDITION = queryGeneratorSearch(
+                    "tbl_category", ArrayUtils.from("*"), "type", "condition"
+            );
+
+
+            public static final String SEARCH_MODELS_WITH_MAKE = queryGeneratorSearch(
+                    "tbl_car", ArrayUtils.from("*"),"make"
+            );
+
+
+            private static String queryGeneratorSearch(String tableName, String[] fieldNamesToGet, String... fieldsInWhereClause) {
+                StringBuilder query = new StringBuilder(String.format("SELECT - FROM %s where *", tableName));
+                for (int i = 0; i < fieldNamesToGet.length; i++) {
+                    query.replace(query.indexOf("-"), query.indexOf("-"), fieldNamesToGet[i]
+                            + (i == fieldNamesToGet.length-1? "" : ", "));
+                }
+                for(int i = 0; i < fieldsInWhereClause.length; i++) {
+                    query.replace(query.indexOf("*"), query.indexOf("*"), fieldsInWhereClause[i] + " = ?"
+                            + (i == fieldsInWhereClause.length-1? "" : " AND "));
+                }
+
+                return query.toString();
+            }
         }
     }
 
@@ -17,7 +87,7 @@ public class DatabaseQueries {
         public static final String INSERT_PRODUCT = insertQueryGenerator(
                 //assuming inventory product id is auto-increment, it is not included here
                 "tbl_product", "carId", "productId", "serialNumber", "cost",
-                "description", "condition"
+                "description", "created_datetime", "condition", "display"
         );
         public static final String INSERT_CAR = insertQueryGenerator(
                 //assuming car id is auto-increment
@@ -69,7 +139,6 @@ public class DatabaseQueries {
                 query.replace(query.indexOf("*"), query.indexOf("*"), fieldNames[i] + " = ?"
                         + (i == fieldNames.length-1? "" : ", "));
             }
-            query.append(")");
 
             return query.toString();
         }

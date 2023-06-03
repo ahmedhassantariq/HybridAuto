@@ -1,15 +1,11 @@
 package Functionality.Forms.Controllers;
 
 import Entities.Car;
-import Entities.Category;
 import Entities.Product;
-import Functionality.Database.CarService;
-import Functionality.Database.InventoryService;
+import Functionality.Database.Services.CarService;
+import Functionality.Database.Services.ProductService;
 import io.github.palexdev.materialfx.controls.MFXFilterComboBox;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
-import java.time.LocalDate;
 import java.util.*;
 
 public class ProductController<T> extends BaseController<T> {
@@ -44,28 +40,41 @@ public class ProductController<T> extends BaseController<T> {
         inputs.get("make").<MFXFilterComboBox<String>>getInputControl().selectedItemProperty().addListener(
                 (observableValue, s, t1) -> {
                     inputs.get("model").<MFXFilterComboBox<String>>getInputControl()
-                            .getItems().setAll(CarService.getAllModelsOfMake(s));
+                            .getItems().setAll(CarService.searchAllModelsWIthMake(s));
                 });
     }
 
     @Override
-    public T create() {
-        Car c = CarService
-                .getCar(inputs.get("make").getStringInput(), inputs.get("model").getStringInput(),
-                        inputs.get("year").getStringInput())
-                .get(0);
-        Category prodType = InventoryService
-                .getCategory(inputs.get("type").getStringInput(), inputs.get("condition").getStringInput());
-        int ipid = InventoryService.getMaxInventoryProductID()+1;
+    public void create() {
+        //old code
+//        Car c = CarService
+//                .getCar(inputs.get("make").getStringInput(), inputs.get("model").getStringInput(),
+//                        inputs.get("year").getStringInput())
+//                .get(0);
+//        Category prodType = InventoryService
+//                .getCategory(inputs.get("type").getStringInput(), inputs.get("condition").getStringInput());
+//        int ipid = InventoryService.getMaxInventoryProductID()+1;
+//
+//        Product p = new Product(
+//                String.valueOf(ipid), c.getCarID(), prodType.getProduct(),
+//                inputs.get("serialno").getStringInput(), inputs.get("cost").getStringInput(),
+//                inputs.get("description").getStringInput(), inputs.get("condition").getStringInput()
+//        );
+//        InventoryService.addProduct(p);
+//
+
+        Car c = CarService.searchCar(inputs.get("make").getStringInput(), inputs.get("model").getStringInput(),
+                inputs.get("year").getStringInput());
+        int ipid = ProductService.searchMaxInventoryProductId()+1;
 
         Product p = new Product(
-                String.valueOf(ipid), c.getCarID(), prodType.getProduct(),
-                inputs.get("serialno").getStringInput(), inputs.get("cost").getStringInput(),
-                inputs.get("description").getStringInput(), inputs.get("condition").getStringInput()
+                String.valueOf(ipid), c.getCarID(), inputs.get("type").getStringInput(), inputs.get("serialno").getStringInput(),
+                inputs.get("cost").getStringInput(), inputs.get("description").getStringInput(), inputs.get("condition").getStringInput()
         );
-        InventoryService.addProduct(p);
+        ProductService.addProduct(p);
 
-        return (T) p;
+        //can add it here, instead of Product Form
+        inventoryList.add(p);
     }
 
     @Override
