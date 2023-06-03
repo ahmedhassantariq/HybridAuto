@@ -15,11 +15,8 @@ import javafx.scene.paint.Color;
 import java.sql.SQLException;
 
 public class OrderForm {
-    private static Parent orderFormRoot;
     public static Parent orderForm() throws SQLException {
-        if(orderFormRoot!=null){
-            return orderFormRoot;
-        }
+
 
         MFXTextField searchField = Fields.textField("Search",300,40);
         MFXButton searchButton = Buttons.FunctionButton_Border("Search",100,40);
@@ -47,7 +44,6 @@ public class OrderForm {
             mainPane.getStylesheets().add(Stylesheets.TEXT_FIELD.loadTheme());
             mainPane.getStylesheets().add(Stylesheets.TABLE_VIEW.loadTheme());
         });
-        orderFormRoot = mainPane;
         return mainPane;
 
     }

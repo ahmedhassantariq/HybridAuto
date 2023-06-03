@@ -1,25 +1,19 @@
 package Screens;
 
-import Entities.Product;
 import Styles.Buttons;
 import Styles.Fields;
 import Styles.Labels;
 import Utils.SaleTable;
-import Utils.TableView;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.css.themes.Stylesheets;
-import javafx.application.Platform;
-import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
-import java.awt.*;
 import java.sql.SQLException;
 
 public class ItemForm {

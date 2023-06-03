@@ -2,16 +2,12 @@ package Utils;
 
 import Entities.Product;
 import Functionality.Forms.InventoryController;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.Parent;
-import javafx.scene.control.*;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.paint.Color;
 
 import java.sql.SQLException;
 
@@ -19,6 +15,7 @@ public class SaleTable {
     public static TableView<Product> tableView;
 
     public static Parent saleTable() throws SQLException {
+
         tableView = new TableView<>();
         tableView.setBorder(Border.EMPTY);
         tableView.setEditable(false);
@@ -61,12 +58,11 @@ public class SaleTable {
 
 
 
-        ScrollPane scrollPane = new ScrollPane(tableView);
 
+        ScrollPane scrollPane = new ScrollPane(tableView);
         scrollPane.setFitToWidth(true);
         scrollPane.setFitToHeight(true);
         scrollPane.setPrefWidth(tableView.getPrefWidth());
-
         return scrollPane;
     }
 }

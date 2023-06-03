@@ -35,7 +35,8 @@ public class InventoryService {
                     resultSet.getString("cost"),
                     resultSet.getString("description"),
                     resultSet.getString("condition")
-            ));}
+            ));
+        }
     }
 
     public static void getMakeList() throws SQLException {
@@ -83,7 +84,10 @@ public class InventoryService {
         resultSet = null;
         String queryString = "select * from product";
         resultSet = DbConnection.getPrepared(queryString).executeQuery();
+        String product = null;
         while(resultSet.next()) {
+            product = resultSet.getString("product_ID");
+            if(!InventoryController.productComboList.contains(product))
                 InventoryController.productComboList.add(resultSet.getString("product_ID"));
         }
     }
