@@ -1,6 +1,9 @@
 package Screens;
 
 import Entities.Product;
+import Functionality.Database.DB.DbConnection;
+import Functionality.Database.InventoryService;
+import Functionality.Forms.InventoryController;
 import Styles.Buttons;
 import Styles.Fields;
 import Styles.Labels;
@@ -16,9 +19,11 @@ import javafx.scene.Parent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
+import java.sql.SQLException;
+
 public class InventoryForm {
     private static Parent inventoryFormRoot;
-    public static Parent inventoryForm(){
+    public static Parent inventoryForm() throws SQLException {
         if(inventoryFormRoot != null)
             return inventoryFormRoot; //don't recreate if already initialized
 
@@ -52,8 +57,8 @@ public class InventoryForm {
 //
 //        });
         borderContainer.getChildren().add(SaleTable.saleTable());
-
-
+        SaleTable.tableView.setItems(InventoryController.inventoryList);
+        DbConnection.getInventoryProducts();
         addNewProductButton.setOnAction(e->{
             if(borderContainer.getChildren().contains(productBox))
                 borderContainer.getChildren().remove(productBox);

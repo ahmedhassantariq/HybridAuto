@@ -32,9 +32,9 @@ public class DatabaseService {
                     int cost = rs.getInt("cost");
                     String description = rs.getString("description");
                     String condition = rs.getString("condition");
-                    return (Optional<T>) Optional.of(
-                            new Product(inventoryProductID, carID, productID, serialNumber, cost, description, condition)
-                    );
+//                    return (Optional<T>) Optional.of(
+//                            new Product(inventoryProductID, carID, productID, serialNumber, cost, description, condition)
+//                    );
                 }
                 else if (targetClass == Car.class) {
                     String carID = rs.getString("carID");
@@ -68,9 +68,9 @@ public class DatabaseService {
                         int cost = rs.getInt("cost");
                         String description = rs.getString("description");
                         String condition = rs.getString("condition");
-                        results.add(
-                                (T) new Product(inventoryProductID, carID, productID, serialNumber, cost, description, condition)
-                        );
+//                        results.add(
+//                                (T) new Product(inventoryProductID, carID, productID, serialNumber, cost, description, condition)
+//                        );
                     } else if (targetClass == Car.class) {
                         String carID = rs.getString("carID");
                         String manufacturerID = rs.getString("manufacturerID");

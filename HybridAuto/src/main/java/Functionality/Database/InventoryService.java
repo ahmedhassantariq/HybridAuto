@@ -3,16 +3,21 @@ package Functionality.Database;
 import Entities.Car;
 import Entities.Category;
 import Entities.Product;
+import Functionality.Forms.InventoryController;
+import Utils.Constants;
 import io.github.palexdev.mfxcore.filter.base.AbstractFilter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.kordamp.ikonli.prestashopicons.PrestaShopIcons;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.function.BiPredicate;
 
 public class InventoryService {
+    private static ResultSet resultSet;
     public static boolean addCategory(String make, String model, String year,
                                       String type, String condition) {
 
@@ -30,10 +35,10 @@ public class InventoryService {
             throw new RuntimeException(e);
         }
     }
-    public static boolean addProduct(Product p) {
-        //todo deal with product type in addProduct()-> plus set price into product table price is fixed now...User required changed
-        return addProduct(p.getCarID(), p.getSerialNumber(), p.getCost(), p.getDescription(), p.getCondition());
-    }
+//    public static boolean addProduct(Product p) {
+//        //todo deal with product type in addProduct()-> plus set price into product table price is fixed now...User required changed
+//        return addProduct(p.getCarID(), p.getSerialNumber(), p.getCost(), p.getDescription(), p.getCondition());
+//    }
     private static boolean addProduct(String carID, String serial, int cost, String desc, String condition) {
 
 //        Car car = CarService.getCar(carID);
@@ -157,4 +162,8 @@ public class InventoryService {
             return null;
         }
     }
+
+
+
+
 }

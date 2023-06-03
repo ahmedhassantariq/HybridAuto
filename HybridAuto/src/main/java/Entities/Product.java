@@ -15,14 +15,14 @@ public class Product {
     private final SimpleStringProperty condition;
 
 
-    public Product(SimpleStringProperty inventoryProductID, SimpleStringProperty carID, SimpleStringProperty productID, SimpleStringProperty serialNumber, SimpleStringProperty cost, SimpleStringProperty description, SimpleStringProperty condition) {
-        this.inventoryProductID = inventoryProductID;
-        this.carID = carID;
-        this.productID = productID;
-        this.serialNumber = serialNumber;
-        this.cost = cost;
-        this.description = description;
-        this.condition = condition;
+    public Product(String inventoryProductID, String carID, String productID, String serialNumber, String cost, String description, String condition) {
+        this.inventoryProductID = new SimpleStringProperty(inventoryProductID);
+        this.carID = new SimpleStringProperty(carID);
+        this.productID = new SimpleStringProperty(productID);
+        this.serialNumber = new SimpleStringProperty(serialNumber);
+        this.cost = new SimpleStringProperty(cost);
+        this.description = new SimpleStringProperty(description);
+        this.condition = new SimpleStringProperty(condition);
     }
 
     public String getInventoryProductID() {

@@ -3,6 +3,8 @@ package Functionality.Forms;
 import Entities.Category;
 import Entities.Product;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 
@@ -90,4 +92,10 @@ public class InventoryController {
     public BaseController<Product> getProductController() {
         return productController;
     }
+
+
+    public static ObservableList<Product> inventoryList = FXCollections.observableArrayList();
+
+
+
 }

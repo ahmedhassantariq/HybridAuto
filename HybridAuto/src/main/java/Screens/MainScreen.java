@@ -62,7 +62,11 @@ public class MainScreen {
         });
 
         inventoryFormButton.setOnAction(e->{
-            viewPane.setCenter(InventoryForm.inventoryForm());
+            try {
+                viewPane.setCenter(InventoryForm.inventoryForm());
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
         });
         ordersFormButton.setOnAction(e->{
             viewPane.setCenter(OrderForm.orderForm());
