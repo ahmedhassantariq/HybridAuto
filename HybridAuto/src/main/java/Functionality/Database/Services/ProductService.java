@@ -5,6 +5,7 @@ import Functionality.Database.DB.DatabaseQueries;
 import Functionality.Database.DB.DatabaseQueryExecutor;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public class ProductService {
     public static boolean addProduct(Product p) {
@@ -34,6 +35,51 @@ public class ProductService {
                     DatabaseQueries.DELETE_QUERIES.DELETE_PRODUCT,
                     productId
             );
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    public static Product searchProduct(String productSerial) {
+        try {
+            return (Product) DatabaseQueryExecutor.executeGetWithCondition(
+                    DatabaseQueries.SEARCH_QUERIES.WITH_CONDITION.SEARCH_PRODUCT_WITH_SERIAL,
+                    "product",
+                    productSerial
+            );
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static List<Product> searchAllProducts() {
+        try {
+            return DatabaseQueryExecutor.executeGet(
+                    DatabaseQueries.SEARCH_QUERIES.GET_ALL_PRODUCTS, "product"
+            );
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static List<String> searchAllConditions() {
+        try {
+            return DatabaseQueryExecutor.executeGet(
+                    DatabaseQueries.SEARCH_QUERIES.GET_ALL_DISTINCT_PRODUCT_CONDITION,
+                    "string"
+            );
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static int searchMaxInventoryProductId() {
+        try {
+            return (int) DatabaseQueryExecutor.executeGet(
+                    DatabaseQueries.SEARCH_QUERIES.MAX.GET_MAX_INVENTORY_PRODUCT_ID,
+                    "integer"
+            ).get(0);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

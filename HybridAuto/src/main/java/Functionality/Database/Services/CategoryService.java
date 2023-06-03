@@ -5,6 +5,7 @@ import Functionality.Database.DB.DatabaseQueries;
 import Functionality.Database.DB.DatabaseQueryExecutor;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public class CategoryService {
     public static boolean addCategory(Category c) {
@@ -32,6 +33,17 @@ public class CategoryService {
             return DatabaseQueryExecutor.executeDelete(
                     DatabaseQueries.DELETE_QUERIES.DELETE_CATEGORY,
                     categoryId
+            );
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static List<String> searchAllCategory() {
+        try {
+            return DatabaseQueryExecutor.executeGet(
+                    DatabaseQueries.SEARCH_QUERIES.GET_ALL_DISTINCT_PRODUCT_TYPES,
+                    "string"
             );
         } catch (SQLException e) {
             throw new RuntimeException(e);

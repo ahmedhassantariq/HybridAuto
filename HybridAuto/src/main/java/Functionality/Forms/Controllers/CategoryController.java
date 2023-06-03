@@ -45,6 +45,8 @@ public class CategoryController<T> extends BaseController<T> {
 
         inputs = new HashMap<>();
         inputs.putAll(comboBoxes);
+
+        addUIFunctionality();
     }
 
 
