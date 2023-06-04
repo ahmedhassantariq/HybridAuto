@@ -23,57 +23,115 @@ public class InventoryController {
     public static ObservableList<String> productComboList = FXCollections.observableArrayList();
 
     //Populates InventoryTable ObservableList from DB
-    public static void setInventoryList() throws SQLException {
+    public static void setInventoryList(){
         inventoryList.clear();
-        InventoryService.getInventoryProducts();
+        try {
+            InventoryService.getInventoryProducts();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
-    public static ObservableList getInventoryList() throws SQLException {
+    public static ObservableList getInventoryList() {
         inventoryList.clear();
-        InventoryService.getInventoryProducts();
-        return inventoryList;
+        try {
+            InventoryService.getInventoryProducts();
+            return inventoryList;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     //Populates makeComboBox ObservableList from DB
-    public static void setMakeComboList() throws SQLException {
+    public static void setMakeComboList() {
         makeComboList.clear();
-        InventoryService.getMakeList();
+        try {
+            InventoryService.getMakeList();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
     //Populates modelComboBox ObservableList from DB
-    public static void setModelComboList(String make) throws SQLException {
+    public static void setModelComboList(String make){
         modelComboList.clear();
-        InventoryService.getModelList(make);
+        try {
+            InventoryService.getModelList(make);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     //Populates yearComboBox ObservableList from DB
-    public static void setYearComboList(String model) throws SQLException {
+    public static void setYearComboList(String model){
         yearComboList.clear();
-        InventoryService.getYearList(model);
+        try {
+            InventoryService.getYearList(model);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     //Populates productComboBox ObservableList from DB
-    public static void setProductComboList() throws SQLException {
-        InventoryService.getProductList();
+    public static void setProductComboList() {
+        try {
+            InventoryService.getProductList();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     //Insert product into DB from New Product Form
-    public static void insertProduct(String make,String model,String year,String type,String condition,String cost, String serial,String description) throws SQLException {
+    public static void insertProduct(String make,String model,String year,String type,String condition,String cost, String serial,String description) {
+        try{
         String carID = InventoryService.getCarID(make,model,year);
-        String inventoryProductID = String.valueOf(InventoryService.getNewInventoryProductID());
-        Product product = new Product(inventoryProductID,carID,type,serial,cost,description,condition);
-        InventoryService.insertInventoryProduct(product);
+            String inventoryProductID = String.valueOf(InventoryService.getNewInventoryProductID());
+            Product product = new Product(inventoryProductID, carID, type, serial, cost, description, condition);
+            InventoryService.insertInventoryProduct(product);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
-    public static void updateProduct(String inventoryProductID,String make,String model,String year,String type,String condition,String cost, String serial,String description) throws SQLException {
+    public static void updateProduct(String inventoryProductID,String make,String model,String year,String type,String condition,String cost, String serial,String description){
+        try{
         String carID = InventoryService.getCarID(make,model,year);
         Product product = new Product(inventoryProductID,carID,type,serial,cost,description,condition);
-        InventoryService.updateInventoryProduct(product);
+
+            InventoryService.updateInventoryProduct(product);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
     public static void deleteProduct(String inventoryProductID) throws SQLException {
-        System.out.println("delete Function called");
-        InventoryService.deleteInventoryProduct(inventoryProductID);
+        try {
+            InventoryService.deleteInventoryProduct(inventoryProductID);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public static Car getCar(String carID) throws SQLException {
-        return InventoryService.getCar(carID);
+    public static Car getCar(String carID) {
+        try {
+            return InventoryService.getCar(carID);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void searchText(Object make,Object model,Object year,Object serial) {
+        inventoryList.clear();
+        try {
+            String m="",mo="",y="",s="";
+            if(make!=null)
+                m=make.toString();
+            if(model!=null)
+                mo=model.toString();
+            if(year!=null)
+                y=year.toString();
+            if(serial!=null)
+                s=serial.toString();
+            InventoryService.searchText(m,mo,y,s);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

@@ -21,7 +21,7 @@ import java.sql.SQLException;
 
 public class ProductForm {
 
-    public static VBox productForm() throws SQLException {
+    public static VBox productForm() {
 
 
 
@@ -29,25 +29,17 @@ public class ProductForm {
         MFXComboBox makeComboBox = new MFXComboBox(InventoryController.makeComboList);
         makeComboBox.setFloatingText("Make");
         makeComboBox.setOnAction(e-> {
-            try {
                 if(makeComboBox.getValue()!=null) {
                     InventoryController.setModelComboList(makeComboBox.getValue().toString());
                 }
-            } catch (SQLException ex) {
-                throw new RuntimeException(ex);
-            }
         });
 
         MFXComboBox modelComboBox = new MFXComboBox(InventoryController.modelComboList);
         modelComboBox.setFloatingText("Model");
         modelComboBox.setOnAction(e->{
-            try {
                 if(modelComboBox.getValue()!=null) {
                     InventoryController.setYearComboList(modelComboBox.getValue().toString());
                 }
-            } catch (SQLException ex) {
-                throw new RuntimeException(ex);
-            }
         });
 
 
@@ -108,32 +100,46 @@ public class ProductForm {
                             !serialField.getText().isEmpty()&
                             !serialField.getText().isBlank()
             ){
-                try {
-                            InventoryController.insertProduct(
-                                    makeComboBox.getValue().toString(),
-                                    modelComboBox.getValue().toString(),
-                                    yearComboBox.getValue().toString(),
-                                    typeComboBox.getValue().toString(),
-                                    conditionComboBox.getValue().toString(),
-                                    costField.getText(),
-                                    serialField.getText(),
-                                    descriptionField.getText());
-                } catch (SQLException ex) {
-                    System.out.println(ex.getMessage());
-                }
+                InventoryController.insertProduct(
+                        makeComboBox.getValue().toString(),
+                        modelComboBox.getValue().toString(),
+                        yearComboBox.getValue().toString(),
+                        typeComboBox.getValue().toString(),
+                        conditionComboBox.getValue().toString(),
+                        costField.getText(),
+                        serialField.getText(),
+                        descriptionField.getText());
             }
 
             serialField.clear();
-            try {
-                InventoryController.setInventoryList();
-            } catch (SQLException ex) {
-                throw new RuntimeException(ex);
-            }
+            InventoryController.setInventoryList();
         });
 
         serialField.setOnKeyPressed(e->{
-            if(e.getCode()==KeyCode.ENTER)
-                serialField.clear();
+            if(
+                    makeComboBox.getValue()!=null&
+                            modelComboBox.getValue()!=null&
+                            yearComboBox.getValue()!=null&
+                            typeComboBox.getValue()!=null&
+                            conditionComboBox.getValue()!=null&
+                            costField.getText()!=null&
+                            !serialField.getText().isEmpty()&
+                            !serialField.getText().isBlank()
+            ){
+                    InventoryController.insertProduct(
+                            makeComboBox.getValue().toString(),
+                            modelComboBox.getValue().toString(),
+                            yearComboBox.getValue().toString(),
+                            typeComboBox.getValue().toString(),
+                            conditionComboBox.getValue().toString(),
+                            costField.getText(),
+                            serialField.getText(),
+                            descriptionField.getText());
+            }
+
+            serialField.clear();
+                InventoryController.setInventoryList();
+
         });
 
 

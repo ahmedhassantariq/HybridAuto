@@ -156,8 +156,6 @@ public class InventoryService {
         PreparedStatement pSt = DbConnection.getPrepared(queryString);
         pSt.setString(1, inventoryProductID);
         pSt.execute();
-        System.out.println("Product Deleted");
-
     }
 
 
@@ -177,6 +175,22 @@ public class InventoryService {
             );
         }
         return car;
+    }
+
+    public static void searchText(String make,String model,String year,String serial) throws SQLException {
+        resultSet = null;
+        resultSet = DbConnection.search(make,model,year,serial).executeQuery();
+        while(resultSet.next()) {
+            InventoryController.inventoryList.add(new Product(
+                    resultSet.getString("inventory_product_ID"),
+                    resultSet.getString("car_ID"),
+                    resultSet.getString("product_ID"),
+                    resultSet.getString("serial_number"),
+                    resultSet.getString("cost"),
+                    resultSet.getString("description"),
+                    resultSet.getString("condition")
+            ));
+        }
     }
 
 

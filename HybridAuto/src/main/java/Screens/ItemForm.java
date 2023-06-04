@@ -1,5 +1,6 @@
 package Screens;
 
+import Functionality.Forms.InventoryController;
 import Styles.Buttons;
 import Styles.Fields;
 import Styles.Labels;
@@ -20,13 +21,34 @@ public class ItemForm {
 
     public static VBox newOrderForm() throws SQLException {
 
-        MFXComboBox makeComboBox = new MFXComboBox();
-        makeComboBox.setText("Make");
-        MFXComboBox modelComboBox = new MFXComboBox();
-        modelComboBox.setText("Model");
-        MFXComboBox yearComboBox = new MFXComboBox();
-        yearComboBox.setText("Year");
+        InventoryController.setMakeComboList();
+        MFXComboBox makeComboBox = new MFXComboBox(InventoryController.makeComboList);
+        makeComboBox.setFloatingText("Make");
+        makeComboBox.setOnAction(e-> {
+            if(makeComboBox.getValue()!=null) {
+                InventoryController.setModelComboList(makeComboBox.getValue().toString());
+            }
+        });
+
+        MFXComboBox modelComboBox = new MFXComboBox(InventoryController.modelComboList);
+        modelComboBox.setFloatingText("Model");
+        modelComboBox.setOnAction(e->{
+            if(modelComboBox.getValue()!=null) {
+                InventoryController.setYearComboList(modelComboBox.getValue().toString());
+            }
+        });
+
+        MFXComboBox yearComboBox = new MFXComboBox(InventoryController.yearComboList);
+        yearComboBox.setFloatingText("Year");
         MFXTextField serialField = Fields.textField("SerialNo.", 150, 40);
+
+
+
+
+
+
+
+
 
 
         HBox comboBoxContainer = new HBox(makeComboBox, modelComboBox, yearComboBox);
@@ -37,9 +59,26 @@ public class ItemForm {
 
 
         MFXButton addButton = Buttons.FunctionButton("Add", 100, 40);
-        MFXButton cancelButton = Buttons.FunctionButton_Border("Reset", 100, 40);
+        MFXButton searchButton = Buttons.FunctionButton_Border("Search", 100, 40);
 
-        HBox buttonBox = new HBox(addButton, cancelButton);
+
+        searchButton.setOnAction(e->{
+            InventoryController.searchText(
+                    makeComboBox.getValue(),
+                    modelComboBox.getValue(),
+                    yearComboBox.getValue(),
+                    serialField.getText());
+        });
+
+
+
+
+
+
+
+
+
+        HBox buttonBox = new HBox(addButton, searchButton);
         buttonBox.setAlignment(Pos.CENTER);
         buttonBox.setPadding(new Insets(10));
         buttonBox.setSpacing(10);

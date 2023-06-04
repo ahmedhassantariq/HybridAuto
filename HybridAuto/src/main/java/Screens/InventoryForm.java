@@ -25,7 +25,6 @@ public class InventoryForm {
     public static Parent inventoryForm() throws SQLException {
 
         MFXTextField searchField = Fields.textField("Search",300,40);
-        MFXButton searchButton = Buttons.FunctionButton_Border("Search",100,40);
         MFXButton createCategoryButton = Buttons.FunctionButton("Create New Category ",150,40);
         MFXButton addNewProductButton = Buttons.FunctionButton("Add Product",100,40);
         MFXButton editProductButton = Buttons.FunctionButton("Edit Product",100,40);
@@ -33,7 +32,7 @@ public class InventoryForm {
 
 
 
-        HBox fieldBox = new HBox(searchField,searchButton,createCategoryButton,addNewProductButton,editProductButton,deleteProductButton);
+        HBox fieldBox = new HBox(searchField,createCategoryButton,addNewProductButton,editProductButton,deleteProductButton);
         fieldBox.setBackground(new Background(new BackgroundFill(Color.WHITE,new CornerRadii(   15,15,15,15,false),null)));
         fieldBox.setAlignment(Pos.CENTER_LEFT);
         fieldBox.setPadding(new Insets(10));
@@ -62,12 +61,18 @@ public class InventoryForm {
         borderContainer.getChildren().add(SaleTable.saleTable());
 
 
+        searchField.textProperty().addListener(e->{
+            InventoryController.searchText(searchField.getText(),null,null,null);
+        });
+
         addNewProductButton.setOnAction(e->{
             if(borderContainer.getChildren().contains(productBox))
                 borderContainer.getChildren().remove(productBox);
             else borderContainer.getChildren().add(productBox);
             if(borderContainer.getChildren().contains(categoryBox))
                 borderContainer.getChildren().remove(categoryBox);
+            if(borderContainer.getChildren().contains(editProductBox[0]))
+                borderContainer.getChildren().remove(editProductBox[0]);
         });
         createCategoryButton.setOnAction(e->{
             if(borderContainer.getChildren().contains(categoryBox))
@@ -75,22 +80,19 @@ public class InventoryForm {
             else borderContainer.getChildren().add(categoryBox);
             if(borderContainer.getChildren().contains(productBox))
                 borderContainer.getChildren().remove(productBox);
+            if(borderContainer.getChildren().contains(editProductBox[0]))
+                borderContainer.getChildren().remove(editProductBox[0]);
         });
 
         editProductButton.setOnAction(e->{
-
             if(borderContainer.getChildren().contains(editProductBox[0])){
                 borderContainer.getChildren().remove(editProductBox[0]);
                 SaleTable.tableView.getSelectionModel().clearSelection();}
             else {
                 if (SaleTable.tableView.getSelectionModel().getSelectedItem() != null) {
                     Product product = SaleTable.tableView.getSelectionModel().getSelectedItem();
-                    try {
-                        editProductBox[0] = EditProductForm.editProductForm(product);
+                        editProductBox[0] = EditProductForm.editProductForm(product,borderContainer);
                         borderContainer.getChildren().add(editProductBox[0]);
-                    } catch (SQLException ex) {
-                        throw new RuntimeException(ex);
-                    }
                 }
             }
             if(borderContainer.getChildren().contains(productBox))
@@ -99,13 +101,10 @@ public class InventoryForm {
                 borderContainer.getChildren().remove(categoryBox);
         });
         deleteProductButton.setOnAction(e->{
-            System.out.println("Out");
             if (SaleTable.tableView.getSelectionModel().getSelectedItem() != null) {
                 try {
-                    System.out.println("Delete Button Pressed");
                     InventoryController.deleteProduct(SaleTable.tableView.getSelectionModel().getSelectedItem().getInventoryProductID());
                     InventoryController.setInventoryList();
-
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }

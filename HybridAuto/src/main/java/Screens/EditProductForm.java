@@ -6,6 +6,7 @@ import Functionality.Forms.InventoryController;
 import Styles.Buttons;
 import Styles.Fields;
 import Styles.Labels;
+import Utils.SaleTable;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
@@ -14,6 +15,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -22,7 +24,7 @@ import java.sql.SQLException;
 
 public class EditProductForm {
 
-    public static VBox editProductForm(Product product) throws SQLException {
+    public static VBox editProductForm(Product product, Pane borderContainer) {
 
 
 
@@ -34,12 +36,8 @@ public class EditProductForm {
         makeComboBox.setValue(car.getMake());
         makeComboBox.setText(car.getMake());
         makeComboBox.setOnAction(e-> {
-            try {
-                if(makeComboBox.getValue()!=null) {
-                    InventoryController.setModelComboList(makeComboBox.getValue().toString());
-                }
-            } catch (SQLException ex) {
-                throw new RuntimeException(ex);
+            if(makeComboBox.getValue()!=null) {
+                InventoryController.setModelComboList(makeComboBox.getValue().toString());
             }
         });
 
@@ -48,12 +46,8 @@ public class EditProductForm {
         modelComboBox.setValue(car.getModel());
         modelComboBox.setText(car.getModel());
         modelComboBox.setOnAction(e->{
-            try {
-                if(modelComboBox.getValue()!=null) {
-                    InventoryController.setYearComboList(modelComboBox.getValue().toString());
-                }
-            } catch (SQLException ex) {
-                throw new RuntimeException(ex);
+            if(modelComboBox.getValue()!=null) {
+                InventoryController.setYearComboList(modelComboBox.getValue().toString());
             }
         });
 
@@ -103,7 +97,8 @@ public class EditProductForm {
         MFXButton cancelButton = Buttons.FunctionButton_Border("Cancel",100,40);
 
         cancelButton.setOnAction(e->{
-
+            borderContainer.getChildren().remove(borderContainer.getChildren().size()-1);
+            SaleTable.tableView.getSelectionModel().clearSelection();
         });
 
         updateButton.setOnAction(e->{
@@ -118,7 +113,6 @@ public class EditProductForm {
                             !serialField.getText().isEmpty()&&
                             !serialField.getText().isBlank()
             ){
-                try {
                     InventoryController.updateProduct(
                             product.getInventoryProductID(),
                             makeComboBox.getValue().toString(),
@@ -129,17 +123,10 @@ public class EditProductForm {
                             costField.getText(),
                             serialField.getText(),
                             descriptionField.getText());
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
             }
 
             serialField.clear();
-            try {
-                InventoryController.setInventoryList();
-            } catch (SQLException ex) {
-                throw new RuntimeException(ex);
-            }
+            InventoryController.setInventoryList();
         });
 
         serialField.setOnKeyPressed(e->{
