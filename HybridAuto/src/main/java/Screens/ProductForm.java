@@ -4,24 +4,23 @@ import Functionality.Forms.InventoryController;
 import Styles.Buttons;
 import Styles.Fields;
 import Styles.Labels;
+import Utils.Formatter;
+import Utils.SaleTable;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
-import io.github.palexdev.materialfx.controls.MFXFilterComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.css.themes.Stylesheets;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.input.KeyCode;
+import javafx.scene.control.ComboBox;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
-import java.sql.SQLException;
-
 public class ProductForm {
 
-    public static VBox productForm() {
+    public static VBox productForm(Pane borderContainer) {
 
 
 
@@ -33,6 +32,8 @@ public class ProductForm {
                     InventoryController.setModelComboList(makeComboBox.getValue().toString());
                 }
         });
+
+
 
         MFXComboBox modelComboBox = new MFXComboBox(InventoryController.modelComboList);
         modelComboBox.setFloatingText("Model");
@@ -63,10 +64,12 @@ public class ProductForm {
 
 
         MFXTextField costField = Fields.textField("Cost",100,40);
-
-
+        costField.delegateSetTextFormatter(Formatter.digitFormatter());
+        costField.setTextLimit(10);
 
         MFXTextField descriptionField = Fields.textField("Description",300,40);
+        descriptionField.setTextLimit(200);
+
         HBox costCond = new HBox(typeComboBox,conditionComboBox,costField);
         costCond.setAlignment(Pos.CENTER);
         costCond.setPadding(new Insets(10));
@@ -74,9 +77,15 @@ public class ProductForm {
 
 
         MFXTextField serialField = Fields.textField("SerialNo.",300,40);
+        serialField.setTextLimit(50);
 
         MFXButton addButton = Buttons.FunctionButton("Add",100,40);
         MFXButton resetButton = Buttons.FunctionButton_Border("Reset",100,40);
+        MFXButton cancelButton = Buttons.FunctionButton_Border("Cancel",100,40);
+
+        cancelButton.setOnAction(e->{
+            borderContainer.getChildren().remove(borderContainer.getChildren().size()-1);
+        });
 
         resetButton.setOnAction(e->{
             makeComboBox.clear();
@@ -144,7 +153,7 @@ public class ProductForm {
 
 
 
-        HBox buttonBox = new HBox(addButton,resetButton);
+        HBox buttonBox = new HBox(addButton,resetButton,cancelButton);
         buttonBox.setAlignment(Pos.CENTER);
         buttonBox.setPadding(new Insets(10));
         buttonBox.setSpacing(10);

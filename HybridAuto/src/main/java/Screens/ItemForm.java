@@ -61,6 +61,11 @@ public class ItemForm {
         MFXButton addButton = Buttons.FunctionButton("Add", 100, 40);
         MFXButton searchButton = Buttons.FunctionButton_Border("Search", 100, 40);
 
+        addButton.setOnAction(e->{
+
+
+        });
+
 
         searchButton.setOnAction(e->{
             InventoryController.searchText(
@@ -69,6 +74,7 @@ public class ItemForm {
                     yearComboBox.getValue(),
                     serialField.getText());
         });
+
 
 
 
@@ -88,7 +94,7 @@ public class ItemForm {
         scrollPane.setFitToHeight(true);
         scrollPane.setFitToWidth(true);
 
-        VBox itemBox = new VBox(Labels.titleLabel("Items"), comboBoxContainer,serialField,scrollPane, buttonBox);
+        VBox itemBox = new VBox(Labels.titleLabel("Inventory"), comboBoxContainer,scrollPane, buttonBox);
         itemBox.setSpacing(10);
         itemBox.setAlignment(Pos.TOP_CENTER);
         itemBox.setMaxSize(300, 400);

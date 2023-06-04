@@ -54,6 +54,7 @@ public class MainScreen {
 
         //Set ViewPane
         viewPane.setLeft(selectionPane);
+        viewPane.setBottom(StatusScreen.statusScreen());
 
 
         //Buttons Functions

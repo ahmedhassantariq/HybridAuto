@@ -43,8 +43,8 @@ public class InventoryForm {
 
 
         StackPane borderContainer = new StackPane();
-        VBox productBox = ProductForm.productForm();
-        VBox categoryBox = CategoryForm.categoryForm();
+        VBox productBox = ProductForm.productForm(borderContainer);
+        VBox categoryBox = CategoryForm.categoryForm(borderContainer);
         final VBox[] editProductBox = {null};
 //                = EditProductForm.editProductForm(SaleTable.tableView.getSelectionModel().getSelectedItem());
 //        Platform.runLater(() -> {
@@ -62,7 +62,7 @@ public class InventoryForm {
 
 
         searchField.textProperty().addListener(e->{
-            InventoryController.searchText(searchField.getText(),null,null,null);
+            InventoryController.searchText("","","",searchField.getText());
         });
 
         addNewProductButton.setOnAction(e->{

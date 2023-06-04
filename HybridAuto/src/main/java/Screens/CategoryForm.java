@@ -4,51 +4,70 @@ import Styles.Buttons;
 import Styles.Fields;
 import Styles.Labels;
 import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXCheckbox;
-import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.css.themes.Stylesheets;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 
 public class CategoryForm {
 
-    public static VBox categoryForm(){
+    public static VBox categoryForm(Pane borderContainer){
         Label title = Labels.titleLabel("New Category");
 
         //Combo Boxes
-        MFXComboBox makeComboBox = new MFXComboBox();
-        makeComboBox.setText("Make");
-        MFXComboBox modelComboBox = new MFXComboBox();
-        modelComboBox.setText("Model");
-        MFXComboBox yearComboBox = new MFXComboBox();
-        yearComboBox.setText("Year");
-        MFXComboBox conditionComboBox = new MFXComboBox();
-        conditionComboBox.setText("Condition");
-        MFXComboBox typeComboBox = new MFXComboBox();
-        typeComboBox.setText("Product");
+        MFXTextField makeField = Fields.textField("Make",100,40);
+        MFXTextField modelField = Fields.textField("Model",100,40);
+        MFXTextField yearField = Fields.textField("Year",100,40);
+        MFXButton addCarButton = Buttons.FunctionButton("Add",100,40);
 
-        HBox comboBoxContainer = new HBox(makeComboBox,modelComboBox,yearComboBox);
-        comboBoxContainer.setAlignment(Pos.CENTER);
-        comboBoxContainer.setPadding(new Insets(10));
-        comboBoxContainer.setSpacing(10);
+        MFXTextField productField = Fields.textField("Product",100,40);
+        MFXButton addProductButton = Buttons.FunctionButton("Add",100,40);
+
+        addCarButton.setOnAction(e->{
+            if(!makeField.getText().isEmpty()&&
+                    !modelField.getText().isEmpty()&&
+                    !yearField.getText().isEmpty()
+            ){
+
+            }
+        });
+        addProductButton.setOnAction(e->{
+            if(!productField.getText().isEmpty()){
+
+            }
+        });
+
+        HBox carContainer = new HBox(makeField,modelField,yearField,addCarButton);
+        carContainer.setAlignment(Pos.CENTER);
+        carContainer.setPadding(new Insets(10));
+        carContainer.setSpacing(10);
+        HBox productContainer = new HBox(productField,addProductButton);
+        productContainer.setAlignment(Pos.CENTER);
+        productContainer.setPadding(new Insets(10));
+        productContainer.setSpacing(10);
 
 
+        MFXButton resetButton = Buttons.FunctionButton_Border("Reset",100,40);
+        MFXButton cancelButton = Buttons.FunctionButton_Border("Cancel",100,40);
 
-        MFXButton addButton = Buttons.FunctionButton("Add",100,40);
-        MFXButton cancelButton = Buttons.FunctionButton_Border("Reset",100,40);
-
-        HBox buttonBox = new HBox(addButton,cancelButton);
+        cancelButton.setOnAction(e->{
+            borderContainer.getChildren().remove(borderContainer.getChildren().size()-1);
+        });
+        resetButton.setOnAction(e->{
+            makeField.clear();
+            modelField.clear();
+            yearField.clear();
+            productField.clear();
+        });
+        HBox buttonBox = new HBox(resetButton,cancelButton);
         buttonBox.setAlignment(Pos.CENTER);
         buttonBox.setPadding(new Insets(10));
         buttonBox.setSpacing(10);
 
-        VBox categoryBox = new VBox(title,comboBoxContainer,typeComboBox,buttonBox);
+        VBox categoryBox = new VBox(title,carContainer,productContainer,buttonBox);
         categoryBox.setSpacing(10);
         categoryBox.setAlignment(Pos.TOP_CENTER);
         categoryBox.setMaxSize(600,300);
