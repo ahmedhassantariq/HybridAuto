@@ -42,6 +42,14 @@ public class ProductController<T> extends BaseController<T> {
                     inputs.get("model").<MFXFilterComboBox<String>>getInputControl()
                             .getItems().setAll(CarService.searchAllModelsWIthMake(s));
                 });
+        inputs.get("model").<MFXFilterComboBox<String>>getInputControl().selectedItemProperty().addListener(
+                (observableValue, s, t1) -> {
+                    inputs.get("year").<MFXFilterComboBox<String>>getInputControl()
+                            .getItems().setAll(CarService.searchAllYearsWithMakeModel(
+                                    inputs.get("make").getStringInput(),
+                                    s
+                            ));
+                });
     }
 
     @Override

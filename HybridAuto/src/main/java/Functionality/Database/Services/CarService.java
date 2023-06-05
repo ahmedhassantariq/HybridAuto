@@ -108,4 +108,15 @@ public class CarService {
             throw new RuntimeException(e);
         }
     }
+
+    public static List<String> searchAllYearsWithMakeModel(String make, String model) {
+        try {
+            return DatabaseQueryExecutor.executeGetWithCondition(
+                    DatabaseQueries.SEARCH_QUERIES.WITH_CONDITION.SEARCH_YEARS_WITH_MAKE_AND_MODEL,
+                    "string", make, model
+            );
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

@@ -16,7 +16,10 @@ import java.sql.SQLException;
 public class MainScreen {
     public static Parent mainScreen() throws SQLException, ClassNotFoundException {
 //        DbConnection dbConnection = new DbConnection();
+//        TODO: 6/5/2023 AhmedBranch has following uncommented
 //        DbConnection.connectDB();
+        // TODO: 6/5/2023 This is my version of connecting:
+//        Functionality.Database.DB.DatabaseConnector.connect();
 
         BorderPane viewPane = new BorderPane();
         viewPane.setPrefWidth(Constants.screenWidth);
@@ -67,8 +70,18 @@ public class MainScreen {
                 throw new RuntimeException(ex);
             }
         });
+        //TODO old ordersFormButton.setOnAction()
+//        ordersFormButton.setOnAction(e->{
+//            viewPane.setCenter(OrderForm.orderForm());
+//        });
+        //TODO Ahmed Branch ordersFormButton.setOnAction()
         ordersFormButton.setOnAction(e->{
-            viewPane.setCenter(OrderForm.orderForm());
+            //TODO commented Try-Catch in MainScreen's ordersFormButton
+//            try {
+                viewPane.setCenter(OrderForm.orderForm());
+//            } catch (SQLException ex) {
+//                throw new RuntimeException(ex);
+//            }
         });
 
         logoutButton.setOnMouseClicked(e->{

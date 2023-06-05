@@ -53,7 +53,8 @@ public class InventoryForm {
 //
 //        });
         borderContainer.getChildren().add(SaleTable.saleTable());
-        SaleTable.tableView.setItems(InventoryController.inventoryList);
+      //TODO not a todo, just highlighting - this SaleTable line isn't in Ahmed Branch's InventoryForm
+        //        SaleTable.tableView.setItems(InventoryController.inventoryList);
 //        DbConnection.getInventoryProducts();
         addNewProductButton.setOnAction(e->{
             if(borderContainer.getChildren().contains(productBox))

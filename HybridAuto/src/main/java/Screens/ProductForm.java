@@ -35,7 +35,6 @@ public class ProductForm {
             return productForm;
 
         MFXFilterComboBox<String> makeComboBox = productController.getInputMap().get("make").getInputControl();
-        makeComboBox.setOnAction(e-> System.out.println("Cliked"));
         makeComboBox.setFloatingText("Make");
 
         MFXFilterComboBox<String> modelComboBox = productController.getInputMap().get("model").getInputControl();
@@ -83,9 +82,10 @@ public class ProductForm {
             descriptionField.clear();
         });
 
-        addButton.setOnAction(e->{
+        addButton.setOnAction(e-> {
             // TODO: 6/4/2023 have a global class which has all controllers, then statically call this method
-            try{
+            try {
+                //todo, after insertion, refresh list if required
                 new ProductController<Product>().create();
             } catch (NullPointerException ex) {
                 //display some message
@@ -93,10 +93,9 @@ public class ProductForm {
 
 
             serialField.clear();
-                });
+        });
         serialField.setOnKeyPressed(e->{
             if(e.getCode()==KeyCode.ENTER)
-
                 serialField.clear();
         });
 
