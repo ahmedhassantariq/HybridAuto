@@ -1,6 +1,8 @@
 package Utils;
 
 import Entities.Product;
+import Functionality.Forms.Controllers.BaseController;
+import Functionality.Forms.Controllers.ProductController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Parent;
@@ -19,6 +21,7 @@ public class SaleTable {
         tableView = new TableView<>();
         tableView.setBorder(Border.EMPTY);
         tableView.setEditable(false);
+        tableView.setItems(BaseController.inventoryList);
 //        tableView.setBackground(new Background(new BackgroundFill(Color.BLUE,new CornerRadii(   15,15,15,15,false),null)));
 
         //Description Cell
@@ -63,14 +66,15 @@ public class SaleTable {
         scrollPane.setFitToHeight(true);
         scrollPane.setPrefWidth(tableView.getPrefWidth());
 
-        ObservableList<Product> observableList = FXCollections.observableArrayList(
-                new Product(null,null,null,null,null,null,null),
-                new Product(null,null,null,null,null,null,null),
-                new Product(null,null,null,null,null,null,null),
-                new Product(null,null,null,null,null,null,null)
-
-                );
-        tableView.setItems(observableList);
+        // TODO: 6/5/2023 Ahmed Branch does not have obs list in Sale Table
+//        ObservableList<Product> observableList = FXCollections.observableArrayList(
+//                new Product(null,null,null,null,null,null,null),
+//                new Product(null,null,null,null,null,null,null),
+//                new Product(null,null,null,null,null,null,null),
+//                new Product(null,null,null,null,null,null,null)
+//
+//                );
+//        tableView.setItems(observableList);
         return scrollPane;
     }
 }
