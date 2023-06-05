@@ -68,6 +68,9 @@ public class DatabaseQueries {
             public static final String SEARCH_YEARS_WITH_MAKE_AND_MODEL = queryGeneratorSearch(
                     "tbl_car", ArrayUtils.from("*"),"make", "model"
             );
+            public static final String SEARCH_YEARS_WITH_MODEL = queryGeneratorSearch(
+                    "tbl_car", ArrayUtils.from("*"),"make"
+            );
 
 
             private static String queryGeneratorSearch(String tableName, String[] fieldNamesToGet, String... fieldsInWhereClause) {

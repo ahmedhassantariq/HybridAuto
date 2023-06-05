@@ -10,6 +10,7 @@ import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.sql.SQLException;
 import java.util.Map;
 
 // TODO: 6/4/2023 auto fill at Make + use obs list
@@ -57,4 +58,39 @@ public abstract class BaseController<T> {
         return new InputControlWrapper(mtf);
     }
 
+
+    // TODO: 6/5/2023 Adapted From Ahmed Branch
+
+    //Populates InventoryTable ObservableList from DB
+    public static void setInventoryList() throws SQLException {
+        inventoryList.clear();
+        ProductService.searchAllProducts();
+    }
+    public static ObservableList getInventoryList() throws SQLException {
+        inventoryList.clear();
+        ProductService.searchAllProducts();
+        return inventoryList;
+    }
+
+    //Populates makeComboBox ObservableList from DB
+    public static void setMakeComboList() throws SQLException {
+        makeList.clear();
+        CarService.searchAllMakes();
+    }
+    //Populates modelComboBox ObservableList from DB
+    public static void setModelComboList(String make) throws SQLException {
+        modelList.clear();
+        CarService.searchAllModelsWIthMake(make);
+    }
+
+    //Populates yearComboBox ObservableList from DB
+    public static void setYearComboList(String model) throws SQLException {
+        yearList.clear();
+        CarService.searchAllYearsWithModel(model);
+    }
+
+    //Populates productComboBox ObservableList from DB
+    public static void setProductComboList() throws SQLException {
+        ProductService.searchAllProducts();
+    }
 }

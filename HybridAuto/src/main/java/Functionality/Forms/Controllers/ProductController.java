@@ -71,7 +71,7 @@ public class ProductController<T> extends BaseController<T> {
 //        InventoryService.addProduct(p);
 //
 
-        Car c = CarService.searchCar(inputs.get("make").getStringInput(), inputs.get("model").getStringInput(),
+        Car c = CarService.searchCarWithMakeModelYear(inputs.get("make").getStringInput(), inputs.get("model").getStringInput(),
                 inputs.get("year").getStringInput());
         int ipid = ProductService.searchMaxInventoryProductId()+1;
 
