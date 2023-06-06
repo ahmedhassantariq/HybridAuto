@@ -1,19 +1,17 @@
 package Screens;
 
-import Functionality.Forms.InventoryController;
+import Functionality.Forms.OrdersController;
 import Styles.Buttons;
 import Styles.Fields;
 import Styles.Labels;
 import Utils.Formatter;
-import Utils.OrderTable;
-import Utils.SaleTable;
+import Utils.CartTable;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.css.themes.Stylesheets;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
@@ -54,7 +52,7 @@ public class CustomerForm {
         MFXButton removeProductButton = Buttons.FunctionButton_Border("Remove", 100, 40);
 
         removeProductButton.setOnAction(e->{
-
+            OrdersController.removeOrderItem(CartTable.cartTable.getSelectionModel().getSelectedItem());
         });
 
         HBox buttonBox = new HBox(confirmButton, removeProductButton);
@@ -62,10 +60,10 @@ public class CustomerForm {
         buttonBox.setPadding(new Insets(10));
         buttonBox.setSpacing(10);
 
-        VBox cutomerBox = new VBox(Labels.titleLabel("Check Out Form"), customerContainer, OrderTable.orderTable(), buttonBox);
+        VBox cutomerBox = new VBox(Labels.titleLabel("Customer Cart"), customerContainer, CartTable.orderTable(), buttonBox);
         cutomerBox.setSpacing(10);
         cutomerBox.setAlignment(Pos.TOP_CENTER);
-        cutomerBox.setMaxSize(300, 400);
+        cutomerBox.setPrefSize(300, 400);
         cutomerBox.setBackground(new Background(new BackgroundFill(Color.WHITE, new CornerRadii(15, 15, 15, 15, false), null)));
 //        productBox.setBorder(new Border(new BorderStroke(Color.web("02557a"), BorderStrokeStyle.SOLID, new CornerRadii(15, 15, 15, 15, false), BorderStroke.THICK)));
 

@@ -1,40 +1,32 @@
 package Screens;
 
-import Entities.Car;
-import Entities.Product;
+import Entities.Stock;
 import Functionality.Forms.InventoryController;
 import Styles.Buttons;
 import Styles.Fields;
 import Styles.Labels;
-import Utils.SaleTable;
+import Utils.InventoryTable;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
-import io.github.palexdev.materialfx.css.themes.Stylesheets;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
-import java.sql.SQLException;
-
 public class EditProductForm {
 
-    public static VBox editProductForm(Product product, Pane borderContainer) {
-
-
+    public static VBox editProductForm(Stock stock, Pane borderContainer) {
 
 
         InventoryController.setMakeComboList();
-        Car car = InventoryController.getCar((product.getCarID()));
         MFXComboBox makeComboBox = new MFXComboBox(InventoryController.makeComboList);
         makeComboBox.setFloatingText("Make");
-        makeComboBox.setValue(car.getMake());
-        makeComboBox.setText(car.getMake());
+        makeComboBox.setValue(stock.getMake());
+        makeComboBox.setText(stock.getMake());
         makeComboBox.setOnAction(e-> {
             if(makeComboBox.getValue()!=null) {
                 InventoryController.setModelComboList(makeComboBox.getValue().toString());
@@ -43,8 +35,8 @@ public class EditProductForm {
 
         MFXComboBox modelComboBox = new MFXComboBox(InventoryController.modelComboList);
         modelComboBox.setFloatingText("Model");
-        modelComboBox.setValue(car.getModel());
-        modelComboBox.setText(car.getModel());
+        modelComboBox.setValue(stock.getModel());
+        modelComboBox.setText(stock.getModel());
         modelComboBox.setOnAction(e->{
             if(modelComboBox.getValue()!=null) {
                 InventoryController.setYearComboList(modelComboBox.getValue().toString());
@@ -54,20 +46,20 @@ public class EditProductForm {
 
         MFXComboBox yearComboBox = new MFXComboBox(InventoryController.yearComboList);
         yearComboBox.setFloatingText("Year");
-        yearComboBox.setValue(car.getYear());
-        yearComboBox.setText(car.getYear());
+        yearComboBox.setValue(stock.getYear());
+        yearComboBox.setText(stock.getYear());
 
         ObservableList<String> conditionList = FXCollections.observableArrayList("New","Used");
         MFXComboBox conditionComboBox = new MFXComboBox(conditionList);
         conditionComboBox.setFloatingText("Condition");
-        conditionComboBox.setValue(product.getCondition());
-        conditionComboBox.setText(product.getCondition());
+        conditionComboBox.setValue(stock.getCondition());
+        conditionComboBox.setText(stock.getCondition());
 
-        InventoryController.setProductComboList();
+        InventoryController.setProductComboList(stock.getMake(), stock.getModel(),stock.getYear());
         MFXComboBox typeComboBox = new MFXComboBox(InventoryController.productComboList);
         typeComboBox.setFloatingText("Product");
-        typeComboBox.setValue(product.getProductID());
-        typeComboBox.setText(product.getProductID());
+        typeComboBox.setValue(stock.getProductCategory());
+        typeComboBox.setText(stock.getProductCategory());
 
 
         HBox comboBoxContainer = new HBox(makeComboBox,modelComboBox,yearComboBox);
@@ -78,11 +70,11 @@ public class EditProductForm {
 
 
         MFXTextField costField = Fields.textField("Cost",100,40);
-        costField.setText(product.getCost());
+        costField.setText(stock.getCost());
 
 
-        MFXTextField descriptionField = Fields.textField("Description",300,40);
-        descriptionField.setText(product.getDescription());
+        MFXTextField descriptionField = Fields.textField("Comments",300,40);
+        descriptionField.setText(stock.getComments());
         HBox costCond = new HBox(typeComboBox,conditionComboBox,costField);
         costCond.setAlignment(Pos.CENTER);
         costCond.setPadding(new Insets(10));
@@ -90,7 +82,7 @@ public class EditProductForm {
 
 
         MFXTextField serialField = Fields.textField("SerialNo.",300,40);
-        serialField.setText(product.getSerialNumber());
+        serialField.setText(stock.getSerialNumber());
 
 
         MFXButton updateButton = Buttons.FunctionButton("Update",100,40);
@@ -98,12 +90,12 @@ public class EditProductForm {
 
         cancelButton.setOnAction(e->{
             borderContainer.getChildren().remove(borderContainer.getChildren().size()-1);
-            SaleTable.tableView.getSelectionModel().clearSelection();
+            InventoryTable.inventoryTable.getSelectionModel().clearSelection();
         });
 
         updateButton.setOnAction(e->{
             if(
-                    product.getInventoryProductID()!=null&&
+                    stock.getStockID()!=null&&
                     makeComboBox.getValue()!=null&&
                             modelComboBox.getValue()!=null&&
                             yearComboBox.getValue()!=null&&
@@ -114,7 +106,7 @@ public class EditProductForm {
                             !serialField.getText().isBlank()
             ){
                     InventoryController.updateProduct(
-                            product.getInventoryProductID(),
+                            stock.getStockID(),
                             makeComboBox.getValue().toString(),
                             modelComboBox.getValue().toString(),
                             yearComboBox.getValue().toString(),
@@ -147,8 +139,8 @@ public class EditProductForm {
         productBox.setMaxSize(600,300);
         productBox.setBackground(new Background(new BackgroundFill(Color.WHITE,new CornerRadii(15,15,15,15,false),null)));
         productBox.setBorder(new Border(new BorderStroke(Color.web("02557a"),BorderStrokeStyle.SOLID,new CornerRadii(15,15,15,15,false), BorderStroke.THICK)));
-
-        productBox.getStylesheets().add(Stylesheets.COMBO_BOX.loadTheme());
+//
+//        productBox.getStylesheets().add(Stylesheets.COMBO_BOX.loadTheme());
         return productBox;
 
     }

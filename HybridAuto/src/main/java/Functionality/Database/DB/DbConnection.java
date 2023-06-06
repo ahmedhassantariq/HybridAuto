@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DbConnection {
-    private static final String dbUrl="jdbc:sqlserver://DESKTOP-919RBUB:1433;database=hybrid_autotech;encrypt=false;integratedSecurity=true;";
+    private static final String dbUrl="jdbc:sqlserver://DESKTOP-919RBUB:1433;database=hybrid_autoDB;encrypt=false;integratedSecurity=true;";
     private static final String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
     private static final ConnectionWrapper connWrapper;
     private static ResultSet resultSet;
@@ -69,7 +69,11 @@ public class DbConnection {
     }
 
     public static String prepareSearchQuery(String make, String model, String year, String serial) {
-        StringBuilder builder = new StringBuilder("select * from inventory i inner join car c on c.car_ID = i.car_ID where i.display = 1 ");
+        StringBuilder builder = new StringBuilder("select * from stock s " +
+                "inner join Product p on " +
+                "s.product_ID = p.product_ID " +
+                "inner join Car c on " +
+                "p.car_ID = c.car_ID where display = 1 ");
         if (ObjectUtils.isNotEmpty(make)) {
             builder.append(" AND c.car_make like CONCAT('%',?,'%')");
         }
@@ -77,10 +81,10 @@ public class DbConnection {
             builder.append(" AND c.car_model like CONCAT('%',?,'%')");
         }
         if (ObjectUtils.isNotEmpty(year)) {
-            builder.append(" AND c.model_year like CONCAT('%',?,'%')");
+            builder.append(" AND c.car_year like CONCAT('%',?,'%')");
         }
         if (ObjectUtils.isNotEmpty(serial)) {
-            builder.append(" AND i.serial_number like CONCAT('%',?,'%')");
+            builder.append(" AND s.serial_number like CONCAT('%',?,'%')");
         }
         return builder.toString();
     }

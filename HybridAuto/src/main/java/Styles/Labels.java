@@ -17,4 +17,11 @@ public class Labels {
         label.setFont(Font.font("Impact",24));
         return label;
     }
+
+    public static Label checkOutLabel(String title){
+        Label label = new Label(title);
+        label.setPadding(new Insets(10));
+        label.setFont(Font.font("Impact",18));
+        return label;
+    }
 }

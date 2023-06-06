@@ -1,21 +1,16 @@
 package Functionality.Forms;
 
 import Entities.Car;
-import Entities.Category;
-import Entities.Product;
+import Entities.Stock;
 import Functionality.Database.InventoryService;
-import io.github.palexdev.materialfx.controls.MFXComboBox;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.Node;
-import javafx.scene.control.ComboBox;
 
-import java.lang.reflect.Field;
 import java.sql.SQLException;
 
 public class InventoryController {
 
-    public static ObservableList<Product> inventoryList = FXCollections.observableArrayList();
+    public static ObservableList<Stock> inventoryList = FXCollections.observableArrayList();
     public static ObservableList<Car> carList = FXCollections.observableArrayList();
     public static ObservableList<String> makeComboList = FXCollections.observableArrayList();
     public static ObservableList<String> modelComboList = FXCollections.observableArrayList();
@@ -71,50 +66,39 @@ public class InventoryController {
     }
 
     //Populates productComboBox ObservableList from DB
-    public static void setProductComboList() {
+    public static void setProductComboList(String make,String model,String year ) {
+        productComboList.clear();
         try {
-            InventoryService.getProductList();
+            InventoryService.getProductList(make,model,year);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
     //Insert product into DB from New Product Form
-    public static void insertProduct(String make,String model,String year,String type,String condition,String cost, String serial,String description) {
+    public static void insertProduct(Stock stock) {
         try{
-        String carID = InventoryService.getCarID(make,model,year);
-            String inventoryProductID = String.valueOf(InventoryService.getNewInventoryProductID());
-            Product product = new Product(inventoryProductID, carID, type, serial, cost, description, condition);
-            InventoryService.insertInventoryProduct(product);
+            InventoryService.insertInventoryProduct(stock);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
-    public static void updateProduct(String inventoryProductID,String make,String model,String year,String type,String condition,String cost, String serial,String description){
+    public static void updateProduct(String stockID,String make,String model,String year,String type,String condition,String cost, String serial,String comments){
         try{
-        String carID = InventoryService.getCarID(make,model,year);
-        Product product = new Product(inventoryProductID,carID,type,serial,cost,description,condition);
-
-            InventoryService.updateInventoryProduct(product);
+        Stock stock = new Stock(stockID,make,model,year,type,serial,cost,comments,condition);
+            InventoryService.updateInventoryProduct(stock);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
-    public static void deleteProduct(String inventoryProductID) throws SQLException {
+    public static void deleteProduct(String stockID) throws SQLException {
         try {
-            InventoryService.deleteInventoryProduct(inventoryProductID);
+            InventoryService.deleteInventoryProduct(stockID);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static Car getCar(String carID) {
-        try {
-            return InventoryService.getCar(carID);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     public static void searchText(Object make,Object model,Object year,Object serial) {
         inventoryList.clear();
@@ -129,6 +113,21 @@ public class InventoryController {
             if(serial!=null)
                 s=serial.toString();
             InventoryService.searchText(m,mo,y,s);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void insertCategory(Stock category){
+        try{
+            if(InventoryService.getCarID(category.getMake(),category.getModel(),category.getYear())==null) {
+                InventoryService.insertCar(category.getMake(),category.getModel(),category.getYear());
+                String carID = InventoryService.getCarID(category.getMake(),category.getModel(),category.getYear());
+                InventoryService.insertCategory(carID,category);
+            }else {
+                String carID = InventoryService.getCarID(category.getMake(),category.getModel(),category.getYear());
+                InventoryService.insertCategory(carID,category);
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

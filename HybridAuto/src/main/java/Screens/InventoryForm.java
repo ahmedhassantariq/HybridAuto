@@ -1,15 +1,12 @@
 package Screens;
 
-import Entities.Product;
-import Functionality.Database.DB.DbConnection;
-import Functionality.Database.InventoryService;
+import Entities.Stock;
 import Functionality.Forms.InventoryController;
 import Styles.Buttons;
 import Styles.Fields;
 import Styles.Labels;
-import Utils.SaleTable;
+import Utils.InventoryTable;
 import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXTableView;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.css.themes.Stylesheets;
 import javafx.application.Platform;
@@ -58,7 +55,7 @@ public class InventoryForm {
 //            borderContainer.getChildren().add(tableView);
 //
 //        });
-        borderContainer.getChildren().add(SaleTable.saleTable());
+        borderContainer.getChildren().add(InventoryTable.saleTable());
 
 
         searchField.textProperty().addListener(e->{
@@ -87,11 +84,11 @@ public class InventoryForm {
         editProductButton.setOnAction(e->{
             if(borderContainer.getChildren().contains(editProductBox[0])){
                 borderContainer.getChildren().remove(editProductBox[0]);
-                SaleTable.tableView.getSelectionModel().clearSelection();}
+                InventoryTable.inventoryTable.getSelectionModel().clearSelection();}
             else {
-                if (SaleTable.tableView.getSelectionModel().getSelectedItem() != null) {
-                    Product product = SaleTable.tableView.getSelectionModel().getSelectedItem();
-                        editProductBox[0] = EditProductForm.editProductForm(product,borderContainer);
+                if (InventoryTable.inventoryTable.getSelectionModel().getSelectedItem() != null) {
+                    Stock stock = InventoryTable.inventoryTable.getSelectionModel().getSelectedItem();
+                        editProductBox[0] = EditProductForm.editProductForm(stock,borderContainer);
                         borderContainer.getChildren().add(editProductBox[0]);
                 }
             }
@@ -101,14 +98,14 @@ public class InventoryForm {
                 borderContainer.getChildren().remove(categoryBox);
         });
         deleteProductButton.setOnAction(e->{
-            if (SaleTable.tableView.getSelectionModel().getSelectedItem() != null) {
+            if (InventoryTable.inventoryTable.getSelectionModel().getSelectedItem() != null) {
                 try {
-                    InventoryController.deleteProduct(SaleTable.tableView.getSelectionModel().getSelectedItem().getInventoryProductID());
+                    InventoryController.deleteProduct(InventoryTable.inventoryTable.getSelectionModel().getSelectedItem().getStockID());
                     InventoryController.setInventoryList();
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
-                SaleTable.tableView.getSelectionModel().clearSelection();
+                InventoryTable.inventoryTable.getSelectionModel().clearSelection();
             }
         });
 

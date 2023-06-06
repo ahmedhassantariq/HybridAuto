@@ -20,6 +20,8 @@ public class OrderForm {
 
         MFXButton newOrderButton = Buttons.FunctionButton("New Order ",150,40);
 
+
+
         HBox fieldBox = new HBox(newOrderButton);
         fieldBox.setBackground(new Background(new BackgroundFill(Color.WHITE,new CornerRadii(   15,15,15,15,false),null)));
         fieldBox.setAlignment(Pos.CENTER_LEFT);
@@ -28,7 +30,7 @@ public class OrderForm {
 
 
 
-        HBox customerOrderBox = new HBox(CustomerForm.customerForm(), ItemForm.newOrderForm());
+        HBox customerOrderBox = new HBox(ItemForm.newOrderForm(),CustomerForm.customerForm(),CheckOutForm.checkOutForm());
         customerOrderBox.setPadding(new Insets(10));
         customerOrderBox.setSpacing(10);
 

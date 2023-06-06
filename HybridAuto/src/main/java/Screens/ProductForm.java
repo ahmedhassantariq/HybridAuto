@@ -1,11 +1,11 @@
 package Screens;
 
+import Entities.Stock;
 import Functionality.Forms.InventoryController;
 import Styles.Buttons;
 import Styles.Fields;
 import Styles.Labels;
 import Utils.Formatter;
-import Utils.SaleTable;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
@@ -14,7 +14,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.ComboBox;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
@@ -46,13 +45,21 @@ public class ProductForm {
 
         MFXComboBox yearComboBox = new MFXComboBox(InventoryController.yearComboList);
         yearComboBox.setFloatingText("Year");
+        yearComboBox.setOnAction(e->{
+            if(makeComboBox.getValue()!=null&&modelComboBox.getValue()!=null&&yearComboBox.getValue()!=null) {
+                InventoryController.setProductComboList(makeComboBox.getValue().toString(),
+                        modelComboBox.getValue().toString(),
+                        yearComboBox.getValue().toString());
+            }
+        });
+
 
         ObservableList<String> conditionList = FXCollections.observableArrayList("New","Used");
         MFXComboBox conditionComboBox = new MFXComboBox(conditionList);
         conditionComboBox.setFloatingText("Condition");
 
 
-        InventoryController.setProductComboList();
+
         MFXComboBox typeComboBox = new MFXComboBox(InventoryController.productComboList);
         typeComboBox.setFloatingText("Product");
 
@@ -67,7 +74,7 @@ public class ProductForm {
         costField.delegateSetTextFormatter(Formatter.digitFormatter());
         costField.setTextLimit(10);
 
-        MFXTextField descriptionField = Fields.textField("Description",300,40);
+        MFXTextField descriptionField = Fields.textField("Comments",300,40);
         descriptionField.setTextLimit(200);
 
         HBox costCond = new HBox(typeComboBox,conditionComboBox,costField);
@@ -109,15 +116,16 @@ public class ProductForm {
                             !serialField.getText().isEmpty()&
                             !serialField.getText().isBlank()
             ){
-                InventoryController.insertProduct(
+                InventoryController.insertProduct(new Stock(
+                        null,
                         makeComboBox.getValue().toString(),
                         modelComboBox.getValue().toString(),
                         yearComboBox.getValue().toString(),
                         typeComboBox.getValue().toString(),
-                        conditionComboBox.getValue().toString(),
-                        costField.getText(),
                         serialField.getText(),
-                        descriptionField.getText());
+                        costField.getText(),
+                        descriptionField.getText(),
+                        conditionComboBox.getValue().toString()));
             }
 
             serialField.clear();
@@ -135,15 +143,16 @@ public class ProductForm {
                             !serialField.getText().isEmpty()&
                             !serialField.getText().isBlank()
             ){
-                    InventoryController.insertProduct(
-                            makeComboBox.getValue().toString(),
-                            modelComboBox.getValue().toString(),
-                            yearComboBox.getValue().toString(),
-                            typeComboBox.getValue().toString(),
-                            conditionComboBox.getValue().toString(),
-                            costField.getText(),
-                            serialField.getText(),
-                            descriptionField.getText());
+                InventoryController.insertProduct(new Stock(
+                        null,
+                        makeComboBox.getValue().toString(),
+                        modelComboBox.getValue().toString(),
+                        yearComboBox.getValue().toString(),
+                        typeComboBox.getValue().toString(),
+                        serialField.getText(),
+                        costField.getText(),
+                        descriptionField.getText(),
+                        conditionComboBox.getValue().toString()));
             }
 
             serialField.clear();

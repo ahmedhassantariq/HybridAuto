@@ -1,5 +1,8 @@
 package Screens;
 
+import Entities.Car;
+import Entities.Stock;
+import Functionality.Forms.InventoryController;
 import Styles.Buttons;
 import Styles.Fields;
 import Styles.Labels;
@@ -21,30 +24,24 @@ public class CategoryForm {
         MFXTextField makeField = Fields.textField("Make",100,40);
         MFXTextField modelField = Fields.textField("Model",100,40);
         MFXTextField yearField = Fields.textField("Year",100,40);
-        MFXButton addCarButton = Buttons.FunctionButton("Add",100,40);
+        MFXTextField categoryField = Fields.textField("Product",100,40);
+        MFXButton addCategoryButton = Buttons.FunctionButton("Add",100,40);
 
-        MFXTextField productField = Fields.textField("Product",100,40);
-        MFXButton addProductButton = Buttons.FunctionButton("Add",100,40);
-
-        addCarButton.setOnAction(e->{
+        addCategoryButton.setOnAction(e->{
             if(!makeField.getText().isEmpty()&&
                     !modelField.getText().isEmpty()&&
-                    !yearField.getText().isEmpty()
+                    !yearField.getText().isEmpty()&&
+                    !categoryField.getText().isEmpty()
             ){
-
-            }
-        });
-        addProductButton.setOnAction(e->{
-            if(!productField.getText().isEmpty()){
-
+                InventoryController.insertCategory(new Stock(null,makeField.getText(),modelField.getText(),yearField.getText(),categoryField.getText(),null,null,null,null));
             }
         });
 
-        HBox carContainer = new HBox(makeField,modelField,yearField,addCarButton);
+        HBox carContainer = new HBox(makeField,modelField,yearField);
         carContainer.setAlignment(Pos.CENTER);
         carContainer.setPadding(new Insets(10));
         carContainer.setSpacing(10);
-        HBox productContainer = new HBox(productField,addProductButton);
+        HBox productContainer = new HBox(categoryField);
         productContainer.setAlignment(Pos.CENTER);
         productContainer.setPadding(new Insets(10));
         productContainer.setSpacing(10);
@@ -60,9 +57,9 @@ public class CategoryForm {
             makeField.clear();
             modelField.clear();
             yearField.clear();
-            productField.clear();
+            categoryField.clear();
         });
-        HBox buttonBox = new HBox(resetButton,cancelButton);
+        HBox buttonBox = new HBox(addCategoryButton,resetButton,cancelButton);
         buttonBox.setAlignment(Pos.CENTER);
         buttonBox.setPadding(new Insets(10));
         buttonBox.setSpacing(10);

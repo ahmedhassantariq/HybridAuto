@@ -11,7 +11,7 @@ import javafx.scene.layout.Border;
 
 import java.sql.SQLException;
 
-public class OrderTable {
+public class InventoryTable {
     public static TableView<Stock> inventoryTable;
 
     public static Parent saleTable() throws SQLException {
@@ -20,7 +20,17 @@ public class OrderTable {
         inventoryTable.setBorder(Border.EMPTY);
         inventoryTable.setEditable(false);
         inventoryTable.setItems(InventoryController.getInventoryList());
+//        tableView.setBackground(new Background(new BackgroundFill(Color.BLUE,new CornerRadii(   15,15,15,15,false),null)));
 
+        //Description Cell
+
+        TableColumn<Stock, String> stockID = new TableColumn("Stock-ID");
+        stockID.setCellValueFactory(cellData -> cellData.getValue().stockIDProperty());
+        stockID.setMinWidth(50);
+        stockID.setResizable(false);
+//        inventoryProductIDCol.setStyle("-fx-background-color: #02557a");
+
+        //Type Cell
         TableColumn<Stock,String> makeCol = new TableColumn<>("Make");
         makeCol.setCellValueFactory(cellData -> cellData.getValue().getMakeProperty());
         makeCol.setMinWidth(50);
@@ -37,6 +47,7 @@ public class OrderTable {
         categoryCol.setCellValueFactory(cellData -> cellData.getValue().productCategoryProperty());
         categoryCol.setMinWidth(50);
 
+        //Amount Cell
         TableColumn<Stock,String> serialNumberCol = new TableColumn<>("Serial");
         serialNumberCol.setCellValueFactory(cellData -> cellData.getValue().serialNumberProperty());
         serialNumberCol.setMinWidth(50);
@@ -47,10 +58,19 @@ public class OrderTable {
 
         TableColumn<Stock,String> conditionCol = new TableColumn<>("Condition");
         conditionCol.setCellValueFactory(cellData -> cellData.getValue().conditionProperty());
-        conditionCol.setMinWidth(30);
+        conditionCol.setMinWidth(50);
+
+
+        TableColumn<Stock,String> commentsCol = new TableColumn<>("Comments");
+        commentsCol.setCellValueFactory(cellData -> cellData.getValue().commentsProperty());
+        commentsCol.setMinWidth(50);
+
+
+
+
 
         inventoryTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        inventoryTable.getColumns().addAll(makeCol,modelCol,yearCol,categoryCol,serialNumberCol,costCol,conditionCol);
+        inventoryTable.getColumns().addAll(stockID,makeCol,modelCol,yearCol,categoryCol,serialNumberCol,costCol,conditionCol,commentsCol);
 
 
 
