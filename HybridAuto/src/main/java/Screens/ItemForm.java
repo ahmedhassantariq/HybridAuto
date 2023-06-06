@@ -46,9 +46,6 @@ public class ItemForm {
 
 
 
-
-
-
         HBox comboBoxContainer = new HBox(makeComboBox, modelComboBox, serialField);
         comboBoxContainer.setAlignment(Pos.CENTER);
         comboBoxContainer.setPadding(new Insets(10));
@@ -77,15 +74,6 @@ public class ItemForm {
                     serialField.getText());
         });
 
-
-
-
-
-
-
-
-
-
         HBox buttonBox = new HBox(addButton, searchButton);
         buttonBox.setAlignment(Pos.CENTER);
         buttonBox.setPadding(new Insets(10));
@@ -97,7 +85,7 @@ public class ItemForm {
         itemBox.setAlignment(Pos.TOP_CENTER);
         itemBox.setPrefSize(300, 400);
         itemBox.setBackground(new Background(new BackgroundFill(Color.WHITE, new CornerRadii(15, 15, 15, 15, false), null)));
-//        productBox.setBorder(new Border(new BorderStroke(Color.web("02557a"), BorderStrokeStyle.SOLID, new CornerRadii(15, 15, 15, 15, false), BorderStroke.THICK)));
+//      productBox.setBorder(new Border(new BorderStroke(Color.web("02557a"), BorderStrokeStyle.SOLID, new CornerRadii(15, 15, 15, 15, false), BorderStroke.THICK)));
 
         itemBox.getStylesheets().add(Stylesheets.COMBO_BOX.loadTheme());
         return itemBox;

@@ -1,5 +1,6 @@
 package Screens;
 
+import Functionality.Forms.OrdersController;
 import Styles.Buttons;
 import Styles.Fields;
 import Styles.Labels;
@@ -19,10 +20,18 @@ public class OrderForm {
 
 
         MFXButton newOrderButton = Buttons.FunctionButton("New Order ",150,40);
+        MFXButton previousOrderButton = Buttons.FunctionButton("Previous Order ",150,40);
 
 
+        newOrderButton.setOnAction(e->{
+            OrdersController.pushOrder();
+        });
+        previousOrderButton.setOnAction(e->{
+            OrdersController.popOrder();
+        });
 
-        HBox fieldBox = new HBox(newOrderButton);
+
+        HBox fieldBox = new HBox(newOrderButton,previousOrderButton);
         fieldBox.setBackground(new Background(new BackgroundFill(Color.WHITE,new CornerRadii(   15,15,15,15,false),null)));
         fieldBox.setAlignment(Pos.CENTER_LEFT);
         fieldBox.setPadding(new Insets(10));
@@ -39,7 +48,6 @@ public class OrderForm {
         mainPane.setPadding(new Insets(10,0,0,0));
         mainPane.setSpacing(10);
         mainPane.setBackground(new Background(new BackgroundFill(Color.web("#e8e8e8"),new CornerRadii(0,0,0,0,false),null)));
-
         return mainPane;
 
     }
