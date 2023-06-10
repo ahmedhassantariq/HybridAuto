@@ -19,7 +19,7 @@ public class MainScreen {
 //        TODO: 6/5/2023 AhmedBranch has following uncommented
 //        DbConnection.connectDB();
         // TODO: 6/5/2023 This is my version of connecting:
-//        Functionality.Database.DB.DatabaseConnector.connect();
+        Functionality.Database.DB.DatabaseConnector.connect();
 
         BorderPane viewPane = new BorderPane();
         viewPane.setPrefWidth(Constants.screenWidth);

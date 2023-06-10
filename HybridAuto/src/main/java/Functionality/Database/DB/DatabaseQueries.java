@@ -6,8 +6,8 @@ public class DatabaseQueries {
     public static class SEARCH_QUERIES {
         public static final String GET_ALL_DISTINCT_CAR_MODELS = queryGeneratorDistinct("model", "tbl_car");
         public static final String GET_ALL_DISTINCT_CAR_MAKES = queryGeneratorDistinct("make", "tbl_car");
-        public static final String GET_ALL_DISTINCT_CAR_YEARS = queryGeneratorDistinct("year", "tbl_car");
-        public static final String GET_ALL_DISTINCT_PRODUCT_TYPES = queryGeneratorDistinct("type", "tbl_product");
+        public static final String GET_ALL_DISTINCT_CAR_YEARS = queryGeneratorDistinct("[year]", "tbl_car");
+        public static final String GET_ALL_DISTINCT_PRODUCT_TYPES = queryGeneratorDistinct("type", "tbl_category");
         public static final String GET_ALL_DISTINCT_PRODUCT_CONDITION = queryGeneratorDistinct("condition", "tbl_product");
 
 
@@ -49,40 +49,42 @@ public class DatabaseQueries {
 
         public static class WITH_CONDITION {
             public static final String SEARCH_PRODUCT_WITH_SERIAL = queryGeneratorSearch(
-                    "tbl_product", ArrayUtils.from("*"), "serialNumber"
+                    "tbl_product", ArrayUtils.fromString("*"), "serialNumber"
             );
             public static final String SEARCH_CAR_WITH_ID = queryGeneratorSearch(
-                    "tbl_car", ArrayUtils.from("*"), "carId"
+                    "tbl_car", ArrayUtils.fromString("*"), "carId"
             );
             public static final String SEARCH_CAR_WITH_MAKE_MODEL_AND_YEAR = queryGeneratorSearch(
-                    "tbl_car", ArrayUtils.from("*"), "make", "model", "year"
+                    "tbl_car", ArrayUtils.fromString("*"), "make", "model", "[year]"
             );
             public static final String SEARCH_CATEGORY_WITH_TYPE_AND_CONDITION = queryGeneratorSearch(
-                    "tbl_category", ArrayUtils.from("*"), "type", "condition"
+                    "tbl_category", ArrayUtils.fromString("*"), "type", "condition"
             );
 
 
             public static final String SEARCH_MODELS_WITH_MAKE = queryGeneratorSearch(
-                    "tbl_car", ArrayUtils.from("*"),"make"
+                    "tbl_car", ArrayUtils.fromString("[model]"),"make"
             );
             public static final String SEARCH_YEARS_WITH_MAKE_AND_MODEL = queryGeneratorSearch(
-                    "tbl_car", ArrayUtils.from("*"),"make", "model"
+                    "tbl_car", ArrayUtils.fromString("[year]"),"make", "model"
             );
             public static final String SEARCH_YEARS_WITH_MODEL = queryGeneratorSearch(
-                    "tbl_car", ArrayUtils.from("*"),"make"
+                    "tbl_car", ArrayUtils.fromString("[year]"),"make"
             );
 
 
             private static String queryGeneratorSearch(String tableName, String[] fieldNamesToGet, String... fieldsInWhereClause) {
-                StringBuilder query = new StringBuilder(String.format("SELECT - FROM %s where *", tableName));
+                StringBuilder query = new StringBuilder(String.format("SELECT - FROM %s where /", tableName));
                 for (int i = 0; i < fieldNamesToGet.length; i++) {
                     query.replace(query.indexOf("-"), query.indexOf("-"), fieldNamesToGet[i]
                             + (i == fieldNamesToGet.length-1? "" : ", "));
                 }
+                query.deleteCharAt(query.indexOf("-"));
                 for(int i = 0; i < fieldsInWhereClause.length; i++) {
-                    query.replace(query.indexOf("*"), query.indexOf("*"), fieldsInWhereClause[i] + " = ?"
+                    query.replace(query.indexOf("/"), query.indexOf("/"), fieldsInWhereClause[i] + " = ?"
                             + (i == fieldsInWhereClause.length-1? "" : " AND "));
                 }
+                query.deleteCharAt(query.indexOf("/"));
 
                 return query.toString();
             }
@@ -97,19 +99,20 @@ public class DatabaseQueries {
         );
         public static final String INSERT_CAR = insertQueryGenerator(
                 //assuming car id is auto-increment
-                "tbl_car", "manufacturerId", "make", "model", "year"
+                "tbl_car", "manufacturerId", "make", "model", "[year]"
         );
         public static final String INSERT_CATEGORY = insertQueryGenerator(
-                "tbl_category", "make", "model", "year", "product"
+                "tbl_category", "make", "model", "[year]", "product"
         );
 
         public static String insertQueryGenerator(String tableName, String... fieldNames) {
-            StringBuilder query = new StringBuilder(String.format("INSERT INTO %s(*) VALUES (", tableName));
+            StringBuilder query = new StringBuilder(String.format("INSERT INTO %s(-) VALUES (", tableName));
             for(int i = 0; i < fieldNames.length; i++) {
-                query.replace(query.indexOf("*"), query.indexOf("*"), fieldNames[i]
+                query.replace(query.indexOf("-"), query.indexOf("-"), fieldNames[i]
                         + (i == fieldNames.length-1? "" : ", "));
-                query.append("?");
+                query.append("?").append((i == fieldNames.length-1? "" : ", "));
             }
+            query.deleteCharAt(query.indexOf("-"));
             query.append(")");
 
             return query.toString();
@@ -133,18 +136,19 @@ public class DatabaseQueries {
                 "description", "condition"
         );
         public static final String UPDATE_CAR = updateQueryGenerator(
-                "tbl_car", "manufacturerId", "make", "model", "year"
+                "tbl_car", "manufacturerId", "make", "model", "[year]"
         );
         public static final String UPDATE_CATEGORY = updateQueryGenerator(
-                "tbl_category", "make", "model", "year", "product"
+                "tbl_category", "make", "model", "[year]", "product"
         );
 
         public static String updateQueryGenerator(String tableName, String... fieldNames) {
-            StringBuilder query = new StringBuilder(String.format("UPDATE %s SET *", tableName));
+            StringBuilder query = new StringBuilder(String.format("UPDATE %s SET -", tableName));
             for(int i = 0; i < fieldNames.length; i++) {
-                query.replace(query.indexOf("*"), query.indexOf("*"), fieldNames[i] + " = ?"
+                query.replace(query.indexOf("-"), query.indexOf("-"), fieldNames[i] + " = ?"
                         + (i == fieldNames.length-1? "" : ", "));
             }
+            query.deleteCharAt(query.indexOf("-"));
 
             return query.toString();
         }

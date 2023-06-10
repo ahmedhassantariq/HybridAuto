@@ -1,8 +1,8 @@
 package Functionality.Forms.Controllers;
 
 import Entities.Category;
-import Functionality.Database.CarService;
 import Functionality.Database.InventoryService;
+import Functionality.Database.Services.CarService;
 import io.github.palexdev.materialfx.controls.MFXFilterComboBox;
 
 import java.util.AbstractMap;
@@ -46,9 +46,17 @@ public class CategoryController<T> extends BaseController<T> {
 
     private void addUIFunctionality() {
         inputs.get("make").<MFXFilterComboBox<String>>getInputControl().selectedItemProperty().addListener(
-                (observableValue, s, t1) -> {
+                (observableValue, oldValue, newValue) -> {
                     inputs.get("model").<MFXFilterComboBox<String>>getInputControl()
-                            .getItems().setAll(CarService.getAllModelsOfMake(s));
+                            .getItems().setAll(Functionality.Database.Services.CarService.searchAllModelsWIthMake(newValue));
+                });
+        inputs.get("model").<MFXFilterComboBox<String>>getInputControl().selectedItemProperty().addListener(
+                (observableValue, oldValue, newValue) -> {
+                    inputs.get("year").<MFXFilterComboBox<String>>getInputControl()
+                            .getItems().setAll(CarService.searchAllYearsWithMakeModel(
+                                    inputs.get("make").getStringInput(),
+                                    newValue
+                            ));
                 });
     }
 

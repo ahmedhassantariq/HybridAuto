@@ -59,7 +59,7 @@ public class CarService {
                     DatabaseQueries.SEARCH_QUERIES.WITH_CONDITION.SEARCH_CAR_WITH_MAKE_MODEL_AND_YEAR,
                     "car",
                     make, model, year
-            );
+            ).get(0);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -69,7 +69,7 @@ public class CarService {
         try {
             return DatabaseQueryExecutor.executeGet(
                     DatabaseQueries.SEARCH_QUERIES.GET_ALL_DISTINCT_CAR_MAKES,
-                    "car"
+                    "string"
             );
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -80,7 +80,7 @@ public class CarService {
         try {
             return DatabaseQueryExecutor.executeGet(
                     DatabaseQueries.SEARCH_QUERIES.GET_ALL_DISTINCT_CAR_MODELS,
-                    "car"
+                    "string"
             );
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -91,7 +91,7 @@ public class CarService {
         try {
             return DatabaseQueryExecutor.executeGet(
                     DatabaseQueries.SEARCH_QUERIES.GET_ALL_DISTINCT_CAR_YEARS,
-                    "car"
+                    "string"
             );
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -133,6 +133,7 @@ public class CarService {
 
     // TODO: 6/5/2023 Stuff in Ahmed Branch Inventory Service
     public static int searchCarIDWithMakeModelYear(String make, String model, String year) {
-        return Integer.parseInt(searchCarWithMakeModelYear(make, model, year).getCarID());
+        return Integer.parseInt(searchCarWithMakeModelYear(make, model, year)
+                .getCarID());
     }
 }

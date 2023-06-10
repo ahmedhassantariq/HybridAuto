@@ -14,7 +14,7 @@ public class EntityConvertor {
         List<T> entities = new LinkedList<>();
         // TODO: 6/4/2023 add correct check and looping condition:
         //  does rs.next() ignore first value and should rs.isBeforeFirst() be used instead
-        if (rs.next()) {
+        if (rs.isBeforeFirst()) {
             while (rs.next()) {
                 switch (entityName.toLowerCase()) {
                     case "product" -> {
@@ -53,7 +53,7 @@ public class EntityConvertor {
 
     private static Car convertToCar(ResultSet rs) throws SQLException {
         String carID = rs.getString("carID");
-        String manufacturerID = rs.getString("manufacturerID");
+        String manufacturerID = rs.getString("manufacturer_ID");
         String make = rs.getString("make");
         String model = rs.getString("model");
         int year = rs.getInt("year");

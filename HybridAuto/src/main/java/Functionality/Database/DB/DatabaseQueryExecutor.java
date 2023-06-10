@@ -1,19 +1,26 @@
 package Functionality.Database.DB;
 
-import Entities.Product;
-
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.LinkedList;
+import java.sql.*;
+import java.util.Arrays;
 import java.util.List;
 
 public class DatabaseQueryExecutor {
     public static boolean executeInsert(String insertQuery, String... values) throws SQLException {
         PreparedStatement prep = DatabaseConnector.getPrepared(insertQuery);
         for (int i = 0; i < values.length; i++) {
-            prep.setString(i+1, values[i]);
+            if(values[i].toLowerCase().contains("date")) {
+                Date curDate = null;
+                try(Statement toGetDate = prep.getConnection().createStatement()) {
+                    ResultSet rs = toGetDate.executeQuery("select GETDATE() AS CurDate;");
+                    if(rs.next())
+                        curDate = rs.getDate("CurDate");
+                }
+                prep.setDate(i+1, curDate);
+            }
+            else
+                prep.setString(i+1, values[i]);
         }
+
         prep.executeUpdate();
         return true;
     }

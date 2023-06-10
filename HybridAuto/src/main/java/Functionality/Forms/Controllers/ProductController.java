@@ -2,10 +2,14 @@ package Functionality.Forms.Controllers;
 
 import Entities.Car;
 import Entities.Product;
+import Functionality.Database.DB.DatabaseConnector;
+import Functionality.Database.DB.DatabaseQueries;
 import Functionality.Database.Services.CarService;
 import Functionality.Database.Services.ProductService;
 import io.github.palexdev.materialfx.controls.MFXFilterComboBox;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.*;
 
 public class ProductController<T> extends BaseController<T> {
@@ -38,16 +42,16 @@ public class ProductController<T> extends BaseController<T> {
 
     private void addUIFunctionality() {
         inputs.get("make").<MFXFilterComboBox<String>>getInputControl().selectedItemProperty().addListener(
-                (observableValue, s, t1) -> {
+                (observableValue, oldValue, newValue) -> {
                     inputs.get("model").<MFXFilterComboBox<String>>getInputControl()
-                            .getItems().setAll(CarService.searchAllModelsWIthMake(s));
+                            .getItems().setAll(CarService.searchAllModelsWIthMake(newValue));
                 });
         inputs.get("model").<MFXFilterComboBox<String>>getInputControl().selectedItemProperty().addListener(
-                (observableValue, s, t1) -> {
+                (observableValue, oldValue, newValue) -> {
                     inputs.get("year").<MFXFilterComboBox<String>>getInputControl()
                             .getItems().setAll(CarService.searchAllYearsWithMakeModel(
                                     inputs.get("make").getStringInput(),
-                                    s
+                                    newValue
                             ));
                 });
     }

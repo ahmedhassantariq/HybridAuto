@@ -86,7 +86,7 @@ public class ProductForm {
             // TODO: 6/4/2023 have a global class which has all controllers, then statically call this method
             try {
                 //todo, after insertion, refresh list if required
-                new ProductController<Product>().create();
+                productController.create();
             } catch (NullPointerException ex) {
                 //display some message
             }
