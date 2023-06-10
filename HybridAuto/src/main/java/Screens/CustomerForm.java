@@ -1,15 +1,17 @@
 package Screens;
 
+import Functionality.Forms.OrdersController;
 import Styles.Buttons;
 import Styles.Fields;
 import Styles.Labels;
+import Utils.Formatter;
+import Utils.CartTable;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.css.themes.Stylesheets;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
@@ -17,21 +19,23 @@ public class CustomerForm {
 
     public static VBox customerForm() {
         MFXComboBox customerComboBox = new MFXComboBox();
-        customerComboBox.setText("Customer");
+        customerComboBox.setFloatingText("Customer");
+        MFXTextField nameField = Fields.textField("Customer Name", 150, 40);
         MFXTextField phoneField = Fields.textField("PhoneNo.", 150, 40);
-        MFXTextField nameField = Fields.textField("Name", 150, 40);
+        phoneField.delegateSetTextFormatter(Formatter.phoneFormatter());
+        phoneField.setTextLimit(13);
+
 
         MFXComboBox carComboBox = new MFXComboBox();
-        carComboBox.setText("Car License");
-
+        carComboBox.setFloatingText("Car License");
         MFXComboBox makeComboBox = new MFXComboBox();
-        makeComboBox.setText("Make");
+        makeComboBox.setFloatingText("Make");
         MFXComboBox modelComboBox = new MFXComboBox();
-        modelComboBox.setText("Model");
+        modelComboBox.setFloatingText("Model");
         MFXComboBox yearComboBox = new MFXComboBox();
-        yearComboBox.setText("Year");
+        yearComboBox.setFloatingText("Year");
 
-        HBox customerContainer = new HBox(customerComboBox, phoneField, nameField);
+        HBox customerContainer = new HBox(nameField, phoneField);
         customerContainer.setAlignment(Pos.CENTER);
         customerContainer.setPadding(new Insets(10));
         customerContainer.setSpacing(10);
@@ -44,18 +48,22 @@ public class CustomerForm {
 
 
 
-        MFXButton addButton = Buttons.FunctionButton("Add", 100, 40);
-        MFXButton cancelButton = Buttons.FunctionButton_Border("Reset", 100, 40);
+        MFXButton confirmButton = Buttons.FunctionButton("Confirm", 100, 40);
+        MFXButton removeProductButton = Buttons.FunctionButton_Border("Remove", 100, 40);
 
-        HBox buttonBox = new HBox(addButton, cancelButton);
+        removeProductButton.setOnAction(e->{
+            OrdersController.removeOrderItem(CartTable.cartTable.getSelectionModel().getSelectedItem());
+        });
+
+        HBox buttonBox = new HBox(confirmButton, removeProductButton);
         buttonBox.setAlignment(Pos.CENTER);
         buttonBox.setPadding(new Insets(10));
         buttonBox.setSpacing(10);
 
-        VBox cutomerBox = new VBox(Labels.titleLabel("Customer"), customerContainer, buttonBox);
+        VBox cutomerBox = new VBox(Labels.titleLabel("Customer Cart"), customerContainer, CartTable.orderTable(), buttonBox);
         cutomerBox.setSpacing(10);
         cutomerBox.setAlignment(Pos.TOP_CENTER);
-        cutomerBox.setMaxSize(300, 400);
+        cutomerBox.setPrefSize(300, 400);
         cutomerBox.setBackground(new Background(new BackgroundFill(Color.WHITE, new CornerRadii(15, 15, 15, 15, false), null)));
 //        productBox.setBorder(new Border(new BorderStroke(Color.web("02557a"), BorderStrokeStyle.SOLID, new CornerRadii(15, 15, 15, 15, false), BorderStroke.THICK)));
 

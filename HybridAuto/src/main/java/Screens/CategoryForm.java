@@ -1,78 +1,76 @@
 package Screens;
 
-import Entities.Category;
-import Functionality.Forms.Controllers.CategoryController;
-import Functionality.Forms.OldControllerStuff.InventoryController;
+import Entities.Car;
+import Entities.Stock;
+import Functionality.Forms.InventoryController;
 import Styles.Buttons;
+import Styles.Fields;
 import Styles.Labels;
 import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXComboBox;
-import io.github.palexdev.materialfx.controls.MFXFilterComboBox;
+import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.css.themes.Stylesheets;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
-import java.lang.reflect.Field;
-
 public class CategoryForm {
-    private static VBox categoryForm;
-    private static final CategoryController<Category> categoryController = new CategoryController<>();
 
-    public static VBox categoryForm(){
-        if(categoryForm != null)
-            return categoryForm;
-
+    public static VBox categoryForm(Pane borderContainer){
         Label title = Labels.titleLabel("New Category");
 
         //Combo Boxes
-        MFXFilterComboBox<String> makeComboBox = categoryController.getInputMap().get("make").getInputControl();
-        makeComboBox.setText("Make");
+        MFXTextField makeField = Fields.textField("Make",100,40);
+        MFXTextField modelField = Fields.textField("Model",100,40);
+        MFXTextField yearField = Fields.textField("Year",100,40);
+        MFXTextField categoryField = Fields.textField("Product",100,40);
+        MFXButton addCategoryButton = Buttons.FunctionButton("Add",100,40);
 
-        MFXFilterComboBox<String> modelComboBox = categoryController.getInputMap().get("model").getInputControl();
-        modelComboBox.setText("Model");
-
-        MFXFilterComboBox<String> yearComboBox = categoryController.getInputMap().get("year").getInputControl();
-        yearComboBox.setText("Year");
-
-        MFXFilterComboBox<String> conditionComboBox = categoryController.getInputMap().get("condition").getInputControl();
-        conditionComboBox.setText("Condition");
-
-        MFXFilterComboBox<String> typeComboBox = categoryController.getInputMap().get("type").getInputControl();
-        typeComboBox.setText("Product");
-
-        HBox comboBoxContainer = new HBox(makeComboBox,modelComboBox,yearComboBox);
-        comboBoxContainer.setAlignment(Pos.CENTER);
-        comboBoxContainer.setPadding(new Insets(10));
-        comboBoxContainer.setSpacing(10);
-
-
-        MFXButton addButton = Buttons.FunctionButton("Add",100,40);
-        MFXButton cancelButton = Buttons.FunctionButton_Border("Reset",100,40);
-
-
-        addButton.setOnAction((e) -> {
-            new CategoryController<Category>().create();
+        addCategoryButton.setOnAction(e->{
+            if(!makeField.getText().isEmpty()&&
+                    !modelField.getText().isEmpty()&&
+                    !yearField.getText().isEmpty()&&
+                    !categoryField.getText().isEmpty()
+            ){
+                InventoryController.insertCategory(new Stock(null,makeField.getText(),modelField.getText(),yearField.getText(),categoryField.getText(),null,null,null,null));
+            }
         });
 
+        HBox carContainer = new HBox(makeField,modelField,yearField);
+        carContainer.setAlignment(Pos.CENTER);
+        carContainer.setPadding(new Insets(10));
+        carContainer.setSpacing(10);
+        HBox productContainer = new HBox(categoryField);
+        productContainer.setAlignment(Pos.CENTER);
+        productContainer.setPadding(new Insets(10));
+        productContainer.setSpacing(10);
 
-        HBox buttonBox = new HBox(addButton,cancelButton);
+
+        MFXButton resetButton = Buttons.FunctionButton_Border("Reset",100,40);
+        MFXButton cancelButton = Buttons.FunctionButton_Border("Cancel",100,40);
+
+        cancelButton.setOnAction(e->{
+            borderContainer.getChildren().remove(borderContainer.getChildren().size()-1);
+        });
+        resetButton.setOnAction(e->{
+            makeField.clear();
+            modelField.clear();
+            yearField.clear();
+            categoryField.clear();
+        });
+        HBox buttonBox = new HBox(addCategoryButton,resetButton,cancelButton);
         buttonBox.setAlignment(Pos.CENTER);
         buttonBox.setPadding(new Insets(10));
         buttonBox.setSpacing(10);
 
-        VBox categoryBox = new VBox(title,comboBoxContainer,typeComboBox,buttonBox);
+        VBox categoryBox = new VBox(title,carContainer,productContainer,buttonBox);
         categoryBox.setSpacing(10);
         categoryBox.setAlignment(Pos.TOP_CENTER);
         categoryBox.setMaxSize(600,300);
         categoryBox.setBackground(new Background(new BackgroundFill(Color.WHITE,new CornerRadii(15,15,15,15,false),null)));
         categoryBox.setBorder(new Border(new BorderStroke(Color.web("02557a"),BorderStrokeStyle.SOLID,new CornerRadii(15,   15,15,15,false), BorderStroke.THICK)));
         categoryBox.getStylesheets().add(Stylesheets.COMBO_BOX.loadTheme());
-
-        categoryForm = categoryBox;
         return categoryBox;
 
     }

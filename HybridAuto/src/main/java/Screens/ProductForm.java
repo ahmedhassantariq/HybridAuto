@@ -1,53 +1,66 @@
 package Screens;
 
-import Entities.Product;
-import Functionality.Forms.Controllers.ProductController;
-import Functionality.Forms.OldControllerStuff.InventoryController;
+import Entities.Stock;
+import Functionality.Forms.InventoryController;
 import Styles.Buttons;
 import Styles.Fields;
 import Styles.Labels;
+import Utils.Formatter;
 import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXFilterComboBox;
+import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.css.themes.Stylesheets;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
-import java.lang.reflect.Field;
-import java.sql.SQLException;
-import java.time.LocalDate;
-
-import static Functionality.Forms.Controllers.BaseController.makeList;
-import static Functionality.Forms.Controllers.BaseController.modelList;
-
 public class ProductForm {
-    private static VBox productForm;
-    private static final ProductController<Product> productController = new ProductController<>();
 
-    public static VBox productForm(){
-        if(productForm != null)
-            return productForm;
+    public static VBox productForm(Pane borderContainer) {
 
-        MFXFilterComboBox<String> makeComboBox = productController.getInputMap().get("make").getInputControl();
-        makeComboBox.setOnAction(e-> System.out.println("Cliked"));
+
+
+        InventoryController.setMakeComboList();
+        MFXComboBox makeComboBox = new MFXComboBox(InventoryController.makeComboList);
         makeComboBox.setFloatingText("Make");
+        makeComboBox.setOnAction(e-> {
+                if(makeComboBox.getValue()!=null) {
+                    InventoryController.setModelComboList(makeComboBox.getValue().toString());
+                }
+        });
 
-        MFXFilterComboBox<String> modelComboBox = productController.getInputMap().get("model").getInputControl();
+
+
+        MFXComboBox modelComboBox = new MFXComboBox(InventoryController.modelComboList);
         modelComboBox.setFloatingText("Model");
+        modelComboBox.setOnAction(e->{
+                if(modelComboBox.getValue()!=null) {
+                    InventoryController.setYearComboList(modelComboBox.getValue().toString());
+                }
+        });
 
-        MFXFilterComboBox<String> yearComboBox = productController.getInputMap().get("year").getInputControl();
+
+        MFXComboBox yearComboBox = new MFXComboBox(InventoryController.yearComboList);
         yearComboBox.setFloatingText("Year");
+        yearComboBox.setOnAction(e->{
+            if(makeComboBox.getValue()!=null&&modelComboBox.getValue()!=null&&yearComboBox.getValue()!=null) {
+                InventoryController.setProductComboList(makeComboBox.getValue().toString(),
+                        modelComboBox.getValue().toString(),
+                        yearComboBox.getValue().toString());
+            }
+        });
 
-        MFXFilterComboBox<String> conditionComboBox = productController.getInputMap().get("condition").getInputControl();
+
+        ObservableList<String> conditionList = FXCollections.observableArrayList("New","Used");
+        MFXComboBox conditionComboBox = new MFXComboBox(conditionList);
         conditionComboBox.setFloatingText("Condition");
 
-        MFXFilterComboBox<String> typeComboBox = productController.getInputMap().get("type").getInputControl();
+
+
+        MFXComboBox typeComboBox = new MFXComboBox(InventoryController.productComboList);
         typeComboBox.setFloatingText("Product");
 
         HBox comboBoxContainer = new HBox(makeComboBox,modelComboBox,yearComboBox);
@@ -57,52 +70,98 @@ public class ProductForm {
 
 
 
-        MFXTextField costField = productController.getInputMap().get("cost").getInputControl();
+        MFXTextField costField = Fields.textField("Cost",100,40);
+        costField.delegateSetTextFormatter(Formatter.digitFormatter());
+        costField.setTextLimit(10);
 
+        MFXTextField descriptionField = Fields.textField("Comments",300,40);
+        descriptionField.setTextLimit(200);
 
-
-        MFXTextField descriptionField = productController.getInputMap().get("description").getInputControl();
         HBox costCond = new HBox(typeComboBox,conditionComboBox,costField);
         costCond.setAlignment(Pos.CENTER);
         costCond.setPadding(new Insets(10));
         costCond.setSpacing(10);
 
 
-        MFXTextField serialField = productController.getInputMap().get("serialno").getInputControl();
+        MFXTextField serialField = Fields.textField("SerialNo.",300,40);
+        serialField.setTextLimit(50);
 
         MFXButton addButton = Buttons.FunctionButton("Add",100,40);
         MFXButton resetButton = Buttons.FunctionButton_Border("Reset",100,40);
+        MFXButton cancelButton = Buttons.FunctionButton_Border("Cancel",100,40);
+
+        cancelButton.setOnAction(e->{
+            borderContainer.getChildren().remove(borderContainer.getChildren().size()-1);
+        });
 
         resetButton.setOnAction(e->{
-            makeComboBox.clear();
-            modelComboBox.clear();
-            yearComboBox.clear();
-            typeComboBox.clear();
+            InventoryController.clearLists();
             conditionComboBox.clear();
             costField.clear();
             descriptionField.clear();
+            serialField.clear();
         });
 
         addButton.setOnAction(e->{
-            // TODO: 6/4/2023 have a global class which has all controllers, then statically call this method
-            try{
-                new ProductController<Product>().create();
-            } catch (NullPointerException ex) {
-                //display some message
+            if(
+                    makeComboBox.getValue()!=null&
+                            modelComboBox.getValue()!=null&
+                            yearComboBox.getValue()!=null&
+                            typeComboBox.getValue()!=null&
+                            conditionComboBox.getValue()!=null&
+                            costField.getText()!=null&
+                            !serialField.getText().isEmpty()&
+                            !serialField.getText().isBlank()
+            ){
+                InventoryController.insertProduct(new Stock(
+                        null,
+                        makeComboBox.getValue().toString(),
+                        modelComboBox.getValue().toString(),
+                        yearComboBox.getValue().toString(),
+                        typeComboBox.getValue().toString(),
+                        serialField.getText(),
+                        costField.getText(),
+                        descriptionField.getText(),
+                        conditionComboBox.getValue().toString()));
+                serialField.clear();
+                InventoryController.setInventoryList();
             }
 
 
-            serialField.clear();
-                });
-        serialField.setOnKeyPressed(e->{
-            if(e.getCode()==KeyCode.ENTER)
+        });
 
+        serialField.setOnKeyPressed(e->{
+            if(
+                    makeComboBox.getValue()!=null&
+                            modelComboBox.getValue()!=null&
+                            yearComboBox.getValue()!=null&
+                            typeComboBox.getValue()!=null&
+                            conditionComboBox.getValue()!=null&
+                            costField.getText()!=null&
+                            !serialField.getText().isEmpty()&
+                            !serialField.getText().isBlank()
+            ){
+                InventoryController.insertProduct(new Stock(
+                        null,
+                        makeComboBox.getValue().toString(),
+                        modelComboBox.getValue().toString(),
+                        yearComboBox.getValue().toString(),
+                        typeComboBox.getValue().toString(),
+                        serialField.getText(),
+                        costField.getText(),
+                        descriptionField.getText(),
+                        conditionComboBox.getValue().toString()));
                 serialField.clear();
+                InventoryController.setInventoryList();
+            }
+
+
+
         });
 
 
 
-        HBox buttonBox = new HBox(addButton,resetButton);
+        HBox buttonBox = new HBox(addButton,resetButton,cancelButton);
         buttonBox.setAlignment(Pos.CENTER);
         buttonBox.setPadding(new Insets(10));
         buttonBox.setSpacing(10);
@@ -115,8 +174,6 @@ public class ProductForm {
         productBox.setBorder(new Border(new BorderStroke(Color.web("02557a"),BorderStrokeStyle.SOLID,new CornerRadii(15,15,15,15,false), BorderStroke.THICK)));
 
         productBox.getStylesheets().add(Stylesheets.COMBO_BOX.loadTheme());
-
-        productForm = productBox;
         return productBox;
 
     }

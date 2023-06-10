@@ -3,6 +3,7 @@ package Screens;
 import Styles.Buttons;
 import Styles.Fields;
 import Utils.Constants;
+import Utils.Formatter;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
@@ -34,6 +35,7 @@ public class LoginForm {
 
         //InputFields
         MFXTextField usernameField = Fields.textField("UserName",200,50);
+
         MFXTextField passwordField = Fields.passwordField("Password",200,50);
         //Buttons
         MFXButton loginButton = Buttons.FunctionButton("Login",200,40);

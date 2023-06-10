@@ -4,13 +4,13 @@ public class Category {
     private final String make;
     private final String model;
     private final String year;
-    private final String product;
+    private final String type;
 
     public Category(String make, String model, String year, String product) {
         this.make = make;
         this.model = model;
         this.year = year;
-        this.product = product;
+        this.type = product;
     }
 
     public Category() {
@@ -29,8 +29,8 @@ public class Category {
         return year;
     }
 
-    public String getProduct() {
-        return product;
+    public String getType() {
+        return type;
     }
 
     public static Category getDummy() {

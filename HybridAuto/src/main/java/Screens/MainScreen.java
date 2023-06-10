@@ -53,6 +53,7 @@ public class MainScreen {
 
         //Set ViewPane
         viewPane.setLeft(selectionPane);
+        viewPane.setBottom(StatusScreen.statusScreen());
 
 
         //Buttons Functions
@@ -68,7 +69,11 @@ public class MainScreen {
             }
         });
         ordersFormButton.setOnAction(e->{
-            viewPane.setCenter(OrderForm.orderForm());
+            try {
+                viewPane.setCenter(OrderForm.orderForm());
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
         });
 
         logoutButton.setOnMouseClicked(e->{
