@@ -1,18 +1,24 @@
 package Functionality.Forms;
 
+import Entities.Customer;
+import Entities.Order;
+import Entities.OrderDetail;
 import Entities.Stock;
+import Functionality.Database.OrdersService;
+import Screens.OrderForm;
 import Utils.CartTable;
 import Utils.OrderTable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Stack;
 
 public class OrdersController {
     public static ObservableList<Stock> orderList = FXCollections.observableArrayList();
-    private static LinkedList<String> itemID = new LinkedList<>();
+    private static LinkedList<Integer> itemID = new LinkedList<>();
     private static Stack<ObservableList<Stock>> orderStack = new Stack<>();
 
 
@@ -27,7 +33,7 @@ public class OrdersController {
     }
     public static void removeOrderItem(Stock stock){
         for(int i = 0;i<itemID.size();i++){
-            if(itemID.get(i).equals(stock.getStockID())){
+            if(itemID.get(i).equals(stock.getStockID())&&stock!=null){
                 itemID.remove(i);
                 orderList.remove(stock);
                 InventoryController.inventoryList.add(stock);
@@ -36,7 +42,6 @@ public class OrdersController {
         }
 
     }
-
     public static void pushOrder(){
         if(!orderList.isEmpty()) {
             orderStack.push(orderList);
@@ -50,4 +55,57 @@ public class OrdersController {
             CartTable.cartTable.setItems(orderList);
         }
     }
+
+    public static void addCustomer(Customer customer){
+        try {
+            if(OrdersService.getCustomer(customer.getPhone())==null){
+                OrdersService.insertCustomer(customer);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void addOrder(Order order){
+        try {
+            OrdersService.insertOrder(order);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public static int newOrderID(){
+        try {
+            return OrdersService.getNewOrderID();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+
+    public static void orderCheckout(Customer customer){
+        try{
+            addCustomer(customer);
+            int customerID = OrdersService.getCustomer(customer.getPhone()).getCustomerID();
+            int orderID = OrdersService.getNewOrderID();
+            if(customerID!=0&&orderID!=0) {
+                OrdersService.insertOrder(new Order(orderID,customerID,null));
+            }
+            while(!orderList.isEmpty()){
+                OrdersService.insertOrderDetails(new OrderDetail(orderID,orderList.get(orderList.size()-1).getStockID()));
+                InventoryController.deleteProduct(orderList.get(orderList.size()-1).getStockID());
+                orderList.remove(orderList.size()-1);
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }finally {
+            orderList.clear();
+            itemID.clear();
+            OrderTable.inventoryTable.refresh();
+        }
+    }
+
+
+
 }

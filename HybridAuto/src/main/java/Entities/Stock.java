@@ -1,11 +1,12 @@
 package Entities;
 
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 import java.util.Objects;
 
 public class Stock extends Car {
-    private final SimpleStringProperty stockID;
+    private final SimpleIntegerProperty stockID;
     private final SimpleStringProperty productCategory;
     private final SimpleStringProperty serialNumber;
     private final SimpleStringProperty cost;
@@ -13,9 +14,9 @@ public class Stock extends Car {
     private final SimpleStringProperty condition;
 
 
-    public Stock( String stockID, String carMake,String carModel, String carYear, String productCategory, String serialNumber, String cost, String description, String condition) {
+    public Stock( Integer stockID, String carMake,String carModel, String carYear, String productCategory, String serialNumber, String cost, String description, String condition) {
         super("",carMake,carModel,carYear);
-        this.stockID = new SimpleStringProperty(stockID);
+        this.stockID = new SimpleIntegerProperty(stockID);
         this.productCategory = new SimpleStringProperty(productCategory);
         this.serialNumber = new SimpleStringProperty(serialNumber);
         this.cost = new SimpleStringProperty(cost);
@@ -23,15 +24,15 @@ public class Stock extends Car {
         this.condition = new SimpleStringProperty(condition);
     }
 
-    public String getStockID() {
+    public Integer getStockID() {
         return stockID.get();
     }
 
-    public SimpleStringProperty stockIDProperty() {
+    public SimpleIntegerProperty stockIDProperty() {
         return stockID;
     }
 
-    public void setStockID(String stockID) {
+    public void setStockID(Integer stockID) {
         this.stockID.set(stockID);
     }
 

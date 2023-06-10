@@ -12,7 +12,6 @@ import java.sql.SQLException;
 public class InventoryService {
     private static ResultSet resultSet;
 
-
     //Populates Inventory Main Table
     public static void getInventoryProducts() throws SQLException {
         resultSet = null;
@@ -20,7 +19,7 @@ public class InventoryService {
         resultSet = DbConnection.getPrepared(queryString).executeQuery();
         while(resultSet.next()) {
             InventoryController.inventoryList.add(new Stock(
-                    resultSet.getString("stock_ID"),
+                    resultSet.getInt("stock_ID"),
                     resultSet.getString("car_make"),
                     resultSet.getString("car_model"),
                     resultSet.getString("car_year"),
@@ -154,14 +153,14 @@ public class InventoryService {
         pSt.setString(3, stock.getCost());
         pSt.setString(4, stock.getComments());
         pSt.setString(5, stock.getCondition());
-        pSt.setString(6, stock.getStockID());
+        pSt.setInt(6, stock.getStockID());
         pSt.execute();
     }
 
-    public static void deleteInventoryProduct(String stockID) throws SQLException {
+    public static void deleteInventoryProduct(Integer stockID) throws SQLException {
         String queryString = "update stock set display = 0 where stock_ID = ?";
         PreparedStatement pSt = DbConnection.getPrepared(queryString);
-        pSt.setString(1, stockID);
+        pSt.setInt(1, stockID);
         pSt.execute();
     }
 
@@ -172,7 +171,7 @@ public class InventoryService {
         resultSet = DbConnection.search(make,model,year,serial).executeQuery();
         while(resultSet.next()) {
             InventoryController.inventoryList.add(new Stock(
-                    resultSet.getString("stock_ID"),
+                    resultSet.getInt("stock_ID"),
                     resultSet.getString("car_make"),
                     resultSet.getString("car_model"),
                     resultSet.getString("car_year"),

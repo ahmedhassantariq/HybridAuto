@@ -1,5 +1,6 @@
 package Screens;
 
+import Entities.Customer;
 import Functionality.Forms.OrdersController;
 import Styles.Buttons;
 import Styles.Fields;
@@ -54,6 +55,12 @@ public class CustomerForm {
         removeProductButton.setOnAction(e->{
             OrdersController.removeOrderItem(CartTable.cartTable.getSelectionModel().getSelectedItem());
         });
+        CheckOutForm.checkoutButton.setOnAction(e->{
+            if(!nameField.getText().isEmpty()&&!phoneField.getText().isEmpty()&&!OrdersController.orderList.isEmpty()) {
+                OrdersController.orderCheckout(new Customer(null, nameField.getText(), null, null, phoneField.getText(), null, null));
+            }
+            CheckOutForm.orderIDLabel.setText("Order-ID: "+OrdersController.newOrderID());
+            });
 
         HBox buttonBox = new HBox(confirmButton, removeProductButton);
         buttonBox.setAlignment(Pos.CENTER);
