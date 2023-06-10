@@ -28,7 +28,7 @@ public class CheckOutForm {
     private static MFXTextField discountAmountField = Fields.textField("Discount Amount",150,40);
     public static MFXButton checkoutButton = Buttons.FunctionButton("CheckOut", 100, 40);
     public static MFXButton receiptButton = Buttons.FunctionButton_Border("Print Receipt", 100, 40);
-
+    public static double totalAmount;
 
     public static VBox checkOutForm() {
 
@@ -98,6 +98,7 @@ public class CheckOutForm {
             totalDiscount = 100-(total/subtotal)*100;
             discountLabel.setText("Discount: "+Formatter.decimalFormat().format(totalDiscount)+"%");
             totalLabel.setText("Total: "+total);
+            totalAmount = total;
         }
     }
 }

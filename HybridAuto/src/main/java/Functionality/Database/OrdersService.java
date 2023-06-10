@@ -6,6 +6,7 @@ import Entities.OrderDetail;
 import Entities.Stock;
 import Functionality.Database.DB.DbConnection;
 import Functionality.Forms.InventoryController;
+import Screens.CheckOutForm;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -48,10 +49,11 @@ public class OrdersService {
 
     public static void insertOrder(Order order) throws SQLException {
         resultSet = null;
-        String queryString = "insert into [Order] values (?,?,GETDATE())";
+        String queryString = "insert into [Order] values (?,?,?,GETDATE())";
         PreparedStatement pSt = DbConnection.getPrepared(queryString);
         pSt.setString(1,order.getOrderID());
         pSt.setString(2, order.getCustomerID());
+        pSt.setString(3, String.valueOf(CheckOutForm.totalAmount));
         pSt.execute();
     }
 

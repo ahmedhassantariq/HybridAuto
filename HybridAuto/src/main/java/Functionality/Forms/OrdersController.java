@@ -5,6 +5,7 @@ import Entities.Order;
 import Entities.OrderDetail;
 import Entities.Stock;
 import Functionality.Database.OrdersService;
+import Screens.CustomerForm;
 import Screens.OrderForm;
 import Utils.CartTable;
 import Utils.OrderTable;
@@ -62,6 +63,14 @@ public class OrdersController {
                 OrdersService.insertCustomer(customer);
             }
         } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static Customer searchCustomer(String phone){
+        try{
+            return OrdersService.getCustomer(phone);
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }

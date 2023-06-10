@@ -17,12 +17,12 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 public class CustomerForm {
-
+    public static MFXTextField nameField = Fields.textField("Customer Name", 150, 40);
+    public static MFXTextField phoneField = Fields.textField("PhoneNo.", 150, 40);
     public static VBox customerForm() {
         MFXComboBox customerComboBox = new MFXComboBox();
         customerComboBox.setFloatingText("Customer");
-        MFXTextField nameField = Fields.textField("Customer Name", 150, 40);
-        MFXTextField phoneField = Fields.textField("PhoneNo.", 150, 40);
+
         phoneField.delegateSetTextFormatter(Formatter.phoneFormatter());
         phoneField.setTextLimit(13);
 
@@ -61,6 +61,20 @@ public class CustomerForm {
             }
             CheckOutForm.orderIDLabel.setText("Order-ID: "+OrdersController.newOrderID());
             });
+
+        phoneField.textProperty().addListener(e->{
+            nameField.clear();
+            if(OrdersController.searchCustomer(phoneField.getText())!=null){
+                Customer customer = OrdersController.searchCustomer(phoneField.getText());
+                String name="";
+                if(customer.getFirstName()!=null)
+                    name+=customer.getFirstName();
+                if(customer.getMiddleName()!=null)
+                    name+=" "+customer.getMiddleName();
+                if(customer.getLastName()!=null)
+                    name+=" "+customer.getLastName();
+                nameField.setText(name);
+        }});
 
         HBox buttonBox = new HBox(confirmButton, removeProductButton);
         buttonBox.setAlignment(Pos.CENTER);
