@@ -23,30 +23,11 @@ public class ItemForm {
 
     public static VBox newOrderForm() throws SQLException {
 
-        InventoryController.setMakeComboList();
-        MFXComboBox makeComboBox = new MFXComboBox(InventoryController.makeComboList);
-        makeComboBox.setFloatingText("Make");
-        makeComboBox.setOnAction(e-> {
-            if(makeComboBox.getValue()!=null) {
-                InventoryController.setModelComboList(makeComboBox.getValue().toString());
-            }
-        });
-
-        MFXComboBox modelComboBox = new MFXComboBox(InventoryController.modelComboList);
-        modelComboBox.setFloatingText("Model");
-        modelComboBox.setOnAction(e->{
-            if(modelComboBox.getValue()!=null) {
-                InventoryController.setYearComboList(modelComboBox.getValue().toString());
-            }
-        });
-
-        MFXComboBox yearComboBox = new MFXComboBox(InventoryController.yearComboList);
-        yearComboBox.setFloatingText("Year");
-        MFXTextField serialField = Fields.textField("SerialNo.", 150, 40);
+        MFXTextField serialField = Fields.textField("SerialNo.", 300, 40);
 
 
 
-        HBox comboBoxContainer = new HBox(makeComboBox, modelComboBox, serialField);
+        HBox comboBoxContainer = new HBox(serialField);
         comboBoxContainer.setAlignment(Pos.CENTER);
         comboBoxContainer.setPadding(new Insets(10));
         comboBoxContainer.setSpacing(10);
@@ -67,11 +48,7 @@ public class ItemForm {
         });
 
         searchButton.setOnAction(e->{
-            InventoryController.searchText(
-                    makeComboBox.getValue(),
-                    modelComboBox.getValue(),
-                    yearComboBox.getValue(),
-                    serialField.getText());
+            InventoryController.searchText("","","", serialField.getText());
         });
 
         HBox buttonBox = new HBox(addButton, searchButton);
@@ -83,7 +60,7 @@ public class ItemForm {
         VBox itemBox = new VBox(Labels.titleLabel("Inventory"), comboBoxContainer,OrderTable.saleTable(), buttonBox);
         itemBox.setSpacing(10);
         itemBox.setAlignment(Pos.TOP_CENTER);
-        itemBox.setPrefSize(300, 400);
+        itemBox.setPrefSize(500, 400);
         itemBox.setBackground(new Background(new BackgroundFill(Color.WHITE, new CornerRadii(15, 15, 15, 15, false), null)));
 //      productBox.setBorder(new Border(new BorderStroke(Color.web("02557a"), BorderStrokeStyle.SOLID, new CornerRadii(15, 15, 15, 15, false), BorderStroke.THICK)));
 

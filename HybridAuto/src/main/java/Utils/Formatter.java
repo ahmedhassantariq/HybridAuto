@@ -4,6 +4,7 @@ import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.scene.control.TextFormatter;
 import javafx.util.converter.DefaultStringConverter;
 
+import java.text.DecimalFormat;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 
@@ -25,8 +26,10 @@ public class Formatter {
         return formatter;
     }
 
-
-
+    public static DecimalFormat decimalFormat(){
+        DecimalFormat numberFormat = new DecimalFormat("0.00");
+        return numberFormat;
+    }
 
 
     private static class PhoneNumberFilter implements UnaryOperator<TextFormatter.Change> {

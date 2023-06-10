@@ -95,10 +95,7 @@ public class ProductForm {
         });
 
         resetButton.setOnAction(e->{
-            makeComboBox.clear();
-            modelComboBox.clear();
-            yearComboBox.clear();
-            typeComboBox.clear();
+            InventoryController.clearLists();
             conditionComboBox.clear();
             costField.clear();
             descriptionField.clear();
@@ -126,10 +123,11 @@ public class ProductForm {
                         costField.getText(),
                         descriptionField.getText(),
                         conditionComboBox.getValue().toString()));
+                serialField.clear();
+                InventoryController.setInventoryList();
             }
 
-            serialField.clear();
-            InventoryController.setInventoryList();
+
         });
 
         serialField.setOnKeyPressed(e->{
@@ -153,10 +151,11 @@ public class ProductForm {
                         costField.getText(),
                         descriptionField.getText(),
                         conditionComboBox.getValue().toString()));
+                serialField.clear();
+                InventoryController.setInventoryList();
             }
 
-            serialField.clear();
-                InventoryController.setInventoryList();
+
 
         });
 

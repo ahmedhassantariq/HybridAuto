@@ -75,6 +75,14 @@ public class InventoryController {
         }
     }
 
+    public static void clearLists(){
+        makeComboList.clear();
+        modelComboList.clear();
+        yearComboList.clear();
+        productComboList.clear();
+        setMakeComboList();
+    }
+
     //Insert product into DB from New Product Form
     public static void insertProduct(Stock stock) {
         try{
