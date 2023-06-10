@@ -6,7 +6,7 @@ import javafx.beans.property.SimpleStringProperty;
 import java.util.Objects;
 
 public class Stock extends Car {
-    private final SimpleIntegerProperty stockID;
+    private final SimpleStringProperty stockID;
     private final SimpleStringProperty productCategory;
     private final SimpleStringProperty serialNumber;
     private final SimpleStringProperty cost;
@@ -14,9 +14,9 @@ public class Stock extends Car {
     private final SimpleStringProperty condition;
 
 
-    public Stock( Integer stockID, String carMake,String carModel, String carYear, String productCategory, String serialNumber, String cost, String description, String condition) {
+    public Stock( String stockID, String carMake,String carModel, String carYear, String productCategory, String serialNumber, String cost, String description, String condition) {
         super("",carMake,carModel,carYear);
-        this.stockID = new SimpleIntegerProperty(stockID);
+        this.stockID = new SimpleStringProperty(stockID);
         this.productCategory = new SimpleStringProperty(productCategory);
         this.serialNumber = new SimpleStringProperty(serialNumber);
         this.cost = new SimpleStringProperty(cost);
@@ -24,15 +24,15 @@ public class Stock extends Car {
         this.condition = new SimpleStringProperty(condition);
     }
 
-    public Integer getStockID() {
+    public String getStockID() {
         return stockID.get();
     }
 
-    public SimpleIntegerProperty stockIDProperty() {
+    public SimpleStringProperty stockIDProperty() {
         return stockID;
     }
 
-    public void setStockID(Integer stockID) {
+    public void setStockID(String stockID) {
         this.stockID.set(stockID);
     }
 

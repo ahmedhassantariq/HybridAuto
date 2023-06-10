@@ -18,7 +18,7 @@ import java.util.Stack;
 
 public class OrdersController {
     public static ObservableList<Stock> orderList = FXCollections.observableArrayList();
-    private static LinkedList<Integer> itemID = new LinkedList<>();
+    private static LinkedList<String> itemID = new LinkedList<>();
     private static Stack<ObservableList<Stock>> orderStack = new Stack<>();
 
 
@@ -86,13 +86,13 @@ public class OrdersController {
     public static void orderCheckout(Customer customer){
         try{
             addCustomer(customer);
-            int customerID = OrdersService.getCustomer(customer.getPhone()).getCustomerID();
+            String customerID = OrdersService.getCustomer(customer.getPhone()).getCustomerID();
             int orderID = OrdersService.getNewOrderID();
-            if(customerID!=0&&orderID!=0) {
-                OrdersService.insertOrder(new Order(orderID,customerID,null));
+            if(customerID!=null&&orderID!=0) {
+                OrdersService.insertOrder(new Order(String.valueOf(orderID),customerID,null));
             }
             while(!orderList.isEmpty()){
-                OrdersService.insertOrderDetails(new OrderDetail(orderID,orderList.get(orderList.size()-1).getStockID()));
+                OrdersService.insertOrderDetails(new OrderDetail(orderID,Integer.parseInt(orderList.get(orderList.size()-1).getStockID())));
                 InventoryController.deleteProduct(orderList.get(orderList.size()-1).getStockID());
                 orderList.remove(orderList.size()-1);
             }

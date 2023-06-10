@@ -90,7 +90,7 @@ public class InventoryController {
             throw new RuntimeException(e);
         }
     }
-    public static void updateProduct(Integer stockID,String make,String model,String year,String type,String condition,String cost, String serial,String comments){
+    public static void updateProduct(String stockID,String make,String model,String year,String type,String condition,String cost, String serial,String comments){
         try{
         Stock stock = new Stock(stockID,make,model,year,type,serial,cost,comments,condition);
             InventoryService.updateInventoryProduct(stock);
@@ -98,7 +98,7 @@ public class InventoryController {
             throw new RuntimeException(e);
         }
     }
-    public static void deleteProduct(Integer stockID) throws SQLException {
+    public static void deleteProduct(String stockID) throws SQLException {
         try {
             InventoryService.deleteInventoryProduct(stockID);
         } catch (SQLException e) {

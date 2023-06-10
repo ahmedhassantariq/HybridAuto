@@ -76,6 +76,13 @@ public class MainScreen {
                 throw new RuntimeException(ex);
             }
         });
+        serviceFormButton.setOnAction(e->{
+            try {
+                viewPane.setCenter(ServicesForm.servicesForm());
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
 
         logoutButton.setOnMouseClicked(e->{
             try {

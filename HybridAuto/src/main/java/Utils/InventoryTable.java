@@ -24,8 +24,8 @@ public class InventoryTable {
 
         //Description Cell
 
-        TableColumn<Stock, Integer> stockID = new TableColumn("Stock-ID");
-        stockID.setCellValueFactory(cellData -> cellData.getValue().stockIDProperty().asObject());
+        TableColumn<Stock, String> stockID = new TableColumn("Stock-ID");
+        stockID.setCellValueFactory(cellData -> cellData.getValue().stockIDProperty());
         stockID.setMinWidth(50);
         stockID.setResizable(false);
 //        inventoryProductIDCol.setStyle("-fx-background-color: #02557a");

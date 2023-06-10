@@ -37,7 +37,7 @@ public class OrdersService {
             resultSet = pSt.executeQuery();
             while(resultSet.next()) {
                 customer = new Customer(
-                        resultSet.getInt("customer_ID"),resultSet.getString("first_Name"),resultSet.getString("middle_Name"),
+                        resultSet.getString("customer_ID"),resultSet.getString("first_Name"),resultSet.getString("middle_Name"),
                         resultSet.getString("last_Name"),resultSet.getString("phone"),resultSet.getString("areaCode"),
                         resultSet.getString("address")
                 );
@@ -50,8 +50,8 @@ public class OrdersService {
         resultSet = null;
         String queryString = "insert into [Order] values (?,?,GETDATE())";
         PreparedStatement pSt = DbConnection.getPrepared(queryString);
-        pSt.setInt(1,order.getOrderID());
-        pSt.setInt(2, order.getCustomerID());
+        pSt.setString(1,order.getOrderID());
+        pSt.setString(2, order.getCustomerID());
         pSt.execute();
     }
 
@@ -63,8 +63,8 @@ public class OrdersService {
         pSt.setInt(1,customerID);
         resultSet = pSt.executeQuery();
         while(resultSet.next()) {
-            order = new Order(resultSet.getInt("orderID"),
-                    resultSet.getInt("customer_ID"),
+            order = new Order(resultSet.getString("orderID"),
+                    resultSet.getString("customer_ID"),
                     resultSet.getDate("created_datetime")
             );
         }

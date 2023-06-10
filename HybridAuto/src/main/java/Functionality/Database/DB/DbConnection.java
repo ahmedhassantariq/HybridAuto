@@ -1,5 +1,6 @@
 package Functionality.Database.DB;
 
+import Entities.Services;
 import org.apache.commons.lang3.ObjectUtils;
 
 import java.sql.PreparedStatement;
@@ -110,6 +111,55 @@ public class DbConnection {
         return st;
     }
 
+
+
+
+
+
+
+
+
+
+
+
+    public static PreparedStatement searchOrder(Services services) throws SQLException {
+        PreparedStatement st = connWrapper.getPreparedStatementFrom(prepareOrderQuery(services));
+        setServiceParams(st,services);
+        return st;
+    }
+
+    public static String prepareOrderQuery(Services services) {
+        StringBuilder builder = new StringBuilder("select od.order_ID,c.first_Name,c.middle_Name,c.last_Name,c.phone,od.created_datetime from [Order] od " +
+                "inner join Customer c on " +
+                "od.Customer_ID = c.Customer_ID where ");
+        if (ObjectUtils.isNotEmpty(services.getNameProperty())) {
+            builder.append(" c.first_Name like CONCAT('%',?,'%')");
+        }
+        if (ObjectUtils.isNotEmpty(services.getPhone())) {
+            builder.append(" AND c.phone like CONCAT('%',?,'%')");
+        }
+        if (ObjectUtils.isNotEmpty(services.getOrderDate())) {
+            builder.append(" AND od.created_datetime like CONCAT('%',?,'%')");
+        }
+        return builder.toString();
+    }
+
+    public static PreparedStatement setServiceParams(PreparedStatement st,Services services) throws SQLException {
+        int index = 1;
+        if (ObjectUtils.isNotEmpty(services.getNameProperty())) {
+            st.setString(index, services.getName());
+            index += 1;
+        }
+        if (ObjectUtils.isNotEmpty(services.getPhone())) {
+            st.setString(index, services.getPhone());
+            index += 1;
+        }
+        if (ObjectUtils.isNotEmpty(services.getOrderDate())) {
+            st.setString(index, services.getOrderDate());
+            index += 1;
+        }
+        return st;
+    }
 
 
 
