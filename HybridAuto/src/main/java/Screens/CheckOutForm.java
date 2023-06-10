@@ -1,6 +1,8 @@
 package Screens;
 
 import Entities.Stock;
+import Functionality.Forms.Controllers.BaseController;
+import Functionality.Forms.Controllers.CheckoutController;
 import Functionality.Forms.OrdersController;
 import Styles.Buttons;
 import Styles.Fields;
@@ -19,12 +21,14 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 public class CheckOutForm {
+    private static final CheckoutController<Object> checkoutController = new CheckoutController<>();
+
     private static Label subtotalLabel = Labels.checkOutLabel("Subtotal: 0");
     private static Label discountLabel = Labels.checkOutLabel("Discount: 0");
     private static Label qtyLabel = Labels.checkOutLabel("Item-Qty: 0");
     private static Label totalLabel = Labels.checkOutLabel("Total: 0");
-    private static MFXTextField discountField = Fields.textField("Discount %",150,40);
-    private static MFXTextField discountAmountField = Fields.textField("Discount Amount",150,40);
+    private static MFXTextField discountField = checkoutController.getInputMap().get("discount").getInputControl();
+    private static MFXTextField discountAmountField = checkoutController.getInputMap().get("discount amount").getInputControl();
 
     public static VBox checkOutForm() {
 
@@ -35,12 +39,13 @@ public class CheckOutForm {
 
         MFXButton checkoutButton = Buttons.FunctionButton("CheckOut", 100, 40);
         MFXButton receiptButton = Buttons.FunctionButton_Border("Print Receipt", 100, 40);
+
         HBox actionButtons = new HBox(checkoutButton,receiptButton);
         actionButtons.setAlignment(Pos.CENTER);
         actionButtons.setPadding(new Insets(10));
         actionButtons.setSpacing(10);
 
-        OrdersController.orderList.addListener((ListChangeListener<? super Stock>) e->{
+        BaseController.orderList.addListener((ListChangeListener<? super Stock>) e->{
             updateCart();
         });
         discountField.textProperty().addListener(e->{
@@ -74,17 +79,17 @@ public class CheckOutForm {
         double discountAmount = 0;
         double totalDiscount = 0;
         double total = 0;
-        if(OrdersController.orderList.size()==0){
+        if(BaseController.orderList.size()==0){
             subtotalLabel.setText("Subtotal: 0");
             discountLabel.setText("Discount: 0");
             qtyLabel.setText("Item-Qty: 0");
             totalLabel.setText("Total: 0");
         }else {
-            for (int i = 0; i < OrdersController.orderList.size(); i++) {
-                subtotal += Double.parseDouble(OrdersController.orderList.get(i).getCost());
+            for (int i = 0; i < BaseController.orderList.size(); i++) {
+                subtotal += Double.parseDouble(BaseController.orderList.get(i).getCost());
                 subtotalLabel.setText("Subtotal: " + subtotal);
             }
-            qtyLabel.setText("Item-Qty: "+OrdersController.orderList.size());
+            qtyLabel.setText("Item-Qty: "+BaseController.orderList.size());
             if(!discountField.getText().isEmpty()){
                 discount = Double.parseDouble(discountField.getText());
             }

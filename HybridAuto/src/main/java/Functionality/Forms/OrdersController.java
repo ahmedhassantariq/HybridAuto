@@ -1,6 +1,7 @@
 package Functionality.Forms;
 
 import Entities.Stock;
+import Functionality.Forms.Controllers.BaseController;
 import Utils.CartTable;
 import Utils.OrderTable;
 import javafx.collections.FXCollections;
@@ -10,16 +11,17 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Stack;
 
+import static Functionality.Forms.Controllers.BaseController.orderList;
+
 public class OrdersController {
-    public static ObservableList<Stock> orderList = FXCollections.observableArrayList();
-    private static LinkedList<String> itemID = new LinkedList<>();
-    private static Stack<ObservableList<Stock>> orderStack = new Stack<>();
+    private static final LinkedList<String> itemID = new LinkedList<>();
+    private static final Stack<ObservableList<Stock>> orderStack = new Stack<>();
 
 
     public static void addOrderItem(Stock stock){
         if(!itemID.contains(stock.getStockID())){
             orderList.add(stock);
-            InventoryController.inventoryList.remove(stock);
+            BaseController.inventoryList.remove(stock);
             itemID.add(stock.getStockID());
         }else {
             System.out.println("Item already In list");
@@ -30,7 +32,7 @@ public class OrdersController {
             if(itemID.get(i).equals(stock.getStockID())){
                 itemID.remove(i);
                 orderList.remove(stock);
-                InventoryController.inventoryList.add(stock);
+                BaseController.inventoryList.add(stock);
                 break;
             }
         }

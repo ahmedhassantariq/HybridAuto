@@ -1,7 +1,7 @@
 package Screens;
 
 import Entities.Stock;
-import Functionality.Forms.InventoryController;
+import Functionality.Forms.Controllers.ProductController;
 import Styles.Buttons;
 import Styles.Fields;
 import Styles.Labels;
@@ -18,49 +18,29 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 public class ProductForm {
+    private static final ProductController<Stock> productController = new ProductController<>();
 
     public static VBox productForm(Pane borderContainer) {
-
-
-
-        InventoryController.setMakeComboList();
-        MFXComboBox makeComboBox = new MFXComboBox(InventoryController.makeComboList);
+//        InventoryController.setMakeComboList();
+        
+        MFXComboBox<String> makeComboBox = productController.getInputMap().get("make").getInputControl();
         makeComboBox.setFloatingText("Make");
-        makeComboBox.setOnAction(e-> {
-                if(makeComboBox.getValue()!=null) {
-                    InventoryController.setModelComboList(makeComboBox.getValue().toString());
-                }
-        });
 
 
-
-        MFXComboBox modelComboBox = new MFXComboBox(InventoryController.modelComboList);
+        MFXComboBox<String> modelComboBox = productController.getInputMap().get("model").getInputControl();
         modelComboBox.setFloatingText("Model");
-        modelComboBox.setOnAction(e->{
-                if(modelComboBox.getValue()!=null) {
-                    InventoryController.setYearComboList(modelComboBox.getValue().toString());
-                }
-        });
 
 
-        MFXComboBox yearComboBox = new MFXComboBox(InventoryController.yearComboList);
+        MFXComboBox<String> yearComboBox = productController.getInputMap().get("year").getInputControl();
         yearComboBox.setFloatingText("Year");
-        yearComboBox.setOnAction(e->{
-            if(makeComboBox.getValue()!=null&&modelComboBox.getValue()!=null&&yearComboBox.getValue()!=null) {
-                InventoryController.setProductComboList(makeComboBox.getValue().toString(),
-                        modelComboBox.getValue().toString(),
-                        yearComboBox.getValue().toString());
-            }
-        });
-
 
         ObservableList<String> conditionList = FXCollections.observableArrayList("New","Used");
-        MFXComboBox conditionComboBox = new MFXComboBox(conditionList);
+        MFXComboBox<String> conditionComboBox = productController.getInputMap().get("condition").getInputControl();
         conditionComboBox.setFloatingText("Condition");
 
 
 
-        MFXComboBox typeComboBox = new MFXComboBox(InventoryController.productComboList);
+        MFXComboBox<String> typeComboBox = productController.getInputMap().get("type").getInputControl();
         typeComboBox.setFloatingText("Product");
 
         HBox comboBoxContainer = new HBox(makeComboBox,modelComboBox,yearComboBox);
@@ -95,7 +75,7 @@ public class ProductForm {
         });
 
         resetButton.setOnAction(e->{
-            InventoryController.clearLists();
+            productController.clearLists();
             conditionComboBox.clear();
             costField.clear();
             descriptionField.clear();
@@ -113,18 +93,9 @@ public class ProductForm {
                             !serialField.getText().isEmpty()&
                             !serialField.getText().isBlank()
             ){
-                InventoryController.insertProduct(new Stock(
-                        null,
-                        makeComboBox.getValue().toString(),
-                        modelComboBox.getValue().toString(),
-                        yearComboBox.getValue().toString(),
-                        typeComboBox.getValue().toString(),
-                        serialField.getText(),
-                        costField.getText(),
-                        descriptionField.getText(),
-                        conditionComboBox.getValue().toString()));
+                productController.create();
                 serialField.clear();
-                InventoryController.setInventoryList();
+                productController.setInventoryList();
             }
 
 
@@ -141,18 +112,9 @@ public class ProductForm {
                             !serialField.getText().isEmpty()&
                             !serialField.getText().isBlank()
             ){
-                InventoryController.insertProduct(new Stock(
-                        null,
-                        makeComboBox.getValue().toString(),
-                        modelComboBox.getValue().toString(),
-                        yearComboBox.getValue().toString(),
-                        typeComboBox.getValue().toString(),
-                        serialField.getText(),
-                        costField.getText(),
-                        descriptionField.getText(),
-                        conditionComboBox.getValue().toString()));
+                productController.create();
                 serialField.clear();
-                InventoryController.setInventoryList();
+                productController.setInventoryList();
             }
 
 

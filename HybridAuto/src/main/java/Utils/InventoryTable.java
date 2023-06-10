@@ -1,7 +1,6 @@
 package Utils;
 
 import Entities.Stock;
-import Functionality.Forms.InventoryController;
 import javafx.scene.Parent;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SelectionMode;

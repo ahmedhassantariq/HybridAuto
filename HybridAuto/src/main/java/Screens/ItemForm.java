@@ -1,29 +1,29 @@
 package Screens;
 
-import Functionality.Forms.InventoryController;
+import Entities.Product;
+import Functionality.Forms.Controllers.ItemController;
+import Functionality.Forms.Controllers.ProductController;
 import Functionality.Forms.OrdersController;
 import Styles.Buttons;
 import Styles.Fields;
 import Styles.Labels;
-import Utils.InventoryTable;
 import Utils.OrderTable;
 import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.css.themes.Stylesheets;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 import java.sql.SQLException;
 
 public class ItemForm {
+    private static final ItemController<Product> itemController = new ItemController<>();
 
     public static VBox newOrderForm() throws SQLException {
 
-        MFXTextField serialField = Fields.textField("SerialNo.", 300, 40);
+        MFXTextField serialField = itemController.getInputMap().get("serialno").getInputControl();
 
 
 
@@ -44,11 +44,11 @@ public class ItemForm {
         });
 
         serialField.textProperty().addListener(e->{
-            InventoryController.searchText("","","",serialField.getText());
+            ItemController.search(serialField.getText());
         });
 
         searchButton.setOnAction(e->{
-            InventoryController.searchText("","","", serialField.getText());
+            ItemController.search(serialField.getText());
         });
 
         HBox buttonBox = new HBox(addButton, searchButton);

@@ -8,28 +8,27 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class ProductService {
-    public static boolean addProduct(Product p) {
-        try {
-            return DatabaseQueryExecutor.executeInsert(
-                    DatabaseQueries.INSERT_QUERIES.INSERT_PRODUCT,
-                    p.getCarID(), p.getProductID(), p.getSerialNumber(), p.getCost(), p.getDescription(),
-                    "GETDATE()", p.getCondition(), String.valueOf(1)
-                    );
-        } catch (SQLException e) {
-            // TODO: 6/4/2023 maybe display dialog explaining error, maybe do this in ProductController and not Service instead
-            throw new RuntimeException(e);
-        }
-    }
-    public static boolean updateProduct(Product p) {
-        try {
-            return DatabaseQueryExecutor.executeUpdate(
-                    DatabaseQueries.UPDATE_QUERIES.UPDATE_PRODUCT,
-                    p.getCarID(), p.getProductID(), p.getSerialNumber(), p.getCost(), p.getDescription(), p.getCondition()
-            );
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
+//    public static boolean addProduct(Product p) {
+//        try {
+//            return DatabaseQueryExecutor.executeInsert(
+//                    DatabaseQueries.INSERT_QUERIES.INSERT_PRODUCT,
+//                    p.getCarID(), p.getProductID(), p.getSerialNumber(), p.getCost(), p.getDescription(),
+//                    "GETDATE()", p.getCondition(), String.valueOf(1)
+//                    );-
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
+//    public static boolean updateProduct(Product p) {
+//        try {
+//            return DatabaseQueryExecutor.executeUpdate(
+//                    DatabaseQueries.UPDATE_QUERIES.UPDATE_PRODUCT,
+//                    p.getCarID(), p.getProductID(), p.getSerialNumber(), p.getCost(), p.getDescription(), p.getCondition()
+//            );
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
     public static boolean deleteProduct(String productId) {
         try {
             return DatabaseQueryExecutor.executeDelete(
@@ -93,6 +92,17 @@ public class ProductService {
                     DatabaseQueries.SEARCH_QUERIES.AGGREGATES.COUNT.GET_COUNT_INVENTORY_PRODUCT_ID,
                     "integer"
             ).get(0);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static List<Product> searchAllProductsOfMakeModelYear(String make, String model, String year) {
+        try {
+            return DatabaseQueryExecutor.executeGetWithCondition(
+                    DatabaseQueries.SEARCH_QUERIES.WITH_CONDITION.SEARCH_PRODUCTS_WITH_MAKE_MODEL_YEAR,
+                    "product", make, model, year
+            );
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

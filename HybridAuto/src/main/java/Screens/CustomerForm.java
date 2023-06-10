@@ -1,5 +1,7 @@
 package Screens;
 
+import Entities.Customer;
+import Functionality.Forms.Controllers.CustomerController;
 import Functionality.Forms.OrdersController;
 import Styles.Buttons;
 import Styles.Fields;
@@ -16,23 +18,26 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 public class CustomerForm {
+    private static final CustomerController<Customer> customerController = new CustomerController<>();
 
     public static VBox customerForm() {
-        MFXComboBox customerComboBox = new MFXComboBox();
+        MFXComboBox<String> customerComboBox = customerController.getInputMap().get("customer").getInputControl();
         customerComboBox.setFloatingText("Customer");
-        MFXTextField nameField = Fields.textField("Customer Name", 150, 40);
-        MFXTextField phoneField = Fields.textField("PhoneNo.", 150, 40);
+
+        MFXTextField nameField = customerController.getInputMap().get("name").getInputControl();
+        MFXTextField phoneField = customerController.getInputMap().get("phone").getInputControl();
+
         phoneField.delegateSetTextFormatter(Formatter.phoneFormatter());
         phoneField.setTextLimit(13);
 
 
-        MFXComboBox carComboBox = new MFXComboBox();
+        MFXComboBox<String> carComboBox = customerController.getInputMap().get("license").getInputControl();
         carComboBox.setFloatingText("Car License");
-        MFXComboBox makeComboBox = new MFXComboBox();
+        MFXComboBox<String> makeComboBox = customerController.getInputMap().get("make").getInputControl();
         makeComboBox.setFloatingText("Make");
-        MFXComboBox modelComboBox = new MFXComboBox();
+        MFXComboBox<String> modelComboBox = customerController.getInputMap().get("model").getInputControl();
         modelComboBox.setFloatingText("Model");
-        MFXComboBox yearComboBox = new MFXComboBox();
+        MFXComboBox<String> yearComboBox = customerController.getInputMap().get("year").getInputControl();
         yearComboBox.setFloatingText("Year");
 
         HBox customerContainer = new HBox(nameField, phoneField);

@@ -1,6 +1,7 @@
 package Functionality.Forms.Controllers;
 
 import Entities.Product;
+import Entities.Stock;
 import Functionality.Database.Services.CarService;
 import Functionality.Database.Services.CategoryService;
 import Functionality.Database.Services.ProductService;
@@ -12,8 +13,6 @@ import javafx.collections.ObservableList;
 
 import java.util.Map;
 
-// TODO: 6/4/2023 auto fill at Make + use obs list
-// TODO: 6/4/2023 static block that queries database to populate these obs lists here
 public abstract class BaseController<T> {
     public static final ObservableList<Product> inventoryList = FXCollections.observableArrayList();
     public static final ObservableList<String> makeList = FXCollections.observableArrayList(
@@ -29,6 +28,7 @@ public abstract class BaseController<T> {
     public static final ObservableList<String> productList = FXCollections.observableArrayList(
             "ABS","Battery"
     );
+    public static ObservableList<Stock> orderList = FXCollections.observableArrayList();
 
 
     //populate lists from DB

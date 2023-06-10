@@ -13,7 +13,7 @@ public class Stock extends Car {
     private final SimpleStringProperty condition;
 
 
-    public Stock( String stockID, String carMake,String carModel, String carYear, String productCategory, String serialNumber, String cost, String description, String condition) {
+    public Stock(String stockID, String carMake,String carModel, String carYear, String productCategory, String serialNumber, String cost, String description, String condition) {
         super("",carMake,carModel,carYear);
         this.stockID = new SimpleStringProperty(stockID);
         this.productCategory = new SimpleStringProperty(productCategory);

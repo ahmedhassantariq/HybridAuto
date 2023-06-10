@@ -1,8 +1,8 @@
 package Screens;
 
-import Entities.Car;
+import Entities.Category;
 import Entities.Stock;
-import Functionality.Forms.InventoryController;
+import Functionality.Forms.Controllers.CategoryController;
 import Styles.Buttons;
 import Styles.Fields;
 import Styles.Labels;
@@ -16,15 +16,16 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 public class CategoryForm {
+    private static final CategoryController<Stock> categoryController = new CategoryController<>();
 
     public static VBox categoryForm(Pane borderContainer){
         Label title = Labels.titleLabel("New Category");
 
         //Combo Boxes
-        MFXTextField makeField = Fields.textField("Make",100,40);
-        MFXTextField modelField = Fields.textField("Model",100,40);
-        MFXTextField yearField = Fields.textField("Year",100,40);
-        MFXTextField categoryField = Fields.textField("Product",100,40);
+        MFXTextField makeField = categoryController.getInputMap().get("make").getInputControl();
+        MFXTextField modelField = categoryController.getInputMap().get("model").getInputControl();
+        MFXTextField yearField = categoryController.getInputMap().get("year").getInputControl();
+        MFXTextField categoryField = categoryController.getInputMap().get("category").getInputControl();
         MFXButton addCategoryButton = Buttons.FunctionButton("Add",100,40);
 
         addCategoryButton.setOnAction(e->{
@@ -33,7 +34,7 @@ public class CategoryForm {
                     !yearField.getText().isEmpty()&&
                     !categoryField.getText().isEmpty()
             ){
-                InventoryController.insertCategory(new Stock(null,makeField.getText(),modelField.getText(),yearField.getText(),categoryField.getText(),null,null,null,null));
+                categoryController.create();
             }
         });
 

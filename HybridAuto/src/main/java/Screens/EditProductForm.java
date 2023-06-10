@@ -1,7 +1,6 @@
 package Screens;
 
 import Entities.Stock;
-import Functionality.Forms.InventoryController;
 import Styles.Buttons;
 import Styles.Fields;
 import Styles.Labels;

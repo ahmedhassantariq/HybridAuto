@@ -12,10 +12,9 @@ public class CarService {
         try {
             return DatabaseQueryExecutor.executeInsert(
                     DatabaseQueries.INSERT_QUERIES.INSERT_CAR,
-                    c.getManufacturerID(), c.getMake(), c.getModel(), c.getYear()
+                    c.getMake(), c.getModel(), c.getYear()
             );
         } catch (SQLException e) {
-            // TODO: 6/4/2023 maybe display dialog explaining error, maybe do this in CarController and not Service instead
             throw new RuntimeException(e);
         }
     }
@@ -23,7 +22,7 @@ public class CarService {
         try {
             return DatabaseQueryExecutor.executeUpdate(
                     DatabaseQueries.UPDATE_QUERIES.UPDATE_CAR,
-                    c.getManufacturerID(), c.getMake(), c.getModel(), c.getYear()
+                    c.getMake(), c.getModel(), c.getYear()
             );
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -103,6 +102,17 @@ public class CarService {
             return DatabaseQueryExecutor.executeGetWithCondition(
                     DatabaseQueries.SEARCH_QUERIES.WITH_CONDITION.SEARCH_MODELS_WITH_MAKE,
                     "string", make
+            );
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static List<String> searchAllYearsWithModel(String model) {
+        try {
+            return DatabaseQueryExecutor.executeGetWithCondition(
+                    DatabaseQueries.SEARCH_QUERIES.WITH_CONDITION.SEARCH_YEARS_WITH_MODEL,
+                    "string", model
             );
         } catch (SQLException e) {
             throw new RuntimeException(e);

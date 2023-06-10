@@ -1,7 +1,5 @@
 package Functionality.Database.DB;
 
-import Functionality.Database.DB_Backup.ConnectionWrapper;
-
 import java.sql.*;
 
 public class DatabaseConnector {
