@@ -7,6 +7,7 @@ import Entities.Stock;
 import Functionality.Database.OrdersService;
 import Screens.CustomerForm;
 import Screens.OrderForm;
+import Screens.StatusScreen;
 import Utils.CartTable;
 import Utils.OrderTable;
 import javafx.collections.FXCollections;
@@ -26,10 +27,9 @@ public class OrdersController {
     public static void addOrderItem(Stock stock){
         if(!itemID.contains(stock.getStockID())){
             orderList.add(stock);
-            InventoryController.inventoryList.remove(stock);
             itemID.add(stock.getStockID());
         }else {
-            System.out.println("Item already In list");
+            StatusScreen.setNotification("Already Added");
         }
     }
     public static void removeOrderItem(Stock stock){
@@ -37,7 +37,6 @@ public class OrdersController {
             if(itemID.get(i).equals(stock.getStockID())&&stock!=null){
                 itemID.remove(i);
                 orderList.remove(stock);
-                InventoryController.inventoryList.add(stock);
                 break;
             }
         }
@@ -105,13 +104,12 @@ public class OrdersController {
                 InventoryController.deleteProduct(orderList.get(orderList.size()-1).getStockID());
                 orderList.remove(orderList.size()-1);
             }
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }finally {
             orderList.clear();
             itemID.clear();
             OrderTable.inventoryTable.refresh();
+            StatusScreen.setNotification("Checkout Complete");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 

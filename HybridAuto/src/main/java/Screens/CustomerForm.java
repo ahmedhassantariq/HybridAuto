@@ -23,6 +23,7 @@ public class CustomerForm {
         MFXComboBox customerComboBox = new MFXComboBox();
         customerComboBox.setFloatingText("Customer");
 
+        nameField.setTextLimit(10);
         phoneField.delegateSetTextFormatter(Formatter.phoneFormatter());
         phoneField.setTextLimit(13);
 
@@ -36,7 +37,7 @@ public class CustomerForm {
         MFXComboBox yearComboBox = new MFXComboBox();
         yearComboBox.setFloatingText("Year");
 
-        HBox customerContainer = new HBox(nameField, phoneField);
+        HBox customerContainer = new HBox(phoneField, nameField);
         customerContainer.setAlignment(Pos.CENTER);
         customerContainer.setPadding(new Insets(10));
         customerContainer.setSpacing(10);
@@ -48,9 +49,8 @@ public class CustomerForm {
         comboBoxContainer.setSpacing(10);
 
 
-
-        MFXButton confirmButton = Buttons.FunctionButton("Confirm", 100, 40);
         MFXButton removeProductButton = Buttons.FunctionButton_Border("Remove", 100, 40);
+        MFXButton clearAllButton = Buttons.FunctionButton("Clear Cart",70,40);
 
         removeProductButton.setOnAction(e->{
             OrdersController.removeOrderItem(CartTable.cartTable.getSelectionModel().getSelectedItem());
@@ -75,8 +75,11 @@ public class CustomerForm {
                     name+=" "+customer.getLastName();
                 nameField.setText(name);
         }});
+        clearAllButton.setOnAction(e->{
+            OrdersController.orderList.clear();
+        });
 
-        HBox buttonBox = new HBox(confirmButton, removeProductButton);
+        HBox buttonBox = new HBox(removeProductButton,clearAllButton);
         buttonBox.setAlignment(Pos.CENTER);
         buttonBox.setPadding(new Insets(10));
         buttonBox.setSpacing(10);

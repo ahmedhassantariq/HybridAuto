@@ -22,46 +22,48 @@ public class ProductForm {
     public static VBox productForm(Pane borderContainer) {
 
 
-
         InventoryController.setMakeComboList();
+        ObservableList<String> conditionList = FXCollections.observableArrayList("New","Used");
+
         MFXComboBox makeComboBox = new MFXComboBox(InventoryController.makeComboList);
+        MFXComboBox modelComboBox = new MFXComboBox(InventoryController.modelComboList);
+        MFXComboBox yearComboBox = new MFXComboBox(InventoryController.yearComboList);
+        MFXComboBox typeComboBox = new MFXComboBox(InventoryController.productComboList);
+        MFXComboBox conditionComboBox = new MFXComboBox(conditionList);
+
+
         makeComboBox.setFloatingText("Make");
         makeComboBox.setOnAction(e-> {
                 if(makeComboBox.getValue()!=null) {
+                    modelComboBox.clear();
+                    yearComboBox.clear();
+                    typeComboBox.clear();
                     InventoryController.setModelComboList(makeComboBox.getValue().toString());
                 }
         });
 
-
-
-        MFXComboBox modelComboBox = new MFXComboBox(InventoryController.modelComboList);
         modelComboBox.setFloatingText("Model");
         modelComboBox.setOnAction(e->{
                 if(modelComboBox.getValue()!=null) {
+                    yearComboBox.clear();
+                    typeComboBox.clear();
                     InventoryController.setYearComboList(modelComboBox.getValue().toString());
                 }
         });
 
-
-        MFXComboBox yearComboBox = new MFXComboBox(InventoryController.yearComboList);
         yearComboBox.setFloatingText("Year");
         yearComboBox.setOnAction(e->{
             if(makeComboBox.getValue()!=null&&modelComboBox.getValue()!=null&&yearComboBox.getValue()!=null) {
+                typeComboBox.clear();
                 InventoryController.setProductComboList(makeComboBox.getValue().toString(),
                         modelComboBox.getValue().toString(),
                         yearComboBox.getValue().toString());
             }
         });
 
-
-        ObservableList<String> conditionList = FXCollections.observableArrayList("New","Used");
-        MFXComboBox conditionComboBox = new MFXComboBox(conditionList);
         conditionComboBox.setFloatingText("Condition");
-
-
-
-        MFXComboBox typeComboBox = new MFXComboBox(InventoryController.productComboList);
         typeComboBox.setFloatingText("Product");
+
 
         HBox comboBoxContainer = new HBox(makeComboBox,modelComboBox,yearComboBox);
         comboBoxContainer.setAlignment(Pos.CENTER);
@@ -125,6 +127,8 @@ public class ProductForm {
                         conditionComboBox.getValue().toString()));
                 serialField.clear();
                 InventoryController.setInventoryList();
+            }else {
+                StatusScreen.setNotification("Fill Fields");
             }
 
 
@@ -153,10 +157,9 @@ public class ProductForm {
                         conditionComboBox.getValue().toString()));
                 serialField.clear();
                 InventoryController.setInventoryList();
+            }else {
+                StatusScreen.setNotification("Fill Fields");
             }
-
-
-
         });
 
 

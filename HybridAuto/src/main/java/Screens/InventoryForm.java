@@ -21,7 +21,7 @@ import java.sql.SQLException;
 public class InventoryForm {
     public static Parent inventoryForm() throws SQLException {
 
-        MFXTextField searchField = Fields.textField("Search",300,40);
+        MFXTextField searchField = Fields.textField("Search by Serial",300,40);
         MFXButton createCategoryButton = Buttons.FunctionButton("Create New Category ",150,40);
         MFXButton addNewProductButton = Buttons.FunctionButton("Add Product",100,40);
         MFXButton editProductButton = Buttons.FunctionButton("Edit Product",100,40);

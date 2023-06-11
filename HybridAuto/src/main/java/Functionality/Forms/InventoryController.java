@@ -3,6 +3,7 @@ package Functionality.Forms;
 import Entities.Car;
 import Entities.Stock;
 import Functionality.Database.InventoryService;
+import Screens.StatusScreen;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -86,6 +87,7 @@ public class InventoryController {
     public static void insertProduct(Stock stock) {
         try{
             InventoryService.insertInventoryProduct(stock);
+            StatusScreen.setNotification("Stock Inserted");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -94,6 +96,7 @@ public class InventoryController {
         try{
         Stock stock = new Stock(stockID,make,model,year,type,serial,cost,comments,condition);
             InventoryService.updateInventoryProduct(stock);
+            StatusScreen.setNotification("Stock Updated");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -101,6 +104,8 @@ public class InventoryController {
     public static void deleteProduct(String stockID) throws SQLException {
         try {
             InventoryService.deleteInventoryProduct(stockID);
+            StatusScreen.setNotification("Stock Deleted");
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -135,8 +140,9 @@ public class InventoryController {
                 String carID = InventoryService.getCarID(category.getMake(),category.getModel(),category.getYear());
                 InventoryService.insertCategory(carID,category);
             }
+            StatusScreen.setNotification("Category Added");
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            StatusScreen.setNotification("UniqueKeyViolation");
         }
     }
 

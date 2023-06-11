@@ -23,7 +23,7 @@ public class ItemForm {
 
     public static VBox newOrderForm() throws SQLException {
 
-        MFXTextField serialField = Fields.textField("SerialNo.", 300, 40);
+        MFXTextField serialField = Fields.textField("Search by Serial", 300, 40);
 
 
 
@@ -35,7 +35,6 @@ public class ItemForm {
 
 
         MFXButton addButton = Buttons.FunctionButton("Add", 100, 40);
-        MFXButton searchButton = Buttons.FunctionButton_Border("Search", 100, 40);
 
         addButton.setOnAction(e->{
             if(OrderTable.inventoryTable.getSelectionModel().getSelectedItem()!=null) {
@@ -47,11 +46,8 @@ public class ItemForm {
             InventoryController.searchText("","","",serialField.getText());
         });
 
-        searchButton.setOnAction(e->{
-            InventoryController.searchText("","","", serialField.getText());
-        });
 
-        HBox buttonBox = new HBox(addButton, searchButton);
+        HBox buttonBox = new HBox(addButton);
         buttonBox.setAlignment(Pos.CENTER);
         buttonBox.setPadding(new Insets(10));
         buttonBox.setSpacing(10);

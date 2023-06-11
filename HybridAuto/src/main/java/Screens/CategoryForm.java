@@ -6,6 +6,7 @@ import Functionality.Forms.InventoryController;
 import Styles.Buttons;
 import Styles.Fields;
 import Styles.Labels;
+import Utils.Formatter;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.css.themes.Stylesheets;
@@ -24,7 +25,12 @@ public class CategoryForm {
         MFXTextField makeField = Fields.textField("Make",100,40);
         MFXTextField modelField = Fields.textField("Model",100,40);
         MFXTextField yearField = Fields.textField("Year",100,40);
+        yearField.delegateSetTextFormatter(Formatter.digitFormatter());
+        yearField.setTextLimit(4);
+
         MFXTextField categoryField = Fields.textField("Product",100,40);
+        categoryField.setTextLimit(20);
+
         MFXButton addCategoryButton = Buttons.FunctionButton("Add",100,40);
 
         addCategoryButton.setOnAction(e->{
@@ -34,6 +40,7 @@ public class CategoryForm {
                     !categoryField.getText().isEmpty()
             ){
                 InventoryController.insertCategory(new Stock(null,makeField.getText(),modelField.getText(),yearField.getText(),categoryField.getText(),null,null,null,null));
+
             }
         });
 

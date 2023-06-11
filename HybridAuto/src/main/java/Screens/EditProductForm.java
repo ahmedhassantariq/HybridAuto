@@ -5,6 +5,7 @@ import Functionality.Forms.InventoryController;
 import Styles.Buttons;
 import Styles.Fields;
 import Styles.Labels;
+import Utils.Formatter;
 import Utils.InventoryTable;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
@@ -23,40 +24,56 @@ public class EditProductForm {
 
 
         InventoryController.setMakeComboList();
+        ObservableList<String> conditionList = FXCollections.observableArrayList("New","Used");
         MFXComboBox makeComboBox = new MFXComboBox(InventoryController.makeComboList);
+        MFXComboBox modelComboBox = new MFXComboBox(InventoryController.modelComboList);
+        MFXComboBox yearComboBox = new MFXComboBox(InventoryController.yearComboList);
+        MFXComboBox typeComboBox = new MFXComboBox(InventoryController.productComboList);
+        MFXComboBox conditionComboBox = new MFXComboBox(conditionList);
+
+
         makeComboBox.setFloatingText("Make");
         makeComboBox.setValue(stock.getMake());
         makeComboBox.setText(stock.getMake());
         makeComboBox.setOnAction(e-> {
             if(makeComboBox.getValue()!=null) {
+                modelComboBox.clear();
+                yearComboBox.clear();
+                typeComboBox.clear();
                 InventoryController.setModelComboList(makeComboBox.getValue().toString());
             }
         });
 
-        MFXComboBox modelComboBox = new MFXComboBox(InventoryController.modelComboList);
         modelComboBox.setFloatingText("Model");
         modelComboBox.setValue(stock.getModel());
         modelComboBox.setText(stock.getModel());
         modelComboBox.setOnAction(e->{
             if(modelComboBox.getValue()!=null) {
+                yearComboBox.clear();
+                typeComboBox.clear();
                 InventoryController.setYearComboList(modelComboBox.getValue().toString());
             }
         });
 
 
-        MFXComboBox yearComboBox = new MFXComboBox(InventoryController.yearComboList);
         yearComboBox.setFloatingText("Year");
         yearComboBox.setValue(stock.getYear());
         yearComboBox.setText(stock.getYear());
+        yearComboBox.setOnAction(e->{
+            if(makeComboBox.getValue()!=null&&modelComboBox.getValue()!=null&&yearComboBox.getValue()!=null) {
+                typeComboBox.clear();
+                InventoryController.setProductComboList(makeComboBox.getValue().toString(),
+                        modelComboBox.getValue().toString(),
+                        yearComboBox.getValue().toString());
+            }
+        });
 
-        ObservableList<String> conditionList = FXCollections.observableArrayList("New","Used");
-        MFXComboBox conditionComboBox = new MFXComboBox(conditionList);
+
         conditionComboBox.setFloatingText("Condition");
         conditionComboBox.setValue(stock.getCondition());
         conditionComboBox.setText(stock.getCondition());
 
         InventoryController.setProductComboList(stock.getMake(), stock.getModel(),stock.getYear());
-        MFXComboBox typeComboBox = new MFXComboBox(InventoryController.productComboList);
         typeComboBox.setFloatingText("Product");
         typeComboBox.setValue(stock.getProductCategory());
         typeComboBox.setText(stock.getProductCategory());
@@ -71,7 +88,8 @@ public class EditProductForm {
 
         MFXTextField costField = Fields.textField("Cost",100,40);
         costField.setText(stock.getCost());
-
+        costField.delegateSetTextFormatter(Formatter.digitFormatter());
+        costField.setTextLimit(10);
 
         MFXTextField descriptionField = Fields.textField("Comments",300,40);
         descriptionField.setText(stock.getComments());
@@ -83,7 +101,7 @@ public class EditProductForm {
 
         MFXTextField serialField = Fields.textField("SerialNo.",300,40);
         serialField.setText(stock.getSerialNumber());
-
+        serialField.setTextLimit(50);
 
         MFXButton updateButton = Buttons.FunctionButton("Update",100,40);
         MFXButton cancelButton = Buttons.FunctionButton_Border("Cancel",100,40);
@@ -115,16 +133,17 @@ public class EditProductForm {
                             costField.getText(),
                             serialField.getText(),
                             descriptionField.getText());
+                serialField.clear();
+                InventoryController.setInventoryList();
+                borderContainer.getChildren().remove(borderContainer.getChildren().size()-1);
+                InventoryTable.inventoryTable.getSelectionModel().clearSelection();
+            }else {
+                StatusScreen.setNotification("Fill Fields");
             }
 
-            serialField.clear();
-            InventoryController.setInventoryList();
+
         });
 
-        serialField.setOnKeyPressed(e->{
-            if(e.getCode()==KeyCode.ENTER)
-                serialField.clear();
-        });
 
 
 
