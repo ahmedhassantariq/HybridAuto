@@ -39,6 +39,7 @@ public class OrderForm {
 
 
 
+
         HBox customerOrderBox = new HBox(ItemForm.newOrderForm(),CustomerForm.customerForm(),CheckOutForm.checkOutForm());
         customerOrderBox.setPadding(new Insets(10));
         customerOrderBox.setSpacing(10);

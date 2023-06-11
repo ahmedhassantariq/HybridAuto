@@ -38,7 +38,7 @@ public class MainScreen {
         MFXButton ordersFormButton = Buttons.DashboardButton("Orders", FontIcon.of(PrestaShopIcons.MAGNIFYING_GLASS));
         MFXButton reportsFormButton = Buttons.DashboardButton("Reports", FontIcon.of(PrestaShopIcons.PAPER_TABLET));
         MFXButton serviceFormButton = Buttons.DashboardButton("Services", FontIcon.of(PrestaShopIcons.SALE_TAG));
-        MFXButton utilitiesFormButton = Buttons.DashboardButton("Utilities", FontIcon.of(LigatureSymbols.EXTERNAL));
+        MFXButton expensesFormButton = Buttons.DashboardButton("Expenses", FontIcon.of(LigatureSymbols.EXTERNAL));
         MFXButton logoutButton = Buttons.DashboardButton("Logout", FontIcon.of(LigatureSymbols.LOGOUT));
 
         //Adding nodes to SelectionPane
@@ -47,7 +47,7 @@ public class MainScreen {
                 inventoryFormButton,
                 ordersFormButton,
                 serviceFormButton,
-                utilitiesFormButton,
+                expensesFormButton,
                 reportsFormButton,
                 logoutButton
         );
@@ -80,6 +80,13 @@ public class MainScreen {
             try {
                 viewPane.setCenter(ServicesForm.servicesForm());
             } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+        expensesFormButton.setOnAction(e->{
+            try{
+                viewPane.setCenter(ExpensesForm.expensesForm());
+            } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
         });

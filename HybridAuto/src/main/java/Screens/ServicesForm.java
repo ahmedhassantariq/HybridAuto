@@ -25,7 +25,7 @@ import java.sql.SQLException;
 public class ServicesForm {
     public static Parent servicesForm() throws SQLException {
 
-        MFXTextField searchField = Fields.textField("Search", 300, 40);
+        MFXTextField searchField = Fields.textField("Search by Phone", 300, 40);
         searchField.delegateSetTextFormatter(Formatter.phoneFormatter());
         MFXButton createCategoryButton = Buttons.FunctionButton("View Details", 150, 40);
 

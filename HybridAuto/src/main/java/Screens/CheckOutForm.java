@@ -24,8 +24,8 @@ public class CheckOutForm {
     private static Label discountLabel = Labels.checkOutLabel("Discount: 0");
     private static Label qtyLabel = Labels.checkOutLabel("Item-Qty: 0");
     private static Label totalLabel = Labels.checkOutLabel("Total: 0");
-    private static MFXTextField discountField = Fields.textField("Discount %",150,40);
-    private static MFXTextField discountAmountField = Fields.textField("Discount Amount",150,40);
+    public static MFXTextField discountField = Fields.textField("Discount %",150,40);
+    public static MFXTextField discountAmountField = Fields.textField("Discount Amount",150,40);
     public static MFXButton checkoutButton = Buttons.FunctionButton("CheckOut", 100, 40);
     public static MFXButton receiptButton = Buttons.FunctionButton_Border("Print Receipt", 100, 40);
     public static double totalAmount;

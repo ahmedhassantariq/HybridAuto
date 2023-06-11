@@ -59,7 +59,6 @@ public class CustomerForm {
             if(!nameField.getText().isEmpty()&&!phoneField.getText().isEmpty()&&!OrdersController.orderList.isEmpty()) {
                 OrdersController.orderCheckout(new Customer(null, nameField.getText(), null, null, phoneField.getText(), null, null));
             }
-            CheckOutForm.orderIDLabel.setText("Order-ID: "+OrdersController.newOrderID());
             });
 
         phoneField.textProperty().addListener(e->{
@@ -76,7 +75,7 @@ public class CustomerForm {
                 nameField.setText(name);
         }});
         clearAllButton.setOnAction(e->{
-            OrdersController.orderList.clear();
+            OrdersController.clearCart();
         });
 
         HBox buttonBox = new HBox(removeProductButton,clearAllButton);

@@ -25,7 +25,7 @@ import java.time.temporal.ChronoUnit;
 
 public class StatusScreen {
     private static Label dateTimeLabel = Labels.timeLabel();
-    private static Label notificationLabel = Labels.notificationLabel("NOTIFICATIONS");
+    private static Label notificationLabel = Labels.notificationLabel("");
     private static LocalTime currentTime = LocalTime.now();
     private static LocalTime previousTime = LocalTime.now();
     public static Parent statusScreen(){

@@ -5,10 +5,12 @@ import Entities.Order;
 import Entities.OrderDetail;
 import Entities.Stock;
 import Functionality.Database.OrdersService;
+import Screens.CheckOutForm;
 import Screens.CustomerForm;
 import Screens.OrderForm;
 import Screens.StatusScreen;
 import Utils.CartTable;
+import Utils.InventoryTable;
 import Utils.OrderTable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -40,7 +42,10 @@ public class OrdersController {
                 break;
             }
         }
-
+    }
+    public static void clearCart(){
+        orderList.clear();
+        itemID.clear();
     }
     public static void pushOrder(){
         if(!orderList.isEmpty()) {
@@ -107,7 +112,11 @@ public class OrdersController {
             orderList.clear();
             itemID.clear();
             OrderTable.inventoryTable.refresh();
+            CheckOutForm.orderIDLabel.setText("Order-ID: "+OrdersController.newOrderID());
+            CheckOutForm.discountField.clear();
+            CheckOutForm.discountAmountField.clear();
             StatusScreen.setNotification("Checkout Complete");
+            OrderTable.inventoryTable.setItems(InventoryController.getInventoryList());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
