@@ -129,9 +129,7 @@ public class InventoryService {
 
     public static void insertInventoryProduct(Stock stock) throws SQLException {
         resultSet = null;
-        System.out.println(stock.getMake()+stock.getModel()+stock.getYear());
         String productID = getProductID(stock.getMake(),stock.getModel(),stock.getYear(), stock.getProductCategory());
-        System.out.println(productID);
         String queryString = "insert into stock values(?, ? , ? , ? ,GetDate(), ? ,'1')";
         PreparedStatement pSt = DbConnection.getPrepared(queryString);
         pSt.setString(1, productID);
@@ -146,7 +144,6 @@ public class InventoryService {
         resultSet = null;
         String queryString = "UPDATE [dbo].[stock] SET [product_ID] = ? , [serial_number] = ? ,[cost] = ? ,[comments] = ? ,[condition] = ? WHERE stock_ID = ? ";
         String productID = getProductID(stock.getMake(),stock.getModel(),stock.getYear(), stock.getProductCategory());
-        System.out.println(productID);
         PreparedStatement pSt = DbConnection.getPrepared(queryString);
         pSt.setString(1, productID);
         pSt.setString(2, stock.getSerialNumber());

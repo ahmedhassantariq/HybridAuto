@@ -87,7 +87,6 @@ public class EditProductForm {
 
 
         MFXTextField costField = Fields.textField("Cost",100,40);
-        costField.setText(stock.getCost());
         costField.delegateSetTextFormatter(Formatter.digitFormatter());
         costField.setTextLimit(10);
 

@@ -96,6 +96,7 @@ public class InventoryController {
         try{
         Stock stock = new Stock(stockID,make,model,year,type,serial,cost,comments,condition);
             InventoryService.updateInventoryProduct(stock);
+            OrdersController.clearCart();
             StatusScreen.setNotification("Stock Updated");
         } catch (SQLException e) {
             throw new RuntimeException(e);

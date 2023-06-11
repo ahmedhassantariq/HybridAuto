@@ -54,9 +54,6 @@ public class OrderTable {
 
 
 
-
-
-
         ScrollPane scrollPane = new ScrollPane(inventoryTable);
         scrollPane.setFitToWidth(true);
         scrollPane.setFitToHeight(true);
