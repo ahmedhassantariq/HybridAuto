@@ -13,8 +13,10 @@ public class Charts {
         CategoryAxis xAxis = new CategoryAxis();
         NumberAxis yAxis = new NumberAxis();
         BarChart<String, Number> barChart = new BarChart<>(xAxis, yAxis);
+        barChart.getData().clear();
         barChart.setTitle("Daily Orders");
         barChart.getData().add(barChartSeries);
+        barChart.setLegendVisible(false);
         barChart.setMaxSize(300,300);
         return barChart;
     }
@@ -23,6 +25,7 @@ public class Charts {
     public static PieChart pieChart() {
         ReportsController.getStockVsSold();
         pieChart.setTitle("Products");
+        pieChart.setLegendVisible(false);
         return pieChart;
     }
 
@@ -33,7 +36,9 @@ public class Charts {
         LineChart<String, Number> lineChart = new LineChart<>(xAxis, yAxis);
         lineChart.setTitle("Monthly Bills");
         lineChartSeries.setName("");
+        lineChart.getData().clear();
         lineChart.getData().add(lineChartSeries);
+        lineChart.setLegendVisible(false);
         lineChart.setMaxSize(300,300);
         return lineChart;
     }

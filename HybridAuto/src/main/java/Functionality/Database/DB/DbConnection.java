@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DbConnection {
-    private static final String dbUrl="jdbc:sqlserver://DESKTOP-919RBUB:1433;database=hybrid_autoDB;encrypt=false;integratedSecurity=true;";
+    private static final String dbUrl="jdbc:sqlserver://DESKTOP-919RBUB:1433;database=hybrid_FINAL_DB;encrypt=false;integratedSecurity=true;";
     private static final String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
     private static final ConnectionWrapper connWrapper;
     private static ResultSet resultSet;

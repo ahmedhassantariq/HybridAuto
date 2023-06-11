@@ -14,6 +14,7 @@ public class ReportsService {
     private static ResultSet resultSet;
 
     public static void getBillsData() throws SQLException {
+        lineChartSeries = new XYChart.Series<>();
         lineChartSeries.getData().clear();
         resultSet = null;
         String queryString = "select * from getMonthlyBills";
@@ -25,6 +26,7 @@ public class ReportsService {
     }
 
     public static void getDailyOrders() throws SQLException {
+        barChartSeries = new XYChart.Series<>();
         barChartSeries.getData().clear();
         resultSet = null;
         String queryString = "select * from getDailyOrders";
@@ -35,13 +37,15 @@ public class ReportsService {
         }
     }
     public static void getStockVsSold() throws SQLException {
+        pieChart = new PieChart();
+        pieChart.getData().clear();
         resultSet = null;
         String queryString = "select * from getStockVsSold";
         PreparedStatement pSt = DbConnection.getPrepared(queryString);
         resultSet = pSt.executeQuery();
         while(resultSet.next()) {
             pieChart.getData().addAll(
-                    new PieChart.Data("Stock",resultSet.getInt(1)),
+                    new PieChart.Data("In-Stock",resultSet.getInt(1)),
                     new PieChart.Data("Sold",resultSet.getInt(2))
             );
 

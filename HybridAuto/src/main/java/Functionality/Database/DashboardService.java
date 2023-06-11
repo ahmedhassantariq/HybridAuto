@@ -16,7 +16,9 @@ public class DashboardService {
         PreparedStatement pSt = DbConnection.getPrepared(queryString);
         resultSet = pSt.executeQuery();
         while(resultSet.next()) {
-            ressult = resultSet.getString(1);
+            if(resultSet.getString(1)!=null) {
+                ressult = resultSet.getString(1);
+            }else return ""+0.0;
         }
         return ressult;
     }
