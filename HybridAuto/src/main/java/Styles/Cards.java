@@ -1,5 +1,6 @@
 package Styles;
 
+import Utils.Formatter;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
@@ -20,8 +21,6 @@ public class Cards {
         cardBox.setPrefSize(200,200);
         cardBox.setMaxSize(200,200);
         cardBox.setBackground(new Background(new BackgroundFill(Color.WHITE,new CornerRadii(7,7,7,7,false),null)));
-
-
         return cardBox;
     }
 }

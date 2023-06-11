@@ -34,6 +34,19 @@ public class Customer{
 	public String getFirstName() {
 		return firstName.get();
 	}
+	public String getFullName(){
+		String name ="";
+		if(getFirstName()!=null){
+			name+=" "+getFirstName();
+		}
+		if(getMiddleName()!=null){
+			name+=" "+getMiddleName();
+		}
+		if(getLastName()!=null){
+			name+=" "+getLastName();
+		}
+		return name;
+	}
 
 	public void setFirstName(String firstName) {
 		this.firstName.set(firstName);

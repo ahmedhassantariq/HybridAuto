@@ -1,7 +1,7 @@
 package Utils;
 
 import Entities.Stock;
-import Functionality.Forms.InventoryController;
+import Functionality.Forms.ServicesController;
 import javafx.scene.Parent;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SelectionMode;
@@ -11,15 +11,16 @@ import javafx.scene.layout.Border;
 
 import java.sql.SQLException;
 
-public class InventoryTable {
-    public static TableView<Stock> inventoryTable;
+public class OrderDetailsTable {
+    public static javafx.scene.control.TableView<Stock> detailTable;
 
-    public static Parent inventoryTable() throws SQLException {
+    public static Parent orderDetailsTable() {
 
-        inventoryTable = new TableView<>();
-        inventoryTable.setBorder(Border.EMPTY);
-        inventoryTable.setEditable(false);
-        inventoryTable.setItems(InventoryController.getInventoryList());
+        detailTable = new TableView<>();
+        detailTable.setBorder(Border.EMPTY);
+        detailTable.setEditable(false);
+        detailTable.setPrefHeight(200);
+        detailTable.setItems(ServicesController.orderDetailList);
 //        tableView.setBackground(new Background(new BackgroundFill(Color.BLUE,new CornerRadii(   15,15,15,15,false),null)));
 
         //Description Cell
@@ -67,20 +68,15 @@ public class InventoryTable {
 
 
 
-
-
-        inventoryTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        inventoryTable.getColumns().addAll(stockID,makeCol,modelCol,yearCol,categoryCol,serialNumberCol,costCol,conditionCol,commentsCol);
-
+        detailTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        detailTable.getColumns().addAll(stockID,makeCol,modelCol,yearCol,categoryCol,serialNumberCol,costCol,conditionCol,commentsCol);
 
 
 
-
-
-        ScrollPane scrollPane = new ScrollPane(inventoryTable);
+        ScrollPane scrollPane = new ScrollPane(detailTable);
         scrollPane.setFitToWidth(true);
         scrollPane.setFitToHeight(true);
-        scrollPane.setPrefWidth(inventoryTable.getPrefWidth());
+        scrollPane.setPrefWidth(detailTable.getPrefWidth());
         return scrollPane;
     }
 }

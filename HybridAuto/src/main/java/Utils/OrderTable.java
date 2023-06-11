@@ -14,7 +14,7 @@ import java.sql.SQLException;
 public class OrderTable {
     public static TableView<Stock> inventoryTable;
 
-    public static Parent saleTable() throws SQLException {
+    public static Parent orderTable() throws SQLException {
 
         inventoryTable = new TableView<>();
         inventoryTable.setBorder(Border.EMPTY);
@@ -33,9 +33,9 @@ public class OrderTable {
         yearCol.setCellValueFactory(cellData -> cellData.getValue().getYearProperty());
         yearCol.setMinWidth(50);
 
-        TableColumn<Stock,String> categoryCol = new TableColumn<>("Category");
+        TableColumn<Stock,String> categoryCol = new TableColumn<>("Cat");
         categoryCol.setCellValueFactory(cellData -> cellData.getValue().productCategoryProperty());
-        categoryCol.setMinWidth(50);
+        categoryCol.setMinWidth(0);
 
         TableColumn<Stock,String> serialNumberCol = new TableColumn<>("Serial");
         serialNumberCol.setCellValueFactory(cellData -> cellData.getValue().serialNumberProperty());
@@ -45,9 +45,9 @@ public class OrderTable {
         costCol.setCellValueFactory(cellData -> cellData.getValue().costProperty());
         costCol.setMinWidth(50);
 
-        TableColumn<Stock,String> conditionCol = new TableColumn<>("Condition");
+        TableColumn<Stock,String> conditionCol = new TableColumn<>("");
         conditionCol.setCellValueFactory(cellData -> cellData.getValue().conditionProperty());
-        conditionCol.setMinWidth(30);
+        conditionCol.setMaxWidth(40);
 
         inventoryTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         inventoryTable.getColumns().addAll(makeCol,modelCol,yearCol,categoryCol,serialNumberCol,costCol,conditionCol);

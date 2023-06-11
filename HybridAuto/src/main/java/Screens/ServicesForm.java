@@ -17,6 +17,7 @@ import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
@@ -27,10 +28,10 @@ public class ServicesForm {
 
         MFXTextField searchField = Fields.textField("Search by Phone", 300, 40);
         searchField.delegateSetTextFormatter(Formatter.phoneFormatter());
-        MFXButton createCategoryButton = Buttons.FunctionButton("View Details", 150, 40);
+        MFXButton viewDetailsButton = Buttons.FunctionButton("View Details", 150, 40);
 
 
-        HBox fieldBox = new HBox(searchField, createCategoryButton);
+        HBox fieldBox = new HBox(searchField, viewDetailsButton);
         fieldBox.setBackground(new Background(new BackgroundFill(Color.WHITE, new CornerRadii(15, 15, 15, 15, false), null)));
         fieldBox.setAlignment(Pos.CENTER_LEFT);
         fieldBox.setPadding(new Insets(10));
@@ -45,8 +46,18 @@ public class ServicesForm {
         searchField.textProperty().addListener(e -> {
             ServicesController.searchOrder(new Services(null,null,null,null,searchField.getText(),null,null,null,null));
         });
-
-
+        viewDetailsButton.setOnAction(e->{
+            if(ServiceTable.serviceTable.getSelectionModel().getSelectedItem()!=null){
+                OrderDetailScreen.showDetails(ServiceTable.serviceTable.getSelectionModel().getSelectedItem());
+            }
+        });
+        ServiceTable.serviceTable.setOnKeyPressed(e->{
+            if(e.getCode().equals(KeyCode.ENTER)){
+            if(ServiceTable.serviceTable.getSelectionModel().getSelectedItem()!=null){
+                OrderDetailScreen.showDetails(ServiceTable.serviceTable.getSelectionModel().getSelectedItem());
+            }
+            }
+        });
 
 
         VBox mainPane = new VBox(Labels.titleLabel("Services"), fieldBox, borderContainer);

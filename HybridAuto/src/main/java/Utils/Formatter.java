@@ -78,4 +78,30 @@ public class Formatter {
             return numbers.replaceFirst("(\\d{3})(\\d{3})(\\d+)", "($1)$2-$3");
         }
     }
+
+    public static String doublePrefix(double amount){
+        String formattedAmount;
+        DecimalFormat decimalFormat = new DecimalFormat("#,##0.00");
+         if (amount >= 1000000) {
+            formattedAmount = decimalFormat.format(amount / 1000000) + " M";
+        } else if (amount >=1000000000) {
+            formattedAmount = decimalFormat.format(amount / 1000000000) + " B";
+        } else {
+            formattedAmount = decimalFormat.format(amount);
+        }
+        return formattedAmount;
+    }
+
+    public static String decimalPrefix(int amount){
+        String formattedAmount;
+        DecimalFormat decimalFormat = new DecimalFormat("#");
+        if (amount >= 1000000) {
+            formattedAmount = decimalFormat.format(amount / 1000000) + " M";
+        } else if (amount >=1000000000) {
+            formattedAmount = decimalFormat.format(amount / 1000000000) + " B";
+        } else {
+            formattedAmount = decimalFormat.format(amount);
+        }
+        return formattedAmount;
+    }
 }

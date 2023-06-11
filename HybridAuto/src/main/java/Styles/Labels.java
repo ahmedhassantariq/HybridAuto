@@ -24,8 +24,8 @@ public class Labels {
 
     public static Label checkOutLabel(String title){
         Label label = new Label(title);
-        label.setPadding(new Insets(10));
-        label.setFont(Font.font("Impact",18));
+        label.setPadding(new Insets(5));
+        label.setFont(Font.font("Cooper",16));
         return label;
     }
 

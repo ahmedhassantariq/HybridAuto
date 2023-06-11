@@ -24,7 +24,9 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class BillsForm {
     public static Parent expensesForm() throws SQLException {
@@ -40,6 +42,7 @@ public class BillsForm {
         MFXDatePicker datePicker = new MFXDatePicker();
         datePicker.setMaxSize(150,40);
         datePicker.setEditable(false);
+
 
         MFXButton addBillButton = Buttons.FunctionButton("Add Bill", 100, 40);
         MFXButton updateBillButton = Buttons.FunctionButton("Update Bill", 100, 40);
@@ -66,7 +69,9 @@ public class BillsForm {
                 fieldBox.getChildren().add(4,cancelEditButton);
                 removeBillButton.setDisable(true);
                 billTypeComboBox.setValue(BillTable.billTable.getSelectionModel().getSelectedItem().getBillType());
-                datePicker.setValue(LocalDate.parse(BillTable.billTable.getSelectionModel().getSelectedItem().getDateTime()));
+                Timestamp timestamp = Timestamp.valueOf(BillTable.billTable.getSelectionModel().getSelectedItem().getDateTime());
+                LocalDate localDate = timestamp.toLocalDateTime().toLocalDate();
+                datePicker.setValue(localDate);
             }
         });
         cancelEditButton.setOnAction(e->{
@@ -78,27 +83,32 @@ public class BillsForm {
             amountField.clear();
             datePicker.clear();
             BillsController.getBills();
+            StatusScreen.setNotification("Canceled");
         });
         updateBillButton.setOnAction(e->{
-            if(billTypeComboBox.getValue()!=null&&!amountField.getText().isEmpty()&&datePicker.getValue()!=null){
+            if(billTypeComboBox.getValue()!=null&&!amountField.getText().isEmpty()&&datePicker.getValue()!=null) {
                 BillsController.updateBill(new Bill(
                         BillTable.billTable.getSelectionModel().getSelectedItem().getBillID(),
-                        billTypeComboBox.getValue().toString(), amountField.getText(), datePicker.getValue().toString()));
+                        billTypeComboBox.getValue().toString(), amountField.getText(), datePicker.getValue().toString()
+                ));
+                fieldBox.getChildren().removeAll(updateBillButton, cancelEditButton);
+                fieldBox.getChildren().add(3, addBillButton);
+                fieldBox.getChildren().add(4, editBillButton);
+                removeBillButton.setDisable(false);
+                billTypeComboBox.clear();
+                amountField.clear();
+                datePicker.clear();
+                BillsController.getBills();
+            }else {
+                StatusScreen.setNotification("Fill Fields");
             }
-            fieldBox.getChildren().removeAll(updateBillButton,cancelEditButton);
-            fieldBox.getChildren().add(3,addBillButton);
-            fieldBox.getChildren().add(4,editBillButton);
-            removeBillButton.setDisable(false);
-            billTypeComboBox.clear();
-            amountField.clear();
-            datePicker.clear();
-            BillsController.getBills();
-
         });
         removeBillButton.setOnAction(e->{
             if(BillTable.billTable.getSelectionModel().getSelectedItem()!=null){
                 BillsController.deleteBill(BillTable.billTable.getSelectionModel().getSelectedItem());
                 BillsController.getBills();
+            }else {
+                StatusScreen.setNotification("Select Bill");
             }
         });
 

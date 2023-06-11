@@ -6,9 +6,7 @@ import Styles.Buttons;
 import Styles.Fields;
 import Styles.Labels;
 import Utils.Formatter;
-import Utils.CartTable;
 import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.css.themes.Stylesheets;
 import javafx.collections.ListChangeListener;
@@ -24,8 +22,8 @@ public class CheckOutForm {
     private static Label discountLabel = Labels.checkOutLabel("Discount: 0");
     private static Label qtyLabel = Labels.checkOutLabel("Item-Qty: 0");
     private static Label totalLabel = Labels.checkOutLabel("Total: 0");
-    public static MFXTextField discountField = Fields.textField("Discount %",150,40);
-    public static MFXTextField discountAmountField = Fields.textField("Discount Amount",150,40);
+    public static MFXTextField discountField = Fields.textField("Discount %",100,40);
+    public static MFXTextField discountAmountField = Fields.textField("Discount Amount",100,40);
     public static MFXButton checkoutButton = Buttons.FunctionButton("CheckOut", 100, 40);
     public static MFXButton receiptButton = Buttons.FunctionButton_Border("Print Receipt", 100, 40);
     public static double totalAmount;
@@ -34,8 +32,11 @@ public class CheckOutForm {
 
         HBox discountFields = new HBox(discountField,discountAmountField);
         discountFields.setAlignment(Pos.CENTER);
-        discountFields.setPadding(new Insets(10));
+        discountFields.setPadding(new Insets(10,0,0,10));
         discountFields.setSpacing(10);
+        discountField.delegateSetTextFormatter(Formatter.digitFormatter());
+        discountField.setTextLimit(3);
+        discountAmountField.delegateSetTextFormatter(Formatter.digitFormatter());
 
         HBox actionButtons = new HBox(checkoutButton,receiptButton);
         actionButtons.setAlignment(Pos.CENTER);
@@ -52,22 +53,20 @@ public class CheckOutForm {
             updateCart();
         });
 
+        VBox labelsBox = new VBox(orderIDLabel,subtotalLabel,qtyLabel,discountLabel,totalLabel);
+        labelsBox.setPadding(new Insets(0,0,0,10));
+        labelsBox.setAlignment(Pos.CENTER_LEFT);
+        labelsBox.setBorder(Border.stroke(Color.web("#dcdcdc")));
 
-        VBox totalsBox = new VBox(discountFields, subtotalLabel,qtyLabel,discountLabel,totalLabel,actionButtons);
-        totalsBox.setMinHeight(40);
+        VBox cartBox = new VBox(Labels.titleLabel("Check Out"),discountFields,labelsBox,actionButtons);
+        cartBox.setSpacing(10);
+        cartBox.setAlignment(Pos.TOP_CENTER);
+        cartBox.setPrefSize(300, 350);
+        cartBox.setMaxSize(300,400);
+        cartBox.setBackground(new Background(new BackgroundFill(Color.WHITE, new CornerRadii(15, 15, 15, 15, false), null)));
 
-
-
-
-
-        VBox cutomerBox = new VBox(Labels.titleLabel("Check Out"),orderIDLabel,totalsBox);
-        cutomerBox.setSpacing(10);
-        cutomerBox.setAlignment(Pos.TOP_CENTER);
-        cutomerBox.setPrefSize(300, 400);
-        cutomerBox.setBackground(new Background(new BackgroundFill(Color.WHITE, new CornerRadii(15, 15, 15, 15, false), null)));
-
-        cutomerBox.getStylesheets().add(Stylesheets.COMBO_BOX.loadTheme());
-        return cutomerBox;
+        cartBox.getStylesheets().add(Stylesheets.TEXT_FIELD.loadTheme());
+        return cartBox;
     }
 
     private static void updateCart(){
@@ -84,7 +83,7 @@ public class CheckOutForm {
         }else {
             for (int i = 0; i < OrdersController.orderList.size(); i++) {
                 subtotal += Double.parseDouble(OrdersController.orderList.get(i).getCost());
-                subtotalLabel.setText("Subtotal: " + subtotal);
+                subtotalLabel.setText("Subtotal: " + Formatter.doublePrefix(subtotal));
             }
             qtyLabel.setText("Item-Qty: "+OrdersController.orderList.size());
             if(!discountField.getText().isEmpty()){
@@ -97,7 +96,7 @@ public class CheckOutForm {
             total -=discountAmount;
             totalDiscount = 100-(total/subtotal)*100;
             discountLabel.setText("Discount: "+Formatter.decimalFormat().format(totalDiscount)+"%");
-            totalLabel.setText("Total: "+total);
+            totalLabel.setText("Total: "+Formatter.doublePrefix(total));
             totalAmount = total;
         }
     }

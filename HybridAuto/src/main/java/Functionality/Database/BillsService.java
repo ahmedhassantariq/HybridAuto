@@ -1,11 +1,8 @@
 package Functionality.Database;
 
 import Entities.Bill;
-import Entities.Stock;
 import Functionality.Database.DB.DbConnection;
-import Functionality.Forms.BaseController;
 import Functionality.Forms.BillsController;
-import Functionality.Forms.InventoryController;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

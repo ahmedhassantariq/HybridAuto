@@ -1,12 +1,16 @@
 package Functionality.Forms;
 
 import Entities.Services;
+import Entities.Stock;
 import Functionality.Database.ServicesService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.sql.SQLException;
+
 public class ServicesController {
     public static ObservableList<Services> servicesList = FXCollections.observableArrayList();
+    public static ObservableList<Stock> orderDetailList = FXCollections.observableArrayList();
 
 
     public static void getServicesList(){
@@ -20,6 +24,22 @@ public class ServicesController {
         try{
             ServicesService.searchOrders(services);
         } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public static ObservableList<Stock> getOrderDetails(String orderID){
+        try {
+            orderDetailList.clear();
+            ServicesService.getOrderDetails(orderID);
+            return orderDetailList;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public static String getOrderTotal(String orderID){
+        try {
+            return ServicesService.getOrderTotal(orderID);
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }

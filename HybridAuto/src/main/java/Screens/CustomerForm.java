@@ -83,14 +83,15 @@ public class CustomerForm {
         buttonBox.setPadding(new Insets(10));
         buttonBox.setSpacing(10);
 
-        VBox cutomerBox = new VBox(Labels.titleLabel("Customer Cart"), customerContainer, CartTable.orderTable(), buttonBox);
-        cutomerBox.setSpacing(10);
-        cutomerBox.setAlignment(Pos.TOP_CENTER);
-        cutomerBox.setPrefSize(300, 400);
-        cutomerBox.setBackground(new Background(new BackgroundFill(Color.WHITE, new CornerRadii(15, 15, 15, 15, false), null)));
+        VBox customerBox = new VBox(Labels.titleLabel("Customer Cart"), customerContainer, CartTable.orderTable(), buttonBox);
+        customerBox.setSpacing(10);
+        customerBox.setAlignment(Pos.TOP_CENTER);
+        customerBox.setPrefSize(300, 350);
+        customerBox.setMaxSize(300,400);
+        customerBox.setBackground(new Background(new BackgroundFill(Color.WHITE, new CornerRadii(15, 15, 15, 15, false), null)));
 //        productBox.setBorder(new Border(new BorderStroke(Color.web("02557a"), BorderStrokeStyle.SOLID, new CornerRadii(15, 15, 15, 15, false), BorderStroke.THICK)));
 
-        cutomerBox.getStylesheets().add(Stylesheets.COMBO_BOX.loadTheme());
-        return cutomerBox;
+        customerBox.getStylesheets().add(Stylesheets.COMBO_BOX.loadTheme());
+        return customerBox;
     }
 }

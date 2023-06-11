@@ -8,17 +8,25 @@ import Styles.Labels;
 import Utils.Formatter;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
+import io.github.palexdev.materialfx.controls.MFXStepper;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.css.themes.Stylesheets;
+import io.github.palexdev.materialfx.validation.Constraint;
+import io.github.palexdev.materialfx.validation.MFXValidator;
+import io.github.palexdev.materialfx.validation.Validated;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
-public class ProductForm {
+import java.util.List;
 
+public class ProductForm {
+    private static MFXStepper stepper = new MFXStepper();
     public static VBox productForm(Pane borderContainer) {
 
 
@@ -91,7 +99,6 @@ public class ProductForm {
         MFXButton addButton = Buttons.FunctionButton("Add",100,40);
         MFXButton resetButton = Buttons.FunctionButton_Border("Reset",100,40);
         MFXButton cancelButton = Buttons.FunctionButton_Border("Cancel",100,40);
-
         cancelButton.setOnAction(e->{
             borderContainer.getChildren().remove(borderContainer.getChildren().size()-1);
         });

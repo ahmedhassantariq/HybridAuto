@@ -5,15 +5,12 @@ import Functionality.Forms.OrdersController;
 import Styles.Buttons;
 import Styles.Fields;
 import Styles.Labels;
-import Utils.InventoryTable;
 import Utils.OrderTable;
 import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.css.themes.Stylesheets;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
@@ -53,10 +50,11 @@ public class ItemForm {
         buttonBox.setSpacing(10);
 
 
-        VBox itemBox = new VBox(Labels.titleLabel("Inventory"), comboBoxContainer,OrderTable.saleTable(), buttonBox);
+        VBox itemBox = new VBox(Labels.titleLabel("Inventory"), comboBoxContainer,OrderTable.orderTable(), buttonBox);
         itemBox.setSpacing(10);
         itemBox.setAlignment(Pos.TOP_CENTER);
-        itemBox.setPrefSize(500, 400);
+        itemBox.setPrefSize(400, 350);
+        itemBox.setMaxSize(400,400);
         itemBox.setBackground(new Background(new BackgroundFill(Color.WHITE, new CornerRadii(15, 15, 15, 15, false), null)));
 //      productBox.setBorder(new Border(new BorderStroke(Color.web("02557a"), BorderStrokeStyle.SOLID, new CornerRadii(15, 15, 15, 15, false), BorderStroke.THICK)));
 

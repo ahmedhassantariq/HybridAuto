@@ -55,7 +55,7 @@ public class InventoryForm {
 //            borderContainer.getChildren().add(tableView);
 //
 //        });
-        borderContainer.getChildren().add(InventoryTable.saleTable());
+        borderContainer.getChildren().add(InventoryTable.inventoryTable());
 
 
         searchField.textProperty().addListener(e->{
