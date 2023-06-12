@@ -6,6 +6,7 @@ import Styles.Buttons;
 import Styles.Fields;
 import Styles.Labels;
 import Utils.Formatter;
+import Utils.PDFDocument;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.css.themes.Stylesheets;
@@ -15,6 +16,9 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+
+import java.io.IOException;
+import java.sql.SQLException;
 
 public class CheckOutForm {
     public static Label orderIDLabel = Labels.checkOutLabel("Order-ID: "+OrdersController.newOrderID());
@@ -51,6 +55,16 @@ public class CheckOutForm {
         });
         discountAmountField.textProperty().addListener(e->{
             updateCart();
+        });
+
+        receiptButton.setOnAction(e->{
+            try {
+                PDFDocument pdfDocument = new PDFDocument();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
         });
 
         VBox labelsBox = new VBox(orderIDLabel,subtotalLabel,qtyLabel,discountLabel,totalLabel);

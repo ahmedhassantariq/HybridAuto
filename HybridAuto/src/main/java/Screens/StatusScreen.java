@@ -28,6 +28,7 @@ public class StatusScreen {
     private static Label notificationLabel = Labels.notificationLabel("");
     private static LocalTime currentTime = LocalTime.now();
     private static LocalTime previousTime = LocalTime.now();
+    private static HBox notificationBox;
     public static Parent statusScreen(){
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
             updateDateTime();
@@ -35,11 +36,17 @@ public class StatusScreen {
         }));
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
+        Timeline timelineFast = new Timeline(new KeyFrame(Duration.millis(50), event -> {
+           notificationBox.setOpacity(notificationBox.getOpacity()-0.01);
+        }));
+        timelineFast.setCycleCount(Animation.INDEFINITE);
+        timelineFast.play();
 
 
 
 
-        HBox notificationBox = new HBox(notificationLabel);
+        notificationBox = new HBox(notificationLabel);
+        notificationBox.setOpacity(0);
         notificationBox.setAlignment(Pos.CENTER);
         notificationBox.setMaxSize(200,40);
         notificationBox.setMinWidth(200);
@@ -66,6 +73,7 @@ public class StatusScreen {
 
     public static void setNotification(String text){
         previousTime = LocalTime.now();
+        notificationBox.setOpacity(1);
         notificationLabel.setText(text);
     }
 

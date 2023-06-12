@@ -2,16 +2,19 @@ package Screens;
 
 import Functionality.Database.DB.DbConnection;
 import Styles.Buttons;
+import Styles.Labels;
 import Utils.Constants;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
+import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.ligaturesymbols.LigatureSymbols;
 import org.kordamp.ikonli.prestashopicons.PrestaShopIcons;
 
+import java.awt.*;
 import java.sql.SQLException;
 
 public class MainScreen {
@@ -31,7 +34,17 @@ public class MainScreen {
 //        selectionPane.setStyle("-fx-background-color: #02557a");
         selectionPane.setBackground(new Background(new BackgroundFill(Color.web("#02557a"),new CornerRadii(0,15,15,0,false),null)));
         selectionPane.setAlignment(Pos.BOTTOM_CENTER);
+        //Avatar
+        FontIcon avatarIcon = FontIcon.of(PrestaShopIcons.CAR);
+        avatarIcon.setIconSize(48);
+        avatarIcon.setIconColor(Color.WHITE);
 
+        Label avatarLabel = Labels.titleLabel("ADMIN");
+        avatarLabel.setTextFill(Color.WHITE);
+
+        VBox avatarBox = new VBox(avatarIcon,avatarLabel);
+        avatarBox.setAlignment(Pos.CENTER);
+        avatarBox.setBackground(new Background(new BackgroundFill(Color.web("#02557a"),new CornerRadii(0,0,0,0,false),null)));
         //Buttons
         MFXButton dashboardFormButton = Buttons.DashboardButton("Dashboard", FontIcon.of(PrestaShopIcons.DASHBOARD));
         MFXButton inventoryFormButton = Buttons.DashboardButton("Inventory", FontIcon.of(PrestaShopIcons.BOOK));
@@ -43,6 +56,7 @@ public class MainScreen {
 
         //Adding nodes to SelectionPane
         selectionPane.getChildren().addAll(
+                avatarBox,
                 dashboardFormButton,
                 inventoryFormButton,
                 ordersFormButton,

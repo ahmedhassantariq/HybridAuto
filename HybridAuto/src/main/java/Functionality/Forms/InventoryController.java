@@ -143,7 +143,7 @@ public class InventoryController {
             }
             StatusScreen.setNotification("Category Added");
         } catch (SQLException e) {
-            StatusScreen.setNotification("UniqueKeyViolation");
+            StatusScreen.setNotification("Insertion Error");
         }
     }
 
