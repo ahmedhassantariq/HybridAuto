@@ -5,12 +5,9 @@ module HybridAutotech {
     requires kernel;
     requires layout;
     requires io;
-
     requires com.dlsc.pdfviewfx;
-
     requires java.sql;
     requires org.apache.commons.lang3;
-
     requires MaterialFX;
-    exports Executive;
+    exports Executive
 }

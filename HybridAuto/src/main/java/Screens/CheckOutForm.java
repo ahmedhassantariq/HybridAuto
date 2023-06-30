@@ -29,8 +29,13 @@ public class CheckOutForm {
     public static MFXTextField discountField = Fields.textField("Discount %",100,40);
     public static MFXTextField discountAmountField = Fields.textField("Discount Amount",100,40);
     public static MFXButton checkoutButton = Buttons.FunctionButton("CheckOut", 100, 40);
-    public static MFXButton receiptButton = Buttons.FunctionButton_Border("Print Receipt", 100, 40);
+    private static double subtotal = 0;
+    private static double discount = 0;
+    private static double discountAmount = 0;
+    public static double totalDiscount = 0;
+    private static double total = 0;
     public static double totalAmount;
+    public static MFXButton receiptButton = Buttons.FunctionButton_Border("Print Receipt", 100, 40);
 
     public static VBox checkOutForm() {
 
@@ -56,16 +61,10 @@ public class CheckOutForm {
         discountAmountField.textProperty().addListener(e->{
             updateCart();
         });
-
         receiptButton.setOnAction(e->{
-            try {
-                PDFDocument pdfDocument = new PDFDocument();
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            } catch (SQLException ex) {
-                throw new RuntimeException(ex);
-            }
+            PDFDocument.show();
         });
+
 
         VBox labelsBox = new VBox(orderIDLabel,subtotalLabel,qtyLabel,discountLabel,totalLabel);
         labelsBox.setPadding(new Insets(0,0,0,10));
@@ -84,11 +83,11 @@ public class CheckOutForm {
     }
 
     private static void updateCart(){
-        double subtotal = 0;
-        double discount = 0;
-        double discountAmount = 0;
-        double totalDiscount = 0;
-        double total = 0;
+        subtotal = 0;
+        discount = 0;
+        discountAmount = 0;
+        totalDiscount = 0;
+        total = 0;
         if(OrdersController.orderList.size()==0){
             subtotalLabel.setText("Subtotal: 0");
             discountLabel.setText("Discount: 0");

@@ -1,6 +1,8 @@
 package Utils;
 
+import Entities.Customer;
 import Functionality.Forms.OrdersController;
+import Screens.CheckOutForm;
 import com.dlsc.pdfviewfx.PDFView;
 import com.itextpdf.io.font.FontConstants;
 import com.itextpdf.kernel.color.Color;
@@ -32,18 +34,20 @@ import java.time.LocalTime;
 import java.util.UUID;
 
 public class PDFDocument {
-    PdfWriter pdfWriter;
-    PdfDocument pdfDocument;
-    static PDFView pdfDisplayer;
-    LocalTime localTime;
-    LocalDate localDate;
-    PdfFont font = PdfFontFactory.createFont(FontConstants.TIMES_ROMAN);
-    public PDFDocument() throws IOException, SQLException {
+    private PdfWriter pdfWriter;
+    private PdfDocument pdfDocument;
+    private static PDFView pdfDisplayer;
+    private LocalTime localTime;
+    private LocalDate localDate;
+    private PdfFont font = PdfFontFactory.createFont(FontConstants.TIMES_ROMAN);
+    private static String destination;
+    private static String fileName;
+    public PDFDocument(Customer customer) throws IOException, SQLException {
         localTime = LocalTime.now();
         localDate = LocalDate.now();
         UUID uuid = UUID.randomUUID();
-        String fileName = uuid.toString().substring(0,8)+".pdf";
-        String destination = "C:\\Users\\atari\\Documents\\GitHub\\HybridAuto\\HybridAuto\\src\\main\\java\\Receipts\\"+fileName;
+        fileName = uuid.toString().substring(0,8)+".pdf";
+        destination = "C:\\Users\\atari\\Documents\\GitHub\\HybridAuto\\HybridAuto\\src\\main\\java\\Receipts\\"+fileName;
         pdfWriter = new PdfWriter(destination);
         pdfDocument = new PdfDocument(pdfWriter);
         com.itextpdf.layout.Document document = new com.itextpdf.layout.Document(pdfDocument);
@@ -84,12 +88,12 @@ public class PDFDocument {
                 .setBold()
                 .setBorder(Border.NO_BORDER));
         customerInfoTable.addCell(new Cell().add("Name: ").setBorder(Border.NO_BORDER));
-        customerInfoTable.addCell(new Cell().add("NO_NAME").setBorder(Border.NO_BORDER));
+        customerInfoTable.addCell(new Cell().add(customer.getFullName()).setBorder(Border.NO_BORDER));
         customerInfoTable.addCell(new Cell().add("Invoice #").setBorder(Border.NO_BORDER));
         customerInfoTable.addCell(new Cell().add(uuid.toString().substring(0,8)).setBorder(Border.NO_BORDER));
 
         customerInfoTable.addCell(new Cell().add("Phone No.: ").setBorder(Border.NO_BORDER).setMarginBottom(20f));
-        customerInfoTable.addCell(new Cell().add("NO_PHONE").setBorder(Border.NO_BORDER));
+        customerInfoTable.addCell(new Cell().add(customer.getPhone()).setBorder(Border.NO_BORDER));
         customerInfoTable.addCell(new Cell().add("Date:").setBorder(Border.NO_BORDER));
         customerInfoTable.addCell(new Cell().add(localDate.toString()).setBorder(Border.NO_BORDER));
 
@@ -105,9 +109,18 @@ public class PDFDocument {
 
         //Information
         double totalAmount = 0;
+
+
         for(int i = 0; i< OrdersController.orderList.size(); i++) {
 
-            itemInfoTable.addCell(new Cell().add(""+OrdersController.orderList.get(i).getComments()));
+            itemInfoTable.addCell(new Cell().add(
+                    OrdersController.orderList.get(i).getMake()+" "+
+                    OrdersController.orderList.get(i).getModel()+" "+
+                    OrdersController.orderList.get(i).getYear()+" "+
+                    OrdersController.orderList.get(i).getProductCategory()+" "+
+                    OrdersController.orderList.get(i).getSerialNumber()
+            ).setTextAlignment(TextAlignment.LEFT));
+
             itemInfoTable.addCell(new Cell().add("1").setTextAlignment(TextAlignment.CENTER));
             itemInfoTable.addCell(new Cell().add(""+OrdersController.orderList.get(i).getCost()).setTextAlignment(TextAlignment.RIGHT));
             itemInfoTable.addCell(new Cell().add(""+OrdersController.orderList.get(i).getCost()).setTextAlignment(TextAlignment.RIGHT));
@@ -137,7 +150,7 @@ public class PDFDocument {
                     .setFontColor(Color.BLACK)
                     .setTextAlignment(TextAlignment.RIGHT)
             );
-            itemInfoTable.addCell(new Cell().add("NO_DISCOUNT")
+            itemInfoTable.addCell(new Cell().add(Formatter.decimalFormat().format(CheckOutForm.totalDiscount)+"%")
                     .setBackgroundColor(Color.GRAY)
                     .setFontColor(Color.BLACK)
                     .setTextAlignment(TextAlignment.RIGHT));
@@ -150,7 +163,7 @@ public class PDFDocument {
                 .setFontColor(Color.BLACK)
                 .setTextAlignment(TextAlignment.RIGHT)
         );
-        itemInfoTable.addCell(new Cell().add("NO_TOTAL")
+        itemInfoTable.addCell(new Cell().add(String.valueOf(CheckOutForm.totalAmount))
                 .setBackgroundColor(Color.GRAY)
                 .setFontColor(Color.BLACK)
                 .setTextAlignment(TextAlignment.RIGHT));
@@ -169,10 +182,11 @@ public class PDFDocument {
                 .setMarginTop(25f)
                 .setMarginRight(90f));
         document.close();
-        show(destination,fileName);
     }
 
-    public static void show(String destination,String fileName) throws IOException, SQLException {
+    public static void show() {
+        if(destination==null)
+            return;
         //New Invoice
         Stage stage = new Stage();
         File file = new File(destination);
@@ -198,7 +212,7 @@ public class PDFDocument {
 //    public static void toByteData(String fileName) throws SQLException, IOException {
 //        Queries.writePDFQuery(fileName);
 //    }
-    public static void printPdfFile(String destination) throws PrinterException {
+    private static void printPdfFile(String destination) throws PrinterException {
         PrinterJob printerJob = PrinterJob.getPrinterJob();
         PrintRequestAttributeSet attrs = new HashPrintRequestAttributeSet();
         attrs.add(new Copies(1));

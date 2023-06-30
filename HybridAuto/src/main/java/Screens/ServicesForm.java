@@ -1,14 +1,11 @@
 package Screens;
 
 import Entities.Services;
-import Entities.Stock;
-import Functionality.Forms.InventoryController;
 import Functionality.Forms.ServicesController;
 import Styles.Buttons;
 import Styles.Fields;
 import Styles.Labels;
 import Utils.Formatter;
-import Utils.InventoryTable;
 import Utils.ServiceTable;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;

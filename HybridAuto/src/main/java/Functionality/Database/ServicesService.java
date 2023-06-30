@@ -3,7 +3,6 @@ package Functionality.Database;
 import Entities.Services;
 import Entities.Stock;
 import Functionality.Database.DB.DbConnection;
-import Functionality.Forms.InventoryController;
 import Functionality.Forms.ServicesController;
 
 import java.sql.PreparedStatement;
@@ -80,12 +79,12 @@ public class ServicesService {
     public static String getOrderTotal(String orderID) throws SQLException {
         resultSet = null;
         String total = "";
-        String queryString = "select dbo.calculate_Order_total(?) as OrderTotal";
+        String queryString = "select total from [Order] where order_ID = ?";
         PreparedStatement pSt = DbConnection.getPrepared(queryString);
         pSt.setString(1,orderID);
         resultSet = pSt.executeQuery();
         while(resultSet.next()) {
-            total = resultSet.getString("OrderTotal");
+            total = resultSet.getString("total");
         }
         return total;
     }

@@ -53,8 +53,9 @@ public class CustomerForm {
         MFXButton clearAllButton = Buttons.FunctionButton("Clear Cart",70,40);
 
         removeProductButton.setOnAction(e->{
+            if(CartTable.cartTable.getSelectionModel().getSelectedItem()!=null){
             OrdersController.removeOrderItem(CartTable.cartTable.getSelectionModel().getSelectedItem());
-        });
+        }});
         CheckOutForm.checkoutButton.setOnAction(e->{
             if(!nameField.getText().isEmpty()&&!phoneField.getText().isEmpty()&&!OrdersController.orderList.isEmpty()) {
                 OrdersController.orderCheckout(new Customer(null, nameField.getText(), null, null, phoneField.getText(), null, null));
