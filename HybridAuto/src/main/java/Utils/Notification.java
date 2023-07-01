@@ -8,7 +8,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Notification {
     private static Notifications notifications = Notifications.create();
-    private static Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 
     public Notification(Throwable cause){
         notifications.title("Notification");

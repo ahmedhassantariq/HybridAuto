@@ -131,5 +131,7 @@
     <orderEntry type="library" name="Maven: io.netty:netty-resolver:4.1.84.Final" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-transport-native-unix-common:4.1.84.Final" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-transport:4.1.84.Final" level="project" />
+    <orderEntry type="library" name="Maven: com.sun.mail:javax.mail:1.6.2" level="project" />
+    <orderEntry type="library" name="Maven: javax.activation:activation:1.1" level="project" />
   </component>
 </module>

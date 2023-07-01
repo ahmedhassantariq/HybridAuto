@@ -123,6 +123,14 @@ public class MainScreen {
             }
         });
 
+        StatusScreen.settingsSymbol.setOnMouseClicked(e->{
+            try {
+                viewPane.setCenter(SettingsForm.settingsForm());
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
         return viewPane;
     }
 

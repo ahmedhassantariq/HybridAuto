@@ -26,7 +26,7 @@ import java.util.Stack;
 public class StatusScreen {
     private static Label dateTimeLabel = Labels.timeLabel();
     private static Label notificationSymbol = Labels.notificationSymbol("",FontIcon.of(LigatureSymbols.BELL));
-    private static Label settingsSymbol = Labels.notificationSymbol("",FontIcon.of(LigatureSymbols.SETTING));
+    public static Label settingsSymbol = Labels.notificationSymbol("",FontIcon.of(LigatureSymbols.SETTING));
     private static Label colorTheme = Labels.notificationSymbol("",FontIcon.of(LigatureSymbols.DARK));
     private static Label connectivitySymbol = Labels.notificationSymbol("",FontIcon.of(PrestaShopIcons.BROKEN_LINK));
 
