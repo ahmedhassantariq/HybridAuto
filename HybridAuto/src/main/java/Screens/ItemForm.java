@@ -10,8 +10,10 @@ import Utils.OrderTable;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.css.themes.Stylesheets;
+import javafx.collections.MapChangeListener;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
@@ -39,6 +41,7 @@ public class ItemForm {
                 OrdersController.addOrderItem(OrderTable.inventoryTable.getSelectionModel().getSelectedItem());
             }
         });
+
 
         serialField.textProperty().addListener(e->{
             InventoryController.searchText("","","",serialField.getText());

@@ -2,11 +2,13 @@ package Utils;
 
 import Entities.Stock;
 import Functionality.Forms.InventoryController;
+import Functionality.Forms.OrdersController;
 import javafx.scene.Parent;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Border;
 
 import java.sql.SQLException;
@@ -20,7 +22,13 @@ public class OrderTable {
         inventoryTable.setBorder(Border.EMPTY);
         inventoryTable.setEditable(false);
         inventoryTable.setItems(InventoryController.getInventoryList());
-
+        inventoryTable.setOnKeyPressed(e->{
+            if(e.getCode()== KeyCode.ENTER) {
+                if (inventoryTable.getSelectionModel().getSelectedItem() != null) {
+                    OrdersController.addOrderItem(inventoryTable.getSelectionModel().getSelectedItem());
+                }
+            }
+        });
         TableColumn<Stock,String> makeCol = new TableColumn<>("Make");
         makeCol.setCellValueFactory(cellData -> cellData.getValue().getMakeProperty());
         makeCol.setMinWidth(50);

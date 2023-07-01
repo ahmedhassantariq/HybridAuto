@@ -1,11 +1,19 @@
 package Functionality.Forms;
 
 import Functionality.Database.ReportsService;
+import Styles.Charts;
 import Utils.Notification;
+import javafx.scene.layout.HBox;
 
 import java.sql.SQLException;
 
 public class ReportsController {
+
+    public static void refresh(){
+        Charts.lineChart();
+        Charts.barChart();
+        Charts.pieChart();
+    }
 
 
     public static void getBillsData(){

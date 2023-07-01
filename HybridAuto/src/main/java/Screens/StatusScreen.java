@@ -44,7 +44,7 @@ public class StatusScreen {
         timeline.play();
 
         //ToolTips
-        notificationSymbol.setTooltip(Labels.tooltip(notificationStack.size()+" Messages"));
+        notificationSymbol.setTooltip(Labels.tooltip("Messages"));
         settingsSymbol.setTooltip(Labels.tooltip("Settings"));
         colorTheme.setTooltip(Labels.tooltip("Change Color"));
 

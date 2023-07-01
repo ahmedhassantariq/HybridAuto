@@ -28,6 +28,7 @@ public class BillsForm {
     private static VBox mainPane;
     public static Parent expensesForm() throws SQLException {
         if(mainPane!=null){
+            BillsController.getBills();
             return mainPane;
         }
 

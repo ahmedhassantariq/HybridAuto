@@ -1,5 +1,6 @@
 package Screens;
 
+import Functionality.Forms.ReportsController;
 import Styles.*;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
@@ -14,8 +15,12 @@ import java.sql.SQLException;
 
 public class ReportsForm {
     private static VBox mainPane;
+    private static HBox chartContainer = new HBox(Charts.lineChart(),Charts.barChart(),Charts.pieChart());
+
     public static Parent reportsForm() throws SQLException {
         if(mainPane!=null){
+            chartContainer.getChildren().clear();
+            chartContainer.getChildren().addAll(Charts.lineChart(),Charts.barChart(),Charts.pieChart());
             return mainPane;
         }
         MFXButton createCategoryButton = Buttons.FunctionButton("Customize",150,40);
@@ -31,7 +36,6 @@ public class ReportsForm {
         fieldBox.setSpacing(10);
 
 
-        HBox chartContainer = new HBox(Charts.lineChart(),Charts.barChart(),Charts.pieChart());
 
         mainPane = new VBox(Labels.titleLabel("Reports"),fieldBox,chartContainer);
         mainPane.setBackground(new Background(new BackgroundFill(Colors.mainPaneColor,new CornerRadii(0,0,0,0,false),null)));

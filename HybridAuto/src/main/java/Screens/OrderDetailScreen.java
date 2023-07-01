@@ -9,6 +9,7 @@ import Styles.Colors;
 import Styles.Labels;
 import Utils.Formatter;
 import Utils.InventoryTable;
+import Utils.Notification;
 import Utils.OrderDetailsTable;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.geometry.Insets;
@@ -41,7 +42,7 @@ public class OrderDetailScreen {
 
         MFXButton returnOrderButton = Buttons.FunctionButton("Return Order",100,40);
         returnOrderButton.setOnAction(e->{
-            ServicesController.returnOrder(services);
+                ServicesController.returnOrder(services);
         });
 
 

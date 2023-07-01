@@ -25,7 +25,7 @@ public class ProductForm {
 
 
         InventoryController.setMakeComboList();
-        ObservableList<String> conditionList = FXCollections.observableArrayList("New","Used");
+        ObservableList<String> conditionList = FXCollections.observableArrayList("NEW","USED");
 
         MFXComboBox makeComboBox = new MFXComboBox(InventoryController.makeComboList);
         MFXComboBox modelComboBox = new MFXComboBox(InventoryController.modelComboList);

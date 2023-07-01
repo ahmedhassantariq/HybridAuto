@@ -5,6 +5,7 @@ import Entities.Stock;
 import Functionality.Database.ServicesService;
 import Screens.OrderDetailScreen;
 import Screens.ServicesForm;
+import Screens.StatusScreen;
 import Utils.Formatter;
 import Utils.Notification;
 import Utils.OrderDetailsTable;
@@ -63,6 +64,7 @@ public class ServicesController {
             ServicesService.returnOrder(services);
             OrderDetailScreen.stage.close();
             getServicesList();
+            StatusScreen.setNotification("Order: "+services.getOrderID()+" Returned");
         } catch (SQLException e) {
             new Notification(e);
             throw new RuntimeException(e);
