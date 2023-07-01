@@ -3,6 +3,7 @@ package Screens;
 import Entities.Stock;
 import Functionality.Forms.InventoryController;
 import Styles.Buttons;
+import Styles.Colors;
 import Styles.Fields;
 import Styles.Labels;
 import Utils.Formatter;
@@ -11,19 +12,12 @@ import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXStepper;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.css.themes.Stylesheets;
-import io.github.palexdev.materialfx.validation.Constraint;
-import io.github.palexdev.materialfx.validation.MFXValidator;
-import io.github.palexdev.materialfx.validation.Validated;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-
-import java.util.List;
 
 public class ProductForm {
     private static MFXStepper stepper = new MFXStepper();
@@ -180,8 +174,8 @@ public class ProductForm {
         productBox.setSpacing(10);
         productBox.setAlignment(Pos.TOP_CENTER);
         productBox.setMaxSize(600,300);
-        productBox.setBackground(new Background(new BackgroundFill(Color.WHITE,new CornerRadii(15,15,15,15,false),null)));
-        productBox.setBorder(new Border(new BorderStroke(Color.web("02557a"),BorderStrokeStyle.SOLID,new CornerRadii(15,15,15,15,false), BorderStroke.THICK)));
+        productBox.setBackground(new Background(new BackgroundFill(Colors.productBoxColor,new CornerRadii(15,15,15,15,false),null)));
+        productBox.setBorder(new Border(new BorderStroke(Colors.productBoxBorderColor,BorderStrokeStyle.SOLID,new CornerRadii(15,15,15,15,false), BorderStroke.THICK)));
 
         productBox.getStylesheets().add(Stylesheets.COMBO_BOX.loadTheme());
         return productBox;

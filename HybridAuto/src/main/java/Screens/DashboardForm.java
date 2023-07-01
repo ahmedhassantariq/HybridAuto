@@ -2,6 +2,7 @@ package Screens;
 
 import Functionality.Forms.DashboardController;
 import Styles.Cards;
+import Styles.Colors;
 import Styles.Labels;
 import Utils.Formatter;
 import javafx.geometry.Insets;
@@ -28,18 +29,18 @@ public class DashboardForm {
         cardBox1.setAlignment(Pos.CENTER);
         cardBox1.setPadding(new Insets(10));
         cardBox1.setSpacing(10);
-        cardBox1.setBorder(Border.stroke(Color.web("#dcdcdc")));
+        cardBox1.setBorder(Border.stroke(Colors.cardBoxBorderColor));
         HBox cardBox2 = new HBox(p5,p6,p7,p8);
         cardBox2.setAlignment(Pos.CENTER);
         cardBox2.setPadding(new Insets(10));
         cardBox2.setSpacing(10);
-        cardBox2.setBorder(Border.stroke(Color.web("#dcdcdc")));
+        cardBox2.setBorder(Border.stroke(Colors.cardBoxBorderColor));
 
         VBox dashboardBox = new VBox(Labels.titleLabel("Dashboard"),cardBox1,cardBox2);
         dashboardBox.setPadding(new Insets(10,0,0,0));
         dashboardBox.setSpacing(10);
         dashboardBox.setMinSize(300,400);
-        dashboardBox.setBackground(new Background(new BackgroundFill(Color.web("#e8e8e8"),new CornerRadii(0,0,0,0,false),null)));
+        dashboardBox.setBackground(new Background(new BackgroundFill(Colors.mainPaneColor,new CornerRadii(0,0,0,0,false),null)));
 
         return dashboardBox;
 

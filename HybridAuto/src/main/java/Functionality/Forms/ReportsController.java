@@ -1,6 +1,7 @@
 package Functionality.Forms;
 
 import Functionality.Database.ReportsService;
+import Utils.Notification;
 
 import java.sql.SQLException;
 
@@ -11,6 +12,7 @@ public class ReportsController {
         try {
             ReportsService.getBillsData();
         } catch (SQLException e) {
+            new Notification(e);
             throw new RuntimeException(e);
         }
     }
@@ -18,6 +20,7 @@ public class ReportsController {
         try {
             ReportsService.getDailyOrders();
         } catch (SQLException e) {
+            new Notification(e);
             throw new RuntimeException(e);
         }
     }
@@ -25,6 +28,7 @@ public class ReportsController {
         try {
             ReportsService.getStockVsSold();
         } catch (SQLException e) {
+            new Notification(e);
             throw new RuntimeException(e);
         }
     }

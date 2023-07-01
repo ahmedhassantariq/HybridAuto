@@ -21,7 +21,6 @@ public class OrderDetailsTable {
         detailTable.setEditable(false);
         detailTable.setPrefHeight(200);
         detailTable.setItems(ServicesController.orderDetailList);
-//        tableView.setBackground(new Background(new BackgroundFill(Color.BLUE,new CornerRadii(   15,15,15,15,false),null)));
 
         //Description Cell
 

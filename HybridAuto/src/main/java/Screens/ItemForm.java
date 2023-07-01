@@ -3,6 +3,7 @@ package Screens;
 import Functionality.Forms.InventoryController;
 import Functionality.Forms.OrdersController;
 import Styles.Buttons;
+import Styles.Colors;
 import Styles.Fields;
 import Styles.Labels;
 import Utils.OrderTable;
@@ -55,8 +56,7 @@ public class ItemForm {
         itemBox.setAlignment(Pos.TOP_CENTER);
         itemBox.setPrefSize(400, 350);
         itemBox.setMaxSize(400,400);
-        itemBox.setBackground(new Background(new BackgroundFill(Color.WHITE, new CornerRadii(15, 15, 15, 15, false), null)));
-//      productBox.setBorder(new Border(new BorderStroke(Color.web("02557a"), BorderStrokeStyle.SOLID, new CornerRadii(15, 15, 15, 15, false), BorderStroke.THICK)));
+        itemBox.setBackground(new Background(new BackgroundFill(Colors.itemBoxColor, new CornerRadii(15, 15, 15, 15, false), null)));
 
         itemBox.getStylesheets().add(Stylesheets.COMBO_BOX.loadTheme());
         return itemBox;

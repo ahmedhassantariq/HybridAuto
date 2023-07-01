@@ -9,7 +9,7 @@ public class Internet {
     public static boolean isConnected() {
         try {
             InetAddress address = InetAddress.getByName("www.google.com");
-            return address.isReachable(5000);
+            return address.isReachable(2000);
         } catch (IOException e) {
             return false;
         }

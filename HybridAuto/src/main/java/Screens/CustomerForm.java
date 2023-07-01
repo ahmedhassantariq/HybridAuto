@@ -3,6 +3,7 @@ package Screens;
 import Entities.Customer;
 import Functionality.Forms.OrdersController;
 import Styles.Buttons;
+import Styles.Colors;
 import Styles.Fields;
 import Styles.Labels;
 import Utils.Formatter;
@@ -89,7 +90,7 @@ public class CustomerForm {
         customerBox.setAlignment(Pos.TOP_CENTER);
         customerBox.setPrefSize(300, 350);
         customerBox.setMaxSize(300,400);
-        customerBox.setBackground(new Background(new BackgroundFill(Color.WHITE, new CornerRadii(15, 15, 15, 15, false), null)));
+        customerBox.setBackground(new Background(new BackgroundFill(Colors.customerBoxColor, new CornerRadii(15, 15, 15, 15, false), null)));
 //        productBox.setBorder(new Border(new BorderStroke(Color.web("02557a"), BorderStrokeStyle.SOLID, new CornerRadii(15, 15, 15, 15, false), BorderStroke.THICK)));
 
         customerBox.getStylesheets().add(Stylesheets.COMBO_BOX.loadTheme());

@@ -3,6 +3,7 @@ package Screens;
 import Entities.Stock;
 import Functionality.Forms.InventoryController;
 import Styles.Buttons;
+import Styles.Colors;
 import Styles.Fields;
 import Styles.Labels;
 import Utils.InventoryTable;
@@ -19,7 +20,13 @@ import javafx.scene.paint.Color;
 import java.sql.SQLException;
 
 public class InventoryForm {
+    private static VBox mainPane;
+
     public static Parent inventoryForm() throws SQLException {
+        if(mainPane!=null){
+            InventoryController.getInventoryList();
+            return mainPane;
+        }
 
         MFXTextField searchField = Fields.textField("Search by Serial",300,40);
         MFXButton createCategoryButton = Buttons.FunctionButton("Create New Category ",150,40);
@@ -28,14 +35,11 @@ public class InventoryForm {
         MFXButton deleteProductButton = Buttons.FunctionButton("Delete Product",100,40);
 
 
-
         HBox fieldBox = new HBox(searchField,createCategoryButton,addNewProductButton,editProductButton,deleteProductButton);
-        fieldBox.setBackground(new Background(new BackgroundFill(Color.WHITE,new CornerRadii(   15,15,15,15,false),null)));
+        fieldBox.setBackground(new Background(new BackgroundFill(Colors.fieldBoxColor,new CornerRadii(   15,15,15,15,false),null)));
         fieldBox.setAlignment(Pos.CENTER_LEFT);
         fieldBox.setPadding(new Insets(10));
         fieldBox.setSpacing(10);
-
-
 
 
 
@@ -43,18 +47,7 @@ public class InventoryForm {
         VBox productBox = ProductForm.productForm(borderContainer);
         VBox categoryBox = CategoryForm.categoryForm(borderContainer);
         final VBox[] editProductBox = {null};
-//                = EditProductForm.editProductForm(SaleTable.tableView.getSelectionModel().getSelectedItem());
-//        Platform.runLater(() -> {
-//            MFXTableView<Product> tableView = new MFXTableView<>();
-//            tableView.autosizeColumnsOnInitialization();
-//            searchButton.setOnAction(e->{
-//
-//                tableView.update();
-//            });
-//            tableView.setMaxSize(500,300);
-//            borderContainer.getChildren().add(tableView);
-//
-//        });
+
         borderContainer.getChildren().add(InventoryTable.inventoryTable());
 
 
@@ -110,8 +103,9 @@ public class InventoryForm {
         });
 
 
-        VBox mainPane = new VBox(Labels.titleLabel("Inventory"),fieldBox,borderContainer);
+        mainPane = new VBox(Labels.titleLabel("Inventory"),fieldBox,borderContainer);
         mainPane.setPadding(new Insets(10,0,0,0));
+        mainPane.setBackground(new Background(new BackgroundFill(Colors.mainPaneColor,new CornerRadii(0,0,0,0,false),null)));
         mainPane.setSpacing(10);
 
 

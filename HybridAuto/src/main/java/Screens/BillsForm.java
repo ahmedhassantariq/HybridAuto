@@ -1,15 +1,13 @@
 package Screens;
 
 import Entities.Bill;
-import Entities.Stock;
 import Functionality.Forms.BillsController;
-import Functionality.Forms.InventoryController;
 import Styles.Buttons;
+import Styles.Colors;
 import Styles.Fields;
 import Styles.Labels;
 import Utils.BillTable;
 import Utils.Formatter;
-import Utils.InventoryTable;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
@@ -19,19 +17,19 @@ import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class BillsForm {
+    private static VBox mainPane;
     public static Parent expensesForm() throws SQLException {
-
-
+        if(mainPane!=null){
+            return mainPane;
+        }
 
         MFXComboBox billTypeComboBox = new MFXComboBox(BillsController.billTypeList);
         billTypeComboBox.setFloatingText("Bill Type");
@@ -51,7 +49,7 @@ public class BillsForm {
         MFXButton removeBillButton = Buttons.FunctionButton("Remove Bill", 100, 40);
 
         HBox fieldBox = new HBox(billTypeComboBox,amountField,datePicker,addBillButton, editBillButton, removeBillButton);
-        fieldBox.setBackground(new Background(new BackgroundFill(Color.WHITE, new CornerRadii(15, 15, 15, 15, false), null)));
+        fieldBox.setBackground(new Background(new BackgroundFill(Colors.fieldBoxColor, new CornerRadii(15, 15, 15, 15, false), null)));
         fieldBox.setAlignment(Pos.CENTER_LEFT);
         fieldBox.setPadding(new Insets(10));
         fieldBox.setSpacing(10);
@@ -117,7 +115,8 @@ public class BillsForm {
 
 
 
-        VBox mainPane = new VBox(Labels.titleLabel("Bills"), fieldBox, BillTable.billTable());
+        mainPane = new VBox(Labels.titleLabel("Bills"), fieldBox, BillTable.billTable());
+        mainPane.setBackground(new Background(new BackgroundFill(Colors.mainPaneColor,new CornerRadii(0,0,0,0,false),null)));
         mainPane.setPadding(new Insets(10, 0, 0, 0));
         mainPane.setSpacing(10);
 

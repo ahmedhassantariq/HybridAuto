@@ -9,14 +9,12 @@ import Screens.CheckOutForm;
 import Screens.CustomerForm;
 import Screens.OrderForm;
 import Screens.StatusScreen;
-import Utils.CartTable;
-import Utils.InventoryTable;
-import Utils.OrderTable;
-import Utils.PDFDocument;
+import Utils.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Stack;
@@ -32,7 +30,7 @@ public class OrdersController {
             orderList.add(stock);
             itemID.add(stock.getStockID());
         }else {
-            StatusScreen.setNotification("Already Added");
+            StatusScreen.setNotification(stock.getSerialNumber()+" Already Added");
         }
     }
     public static void removeOrderItem(Stock stock){
@@ -68,6 +66,7 @@ public class OrdersController {
                 OrdersService.insertCustomer(customer);
             }
         } catch (SQLException e) {
+            new Notification(e);
             throw new RuntimeException(e);
         }
     }
@@ -76,6 +75,7 @@ public class OrdersController {
         try{
             return OrdersService.getCustomer(phone);
         } catch (Exception e) {
+            new Notification(e);
             throw new RuntimeException(e);
         }
     }
@@ -84,6 +84,7 @@ public class OrdersController {
         try {
             OrdersService.insertOrder(order);
         } catch (SQLException e) {
+            new Notification(e);
             throw new RuntimeException(e);
         }
     }
@@ -91,6 +92,7 @@ public class OrdersController {
         try {
             return OrdersService.getNewOrderID();
         } catch (SQLException e) {
+            new Notification(e);
             throw new RuntimeException(e);
         }
 
@@ -117,9 +119,10 @@ public class OrdersController {
             CheckOutForm.orderIDLabel.setText("Order-ID: "+OrdersController.newOrderID());
             CheckOutForm.discountField.clear();
             CheckOutForm.discountAmountField.clear();
-            StatusScreen.setNotification("Checkout Complete");
+            StatusScreen.setNotification(customer.getPhone()+" Checkout " + LocalDateTime.now().toLocalTime());
             OrderTable.inventoryTable.setItems(InventoryController.getInventoryList());
         } catch (Exception e) {
+            new Notification(e);
             throw new RuntimeException(e);
         }
     }

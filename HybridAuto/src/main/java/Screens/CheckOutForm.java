@@ -3,6 +3,7 @@ package Screens;
 import Entities.Stock;
 import Functionality.Forms.OrdersController;
 import Styles.Buttons;
+import Styles.Colors;
 import Styles.Fields;
 import Styles.Labels;
 import Utils.Formatter;
@@ -76,7 +77,7 @@ public class CheckOutForm {
         cartBox.setAlignment(Pos.TOP_CENTER);
         cartBox.setPrefSize(300, 350);
         cartBox.setMaxSize(300,400);
-        cartBox.setBackground(new Background(new BackgroundFill(Color.WHITE, new CornerRadii(15, 15, 15, 15, false), null)));
+        cartBox.setBackground(new Background(new BackgroundFill(Colors.cartBoxColor, new CornerRadii(15, 15, 15, 15, false), null)));
 
         cartBox.getStylesheets().add(Stylesheets.TEXT_FIELD.loadTheme());
         return cartBox;
@@ -100,10 +101,14 @@ public class CheckOutForm {
             }
             qtyLabel.setText("Item-Qty: "+OrdersController.orderList.size());
             if(!discountField.getText().isEmpty()){
-                discount = Double.parseDouble(discountField.getText());
+                if(Double.parseDouble(discountField.getText())<=100) {
+                    discount = Double.parseDouble(discountField.getText());
+                }
             }
             if(!discountAmountField.getText().isEmpty()){
-                discountAmount = Double.parseDouble(discountAmountField.getText());
+                if(Double.parseDouble(discountAmountField.getText())<=totalAmount) {
+                    discountAmount = Double.parseDouble(discountAmountField.getText());
+                }
             }
             total = subtotal-(subtotal*(discount/100));
             total -=discountAmount;

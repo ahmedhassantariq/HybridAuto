@@ -2,6 +2,7 @@ package Screens;
 
 import Functionality.Forms.OrdersController;
 import Styles.Buttons;
+import Styles.Colors;
 import Styles.Fields;
 import Styles.Labels;
 import io.github.palexdev.materialfx.controls.*;
@@ -16,7 +17,12 @@ import javafx.scene.paint.Color;
 import java.sql.SQLException;
 
 public class OrderForm {
+    private static VBox mainPane;
+
     public static Parent orderForm() throws SQLException {
+        if(mainPane!=null){
+            return mainPane;
+        }
 
 
         MFXButton newOrderButton = Buttons.FunctionButton("New Order ",150,40);
@@ -32,7 +38,7 @@ public class OrderForm {
 
 
         HBox fieldBox = new HBox(newOrderButton,previousOrderButton);
-        fieldBox.setBackground(new Background(new BackgroundFill(Color.WHITE,new CornerRadii(   15,15,15,15,false),null)));
+        fieldBox.setBackground(new Background(new BackgroundFill(Colors.fieldBoxColor,new CornerRadii(   15,15,15,15,false),null)));
         fieldBox.setAlignment(Pos.CENTER_LEFT);
         fieldBox.setPadding(new Insets(10));
         fieldBox.setSpacing(10);
@@ -45,10 +51,10 @@ public class OrderForm {
         customerOrderBox.setSpacing(10);
 
 
-        VBox mainPane = new VBox(Labels.titleLabel("Orders"),fieldBox,customerOrderBox);
+        mainPane = new VBox(Labels.titleLabel("Orders"),fieldBox,customerOrderBox);
         mainPane.setPadding(new Insets(10,0,0,0));
         mainPane.setSpacing(10);
-        mainPane.setBackground(new Background(new BackgroundFill(Color.web("#e8e8e8"),new CornerRadii(0,0,0,0,false),null)));
+        mainPane.setBackground(new Background(new BackgroundFill(Colors.mainPaneColor,new CornerRadii(0,0,0,0,false),null)));
         return mainPane;
 
     }

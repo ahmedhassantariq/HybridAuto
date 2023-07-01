@@ -77,7 +77,7 @@ public class OrdersService {
     public static int getNewOrderID() throws SQLException {
         resultSet = null;
         int newID = 0;
-        String queryString = "select COUNT(*) as new_ID from [Order]";
+        String queryString = "select MAX(order_ID) as new_ID from [Order]";
         PreparedStatement pSt = DbConnection.getPrepared(queryString);
         resultSet = pSt.executeQuery();
         while(resultSet.next()) {

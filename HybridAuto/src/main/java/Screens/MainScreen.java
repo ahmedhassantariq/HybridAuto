@@ -2,6 +2,7 @@ package Screens;
 
 import Functionality.Database.DB.DbConnection;
 import Styles.Buttons;
+import Styles.Colors;
 import Styles.Labels;
 import Utils.Constants;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -44,7 +45,7 @@ public class MainScreen {
 
         VBox avatarBox = new VBox(avatarIcon,avatarLabel);
         avatarBox.setAlignment(Pos.CENTER);
-        avatarBox.setBackground(new Background(new BackgroundFill(Color.web("#02557a"),new CornerRadii(0,0,0,0,false),null)));
+        avatarBox.setBackground(new Background(new BackgroundFill(Colors.avatarBoxColor,new CornerRadii(0,0,0,0,false),null)));
         //Buttons
         MFXButton dashboardFormButton = Buttons.DashboardButton("Dashboard", FontIcon.of(PrestaShopIcons.DASHBOARD));
         MFXButton inventoryFormButton = Buttons.DashboardButton("Inventory", FontIcon.of(PrestaShopIcons.BOOK));
@@ -121,9 +122,6 @@ public class MainScreen {
                 throw new RuntimeException(ex);
             }
         });
-
-
-
 
         return viewPane;
     }

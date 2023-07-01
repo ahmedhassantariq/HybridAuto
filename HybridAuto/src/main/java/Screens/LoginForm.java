@@ -1,6 +1,7 @@
 package Screens;
 
 import Styles.Buttons;
+import Styles.Colors;
 import Styles.Fields;
 import Utils.Constants;
 import Utils.Formatter;
@@ -27,6 +28,7 @@ public class LoginForm {
 
 
         GridPane gridPane = new GridPane();
+        gridPane.setBackground(new Background(new BackgroundFill(Colors.mainPaneColor,new CornerRadii(0,0,0,0,false),null)));
         gridPane.getStylesheets().add(Stylesheets.TEXT_FIELD.loadTheme());
 
         gridPane.setAlignment(Pos.CENTER);

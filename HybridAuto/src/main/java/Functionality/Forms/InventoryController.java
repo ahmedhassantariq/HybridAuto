@@ -4,6 +4,7 @@ import Entities.Car;
 import Entities.Stock;
 import Functionality.Database.InventoryService;
 import Screens.StatusScreen;
+import Utils.Notification;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -23,6 +24,7 @@ public class InventoryController {
         try {
             InventoryService.getInventoryProducts();
         } catch (SQLException e) {
+            new Notification(e);
             throw new RuntimeException(e);
         }
     }
@@ -32,6 +34,7 @@ public class InventoryController {
             InventoryService.getInventoryProducts();
             return inventoryList;
         } catch (SQLException e) {
+            new Notification(e);
             throw new RuntimeException(e);
         }
     }
@@ -42,6 +45,7 @@ public class InventoryController {
         try {
             InventoryService.getMakeList();
         } catch (SQLException e) {
+            new Notification(e);
             throw new RuntimeException(e);
         }
     }
@@ -51,6 +55,7 @@ public class InventoryController {
         try {
             InventoryService.getModelList(make);
         } catch (SQLException e) {
+            new Notification(e);
             throw new RuntimeException(e);
         }
     }
@@ -61,6 +66,7 @@ public class InventoryController {
         try {
             InventoryService.getYearList(model);
         } catch (SQLException e) {
+            new Notification(e);
             throw new RuntimeException(e);
         }
     }
@@ -71,6 +77,7 @@ public class InventoryController {
         try {
             InventoryService.getProductList(make,model,year);
         } catch (SQLException e) {
+            new Notification(e);
             throw new RuntimeException(e);
         }
     }
@@ -87,8 +94,9 @@ public class InventoryController {
     public static void insertProduct(Stock stock) {
         try{
             InventoryService.insertInventoryProduct(stock);
-            StatusScreen.setNotification("Stock Inserted");
+            StatusScreen.setNotification(stock.getSerialNumber()+" Inserted");
         } catch (SQLException e) {
+            new Notification(e);
             throw new RuntimeException(e);
         }
     }
@@ -97,17 +105,17 @@ public class InventoryController {
         Stock stock = new Stock(stockID,make,model,year,type,serial,cost,comments,condition);
             InventoryService.updateInventoryProduct(stock);
             OrdersController.clearCart();
-            StatusScreen.setNotification("Stock Updated");
+            StatusScreen.setNotification(stock.getSerialNumber()+" Updated");
         } catch (SQLException e) {
+            new Notification(e);
             throw new RuntimeException(e);
         }
     }
     public static void deleteProduct(String stockID) throws SQLException {
         try {
             InventoryService.deleteInventoryProduct(stockID);
-            StatusScreen.setNotification("Stock Deleted");
-
         } catch (SQLException e) {
+            new Notification(e);
             throw new RuntimeException(e);
         }
     }
@@ -127,6 +135,7 @@ public class InventoryController {
                 s=serial.toString();
             InventoryService.searchText(m,mo,y,s);
         } catch (SQLException e) {
+            new Notification(e);
             throw new RuntimeException(e);
         }
     }
@@ -141,9 +150,9 @@ public class InventoryController {
                 String carID = InventoryService.getCarID(category.getMake(),category.getModel(),category.getYear());
                 InventoryService.insertCategory(carID,category);
             }
-            StatusScreen.setNotification("Category Added");
+            StatusScreen.setNotification(category.getMake()+" "+category.getModel()+" "+category.getYear()+" Added");
         } catch (SQLException e) {
-            StatusScreen.setNotification("Insertion Error");
+            new Notification(e);
         }
     }
 

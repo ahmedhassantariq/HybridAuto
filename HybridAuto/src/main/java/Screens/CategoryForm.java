@@ -4,6 +4,7 @@ import Entities.Car;
 import Entities.Stock;
 import Functionality.Forms.InventoryController;
 import Styles.Buttons;
+import Styles.Colors;
 import Styles.Fields;
 import Styles.Labels;
 import Utils.Formatter;
@@ -75,8 +76,9 @@ public class CategoryForm {
         categoryBox.setSpacing(10);
         categoryBox.setAlignment(Pos.TOP_CENTER);
         categoryBox.setMaxSize(600,300);
-        categoryBox.setBackground(new Background(new BackgroundFill(Color.WHITE,new CornerRadii(15,15,15,15,false),null)));
-        categoryBox.setBorder(new Border(new BorderStroke(Color.web("02557a"),BorderStrokeStyle.SOLID,new CornerRadii(15,   15,15,15,false), BorderStroke.THICK)));
+        categoryBox.setBackground(new Background(new BackgroundFill(Colors.categoryBoxColor,new CornerRadii(15,15,15,15,false),null)));
+
+        categoryBox.setBorder(new Border(new BorderStroke(Colors.categoryBoxBorderColor,BorderStrokeStyle.SOLID,new CornerRadii(15,   15,15,15,false), BorderStroke.THICK)));
         categoryBox.getStylesheets().add(Stylesheets.COMBO_BOX.loadTheme());
         return categoryBox;
 

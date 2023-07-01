@@ -3,6 +3,7 @@ package Functionality.Forms;
 import Entities.Bill;
 import Functionality.Database.BillsService;
 import Screens.StatusScreen;
+import Utils.Notification;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -20,6 +21,7 @@ public class BillsController {
            BillsService.getBills();
            return billsLists;
         } catch (SQLException e) {
+            new Notification(e);
             throw new RuntimeException(e);
         }
     }
@@ -29,6 +31,7 @@ public class BillsController {
             BillsService.insertBill(bill);
             StatusScreen.setNotification("Bill Added");
         } catch (Exception e) {
+            new Notification(e);
             throw new RuntimeException(e);
         }
     }
@@ -38,6 +41,7 @@ public class BillsController {
             BillsService.updateBill(bill);
             StatusScreen.setNotification("Bill Updated");
         } catch (Exception e) {
+            new Notification(e);
             throw new RuntimeException(e);
         }
     }
@@ -47,6 +51,7 @@ public class BillsController {
             BillsService.deleteBill(bill);
             StatusScreen.setNotification("Bill Deleted");
         } catch (Exception e) {
+            new Notification(e);
             throw new RuntimeException(e);
         }
     }

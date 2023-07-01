@@ -19,7 +19,12 @@ import com.itextpdf.layout.property.HorizontalAlignment;
 import com.itextpdf.layout.property.TextAlignment;
 import com.itextpdf.layout.property.VerticalAlignment;
 import javafx.scene.Scene;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import org.controlsfx.control.NotificationPane;
+import org.controlsfx.control.Notifications;
+import org.controlsfx.control.action.Action;
 
 import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
@@ -185,6 +190,7 @@ public class PDFDocument {
     }
 
     public static void show() {
+
         if(destination==null)
             return;
         //New Invoice

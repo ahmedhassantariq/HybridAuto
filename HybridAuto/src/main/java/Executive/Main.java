@@ -12,7 +12,7 @@ public class Main extends Application {
         stage.setTitle("Hybrid AutoTech");
         stage.setScene(Constants.scene);
         stage.setOnCloseRequest(e->{
-
+            System.exit(1);
         });
         stage.show();
     }

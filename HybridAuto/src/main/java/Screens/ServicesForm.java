@@ -3,6 +3,7 @@ package Screens;
 import Entities.Services;
 import Functionality.Forms.ServicesController;
 import Styles.Buttons;
+import Styles.Colors;
 import Styles.Fields;
 import Styles.Labels;
 import Utils.Formatter;
@@ -21,7 +22,12 @@ import javafx.scene.paint.Color;
 import java.sql.SQLException;
 
 public class ServicesForm {
+    private static VBox mainPane;
     public static Parent servicesForm() throws SQLException {
+        if(mainPane!=null){
+            ServicesController.getServicesList();
+            return mainPane;
+        }
 
         MFXTextField searchField = Fields.textField("Search by Phone", 300, 40);
         searchField.delegateSetTextFormatter(Formatter.phoneFormatter());
@@ -29,7 +35,7 @@ public class ServicesForm {
 
 
         HBox fieldBox = new HBox(searchField, viewDetailsButton);
-        fieldBox.setBackground(new Background(new BackgroundFill(Color.WHITE, new CornerRadii(15, 15, 15, 15, false), null)));
+        fieldBox.setBackground(new Background(new BackgroundFill(Colors.fieldBoxColor, new CornerRadii(15, 15, 15, 15, false), null)));
         fieldBox.setAlignment(Pos.CENTER_LEFT);
         fieldBox.setPadding(new Insets(10));
         fieldBox.setSpacing(10);
@@ -57,7 +63,8 @@ public class ServicesForm {
         });
 
 
-        VBox mainPane = new VBox(Labels.titleLabel("Services"), fieldBox, borderContainer);
+        mainPane = new VBox(Labels.titleLabel("Services"), fieldBox, borderContainer);
+        mainPane.setBackground(new Background(new BackgroundFill(Colors.mainPaneColor,new CornerRadii(0,0,0,0,false),null)));
         mainPane.setPadding(new Insets(10, 0, 0, 0));
         mainPane.setSpacing(10);
 

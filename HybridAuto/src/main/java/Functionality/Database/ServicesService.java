@@ -88,4 +88,20 @@ public class ServicesService {
         }
         return total;
     }
+
+    public static void returnOrder(Services services) throws SQLException {
+        resultSet = null;
+        String queryString = "delete from [Order] where order_ID = ?";
+        PreparedStatement pSt = DbConnection.getPrepared(queryString);
+        pSt.setString(1,services.getOrderID());
+        pSt.execute();
+    }
+
+    public static void returnProduct(int stockID) throws SQLException {
+        resultSet = null;
+        String queryString = "update stock set condition = 'RETURNED' , display = 1 where stock_ID = ?";
+        PreparedStatement pSt = DbConnection.getPrepared(queryString);
+        pSt.setInt(1,stockID);
+        pSt.execute();
+    }
 }
