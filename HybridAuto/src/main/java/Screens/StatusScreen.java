@@ -4,20 +4,28 @@ import Styles.Colors;
 import Styles.Labels;
 import Utils.Internet;
 import Utils.Notification;
+import Utils.PDFDocument;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Pos;
 import javafx.geometry.Side;
 import javafx.scene.Parent;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.Tooltip;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.HBox;
 import javafx.util.Duration;
+import org.kordamp.ikonli.codicons.Codicons;
+import org.kordamp.ikonli.evaicons.Evaicons;
 import org.kordamp.ikonli.javafx.FontIcon;
-import org.kordamp.ikonli.ligaturesymbols.LigatureSymbols;
 import org.kordamp.ikonli.prestashopicons.PrestaShopIcons;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -25,14 +33,15 @@ import java.util.Stack;
 
 public class StatusScreen {
     private static Label dateTimeLabel = Labels.timeLabel();
-    private static Label notificationSymbol = Labels.notificationSymbol("",FontIcon.of(LigatureSymbols.BELL));
-    public static Label settingsSymbol = Labels.notificationSymbol("",FontIcon.of(LigatureSymbols.SETTING));
-    private static Label colorTheme = Labels.notificationSymbol("",FontIcon.of(LigatureSymbols.DARK));
+    private static Label notificationSymbol = Labels.notificationSymbol("",FontIcon.of(Evaicons.BELL));
+    public static Label settingsSymbol = Labels.notificationSymbol("",FontIcon.of(Evaicons.SETTINGS));
+    private static Label colorTheme = Labels.notificationSymbol("",FontIcon.of(Codicons.COLOR_MODE));
     private static Label connectivitySymbol = Labels.notificationSymbol("",FontIcon.of(PrestaShopIcons.BROKEN_LINK));
-
+    private static Label receiptSymbol = Labels.notificationSymbol("",FontIcon.of(Evaicons.CLIPBOARD));
 
 
     private static ContextMenu contextMenu = new ContextMenu();
+    private static ContextMenu receiptMenu = new ContextMenu();
     private static Stack<String> notificationStack = new Stack<>();
 
     public static Parent statusScreen(){
@@ -47,6 +56,7 @@ public class StatusScreen {
         notificationSymbol.setTooltip(Labels.tooltip("Messages"));
         settingsSymbol.setTooltip(Labels.tooltip("Settings"));
         colorTheme.setTooltip(Labels.tooltip("Change Color"));
+        receiptSymbol.setTooltip(new Tooltip("Receipts"));
 
 
 
@@ -66,11 +76,31 @@ public class StatusScreen {
         });
 
 
-        colorTheme.setOnMouseClicked(e->{
 
+
+
+        receiptSymbol.setOnMouseClicked(e->{
+            receiptMenu.getItems().clear();
+            String folderPath = "C:\\Users\\atari\\Documents\\GitHub\\HybridAuto\\HybridAuto\\src\\main\\java\\Receipts";
+            File folder = new File(folderPath);
+            File[] files = folder.listFiles();
+            if (files != null) {
+                for (File file : files) {
+                    if (file.isFile()) {
+                        MenuItem menuItem = new MenuItem(file.getName());
+                        receiptMenu.getItems().add(menuItem);
+                        menuItem.setOnAction(ep->{
+                            PDFDocument.show(file.getName());
+                        });
+                    }
+                }
+            }
+            receiptMenu.show(receiptSymbol, Side.RIGHT,0,0);
         });
 
-        HBox statusBox = new HBox(dateTimeLabel, notificationSymbol, settingsSymbol,colorTheme, connectivitySymbol);
+
+
+        HBox statusBox = new HBox(dateTimeLabel, notificationSymbol, settingsSymbol,receiptSymbol, connectivitySymbol);
         statusBox.setAlignment(Pos.CENTER_LEFT);
         statusBox.setSpacing(10);
         statusBox.setBackground(new Background(new BackgroundFill(Colors.statusBoxColor,new CornerRadii(0,15,0,0,false),null)));

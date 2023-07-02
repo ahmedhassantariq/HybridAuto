@@ -11,16 +11,15 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import org.kordamp.ikonli.codicons.Codicons;
+import org.kordamp.ikonli.evaicons.Evaicons;
 import org.kordamp.ikonli.javafx.FontIcon;
-import org.kordamp.ikonli.ligaturesymbols.LigatureSymbols;
 import org.kordamp.ikonli.prestashopicons.PrestaShopIcons;
 
-import java.awt.*;
 import java.sql.SQLException;
 
 public class MainScreen {
     public static Parent mainScreen() throws SQLException, ClassNotFoundException {
-//        DbConnection dbConnection = new DbConnection();
         DbConnection.connectDB();
 
         BorderPane viewPane = new BorderPane();
@@ -52,8 +51,8 @@ public class MainScreen {
         MFXButton ordersFormButton = Buttons.DashboardButton("Orders", FontIcon.of(PrestaShopIcons.MAGNIFYING_GLASS));
         MFXButton reportsFormButton = Buttons.DashboardButton("Reports", FontIcon.of(PrestaShopIcons.PAPER_TABLET));
         MFXButton serviceFormButton = Buttons.DashboardButton("Services", FontIcon.of(PrestaShopIcons.SALE_TAG));
-        MFXButton billsFormButton = Buttons.DashboardButton("Bills", FontIcon.of(LigatureSymbols.EXTERNAL));
-        MFXButton logoutButton = Buttons.DashboardButton("Logout", FontIcon.of(LigatureSymbols.LOGOUT));
+        MFXButton billsFormButton = Buttons.DashboardButton("Bills", FontIcon.of(Codicons.BOOK));
+        MFXButton logoutButton = Buttons.DashboardButton("Logout", FontIcon.of(Evaicons.LOG_OUT));
 
         //Adding nodes to SelectionPane
         selectionPane.getChildren().addAll(

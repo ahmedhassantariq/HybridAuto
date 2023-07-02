@@ -7,10 +7,7 @@ import Functionality.Forms.ServicesController;
 import Styles.Buttons;
 import Styles.Colors;
 import Styles.Labels;
-import Utils.Formatter;
-import Utils.InventoryTable;
-import Utils.Notification;
-import Utils.OrderDetailsTable;
+import Utils.*;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -41,14 +38,22 @@ public class OrderDetailScreen {
         Label orderTotal = Labels.checkOutLabel("Total Amount: "+ Formatter.doublePrefix(Double.parseDouble(ServicesController.getOrderTotal(services.getOrderID()))));
 
         MFXButton returnOrderButton = Buttons.FunctionButton("Return Order",100,40);
+        MFXButton viewReceiptButton = Buttons.FunctionButton_Border("View Receipt",100,40);
+
         returnOrderButton.setOnAction(e->{
                 ServicesController.returnOrder(services);
+        });
+
+        viewReceiptButton.setOnAction(e->{
+            PDFDocument.show(services.getOrderID()+".pdf");
         });
 
 
 
 
-        HBox fieldBox = new HBox(returnOrderButton);
+
+
+        HBox fieldBox = new HBox(returnOrderButton, viewReceiptButton);
         fieldBox.setBackground(new Background(new BackgroundFill(Colors.fieldBoxColor,new CornerRadii(   15,15,15,15,false),null)));
         fieldBox.setSpacing(10);
         fieldBox.setAlignment(Pos.CENTER);

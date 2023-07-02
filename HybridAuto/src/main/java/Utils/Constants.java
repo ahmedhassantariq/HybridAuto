@@ -25,6 +25,7 @@ public class Constants {
         try {
             scene = new Scene(LoginForm.loginForm(),screenWidth,screenHeight);
         } catch (SQLException | ClassNotFoundException e) {
+            new Notification(e);
             throw new RuntimeException(e);
         }
     }

@@ -3,7 +3,7 @@
   <dontWrapJar>false</dontWrapJar>
   <headerType>gui</headerType>
   <jar>C:\Users\atari\Documents\GitHub\HybridAuto\out\artifacts\HybridAuto_jar\HybridAuto.jar</jar>
-  <outfile>C:\Users\atari\Documents\GitHub\HybridAuto\out\artifacts\HybridAuto_jar\RunnFile2.exe</outfile>
+  <outfile>C:\Users\atari\Documents\GitHub\HybridAuto\out\artifacts\HybridAuto_jar\Application.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>
   <chdir>.</chdir>
@@ -15,7 +15,7 @@
   <manifest></manifest>
   <icon></icon>
   <jre>
-    <path>C:\Program Files\Java\jdk-19.0.2</path>
+    <path>C:\Users\atari\.jdks\openjdk-19.0.2</path>
     <requiresJdk>false</requiresJdk>
     <requires64Bit>false</requires64Bit>
     <minVersion></minVersion>

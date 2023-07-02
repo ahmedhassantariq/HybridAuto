@@ -1,6 +1,8 @@
 package Functionality.Database.DB;
 
 import Entities.Services;
+import Utils.Email;
+import Utils.Notification;
 import Utils.TaskManager;
 import javafx.application.Platform;
 import org.apache.commons.lang3.ObjectUtils;
@@ -22,20 +24,19 @@ public class DbConnection {
             Class.forName(driver);
             connWrapper = new ConnectionWrapper(dbUrl);
         } catch (ClassNotFoundException e) {
+            new Notification(e);
             throw new RuntimeException(e);
         }
     }
 
-    private DbConnection() throws ClassNotFoundException, SQLException {
-//        Class.forName(driver);
-//        connection = DriverManager.getConnection(dbUrl);
-    }
+    private DbConnection() {}
 
     public static void connectDB() {
         try {
             if(!connWrapper.isConnected())
                 connWrapper.connect();
         } catch (SQLException e) {
+            new Notification(e);
             throw new RuntimeException(e);
         }
     }
@@ -44,6 +45,7 @@ public class DbConnection {
             try {
                 connWrapper.closeConnection();
             } catch (SQLException e) {
+                new Notification(e);
                 throw new RuntimeException(e);
             }
         }
@@ -52,6 +54,7 @@ public class DbConnection {
                 resultSet.close();
                 resultSet = null;
             } catch (SQLException e) {
+                new Notification(e);
                 throw new RuntimeException(e);
             }
         }
@@ -61,6 +64,7 @@ public class DbConnection {
         try {
             st = connWrapper.getPreparedStatementFrom(query);
         } catch (SQLException e) {
+            new Notification(e);
             throw new RuntimeException(e);
         }
         return st;

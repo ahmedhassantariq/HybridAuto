@@ -7,7 +7,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
     public static Stage stage;
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
         Main.stage = stage;
         stage.setTitle("Hybrid AutoTech");
         stage.setScene(Constants.scene);

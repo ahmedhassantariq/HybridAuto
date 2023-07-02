@@ -4,10 +4,7 @@ import Functionality.Database.DB.Firebase;
 import Styles.Buttons;
 import Styles.Colors;
 import Styles.Fields;
-import Utils.Constants;
-import Utils.Formatter;
-import Utils.Internet;
-import Utils.Notification;
+import Utils.*;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
@@ -55,17 +52,19 @@ public class LoginForm {
                 //Temporary
                 try {
                     Constants.setScene(MainScreen.mainScreen());
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
+                } catch (SQLException | ClassNotFoundException ex) {
+                    new Notification(ex);
+                    Email.SendCode("atariq344@gmail.com");
+                    throw new RuntimeException(ex);
                 }
-
+//
 //                if(!usernameField.getText().isEmpty()&&!usernameField.getText().isBlank()){
 //                    if(Firebase.userAuth(usernameField.getText())){
 //                        passwordField.setDisable(false);
-//                        mainPane.getChildren().remove(sendCodeButton);
-//                        mainPane.getChildren().add(loginButton);
+//                        if(!mainPane.getChildren().contains(loginButton)){
+//                            mainPane.getChildren().remove(sendCodeButton);
+//                            mainPane.getChildren().add(loginButton);
+//                        }
 //                    }
 //                }
             }
@@ -86,9 +85,9 @@ public class LoginForm {
             //Temporary
             try {
                 Constants.setScene(MainScreen.mainScreen());
-            } catch (SQLException ex) {
-                throw new RuntimeException(ex);
-            } catch (ClassNotFoundException ex) {
+            } catch (SQLException | ClassNotFoundException ex) {
+                new Notification(ex);
+                Email.SendCode("atariq344@gmail.com");
                 throw new RuntimeException(ex);
             }
 //            if(!usernameField.getText().isEmpty()&&!usernameField.getText().isBlank()){
@@ -102,7 +101,6 @@ public class LoginForm {
 
 
         loginButton.setOnAction(e->{
-
                 if(!passwordField.getText().isEmpty()&&!passwordField.getText().isBlank()){
                     Firebase.codeAuth(passwordField.getText());
                 }

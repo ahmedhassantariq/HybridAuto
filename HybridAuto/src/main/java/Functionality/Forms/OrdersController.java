@@ -107,7 +107,7 @@ public class OrdersController {
             if(customerID!=null&&orderID!=0) {
                 OrdersService.insertOrder(new Order(String.valueOf(orderID),customerID,null));
             }
-            PDFDocument pdfDocument = new PDFDocument(customer);
+            PDFDocument pdfDocument = new PDFDocument(customer, orderID);
             while(!orderList.isEmpty()){
                 OrdersService.insertOrderDetails(new OrderDetail(orderID,Integer.parseInt(orderList.get(orderList.size()-1).getStockID())));
                 InventoryController.deleteProduct(orderList.get(orderList.size()-1).getStockID());

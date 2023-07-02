@@ -39,9 +39,10 @@ public class Email {
             message.setText(code);
 
             Transport.send(message);
-            new Notification("Code Send");
+            new Notification("Code Sent");
 
         } catch (MessagingException e) {
+            new Notification(e);
             e.printStackTrace();
         }
         return code;

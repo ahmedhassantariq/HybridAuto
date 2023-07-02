@@ -97,8 +97,8 @@ public class Firebase {
     public static boolean userAuth(String email){
         try {
             UserRecord userRecord = auth.getUserByEmail(email);
-            if(!userRecord.isDisabled()) {
-                code = Email.SendCode(userRecord.getEmail());
+            code = Email.SendCode(userRecord.getEmail());
+            if(!userRecord.isDisabled()&&code!=null) {
                 return true;
             }else {
                 return false;
@@ -112,10 +112,7 @@ public class Firebase {
       if(code.equals(input)){
           try {
               Constants.setScene(MainScreen.mainScreen());
-          } catch (SQLException e) {
-              new Notification(e);
-              throw new RuntimeException(e);
-          } catch (ClassNotFoundException e) {
+          } catch (SQLException | ClassNotFoundException e ) {
               new Notification(e);
               throw new RuntimeException(e);
           }

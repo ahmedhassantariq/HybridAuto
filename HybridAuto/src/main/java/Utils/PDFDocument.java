@@ -1,6 +1,7 @@
 package Utils;
 
 import Entities.Customer;
+import Entities.Services;
 import Functionality.Forms.OrdersController;
 import Screens.CheckOutForm;
 import com.dlsc.pdfviewfx.PDFView;
@@ -47,12 +48,12 @@ public class PDFDocument {
     private PdfFont font = PdfFontFactory.createFont(FontConstants.TIMES_ROMAN);
     private static String destination;
     private static String fileName;
-    public PDFDocument(Customer customer) throws IOException, SQLException {
+    public PDFDocument(Customer customer, int orderID) throws IOException, SQLException {
         localTime = LocalTime.now();
         localDate = LocalDate.now();
         UUID uuid = UUID.randomUUID();
         fileName = uuid.toString().substring(0,8)+".pdf";
-        destination = "C:\\Users\\atari\\Documents\\GitHub\\HybridAuto\\HybridAuto\\src\\main\\java\\Receipts\\"+fileName;
+        destination = "C:\\Users\\atari\\Documents\\GitHub\\HybridAuto\\HybridAuto\\src\\main\\java\\Receipts\\"+orderID+".pdf";
         pdfWriter = new PdfWriter(destination);
         pdfDocument = new PdfDocument(pdfWriter);
         com.itextpdf.layout.Document document = new com.itextpdf.layout.Document(pdfDocument);
@@ -95,7 +96,7 @@ public class PDFDocument {
         customerInfoTable.addCell(new Cell().add("Name: ").setBorder(Border.NO_BORDER));
         customerInfoTable.addCell(new Cell().add(customer.getFullName()).setBorder(Border.NO_BORDER));
         customerInfoTable.addCell(new Cell().add("Invoice #").setBorder(Border.NO_BORDER));
-        customerInfoTable.addCell(new Cell().add(uuid.toString().substring(0,8)).setBorder(Border.NO_BORDER));
+        customerInfoTable.addCell(new Cell().add(""+orderID).setBorder(Border.NO_BORDER));
 
         customerInfoTable.addCell(new Cell().add("Phone No.: ").setBorder(Border.NO_BORDER).setMarginBottom(20f));
         customerInfoTable.addCell(new Cell().add(customer.getPhone()).setBorder(Border.NO_BORDER));
@@ -190,7 +191,6 @@ public class PDFDocument {
     }
 
     public static void show() {
-
         if(destination==null)
             return;
         //New Invoice
@@ -204,25 +204,27 @@ public class PDFDocument {
         pdfDisplayer.load(file);
         stage.setTitle(destination.substring(21));
         stage.setScene(new Scene(pdfDisplayer,500,700));
-//        pdfDisplayer.setOnKeyPressed(e->{
-//                    try {
-//                        printPdfFile(destination);
-//                    } catch (PrinterException ex) {
-//                        throw new RuntimeException(ex);
-//                    }
-//        });
         stage.show();
 
     }
 
-//    public static void toByteData(String fileName) throws SQLException, IOException {
-//        Queries.writePDFQuery(fileName);
-//    }
-    private static void printPdfFile(String destination) throws PrinterException {
-        PrinterJob printerJob = PrinterJob.getPrinterJob();
-        PrintRequestAttributeSet attrs = new HashPrintRequestAttributeSet();
-        attrs.add(new Copies(1));
-//        printerJob.setPageable(new PDFPageable());
-        printerJob.print();
+    public static void show(String fileName) {
+        //New Invoice
+        Stage stage = new Stage();
+        File file = new File("C:\\Users\\atari\\Documents\\GitHub\\HybridAuto\\HybridAuto\\src\\main\\java\\Receipts\\"+fileName);
+        pdfDisplayer = new PDFView();
+        pdfDisplayer.setShowAll(false);
+        pdfDisplayer.setShowToolBar(false);
+        pdfDisplayer.setShowThumbnails(false);
+        pdfDisplayer.setShowSearchResults(false);
+        if(file.exists()) {
+            pdfDisplayer.load(file);
+            stage.setTitle(fileName);
+            stage.setScene(new Scene(pdfDisplayer, 500, 700));
+            stage.show();
+        }else {
+            new Notification("Receipt Not Found");
+        }
     }
+
 }
