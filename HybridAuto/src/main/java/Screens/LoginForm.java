@@ -18,6 +18,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import org.kordamp.ikonli.evaicons.Evaicons;
+import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -35,14 +37,11 @@ public class LoginForm {
         MFXTextField usernameField = Fields.textField("Email",200,50);
         MFXTextField passwordField = Fields.passwordField("Code",200,50);
         //Buttons
-        MFXButton loginButton = Buttons.FunctionButton("Login",200,40);
-        MFXButton sendCodeButton = Buttons.FunctionButton("Send Code", 200, 40);
-        if(!Internet.isConnected()){
-
-        }else{
+        MFXButton loginButton = Buttons.iconButton("Login",200,40, FontIcon.of(Evaicons.LOG_IN));
+        MFXButton sendCodeButton = Buttons.iconButton("Send Code",200,40, FontIcon.of(Evaicons.EMAIL_OUTLINE));
             mainPane.getChildren().addAll(usernameField,passwordField,sendCodeButton);
             passwordField.setDisable(true);
-        }
+
 
 
 
@@ -50,23 +49,22 @@ public class LoginForm {
         EventHandler<KeyEvent> userNameKeyHandler= keyEvent -> {
             if(keyEvent.getCode().equals(KeyCode.ENTER)){
                 //Temporary
-                try {
-                    Constants.setScene(MainScreen.mainScreen());
-                } catch (SQLException | ClassNotFoundException ex) {
-                    new Notification(ex);
-                    Email.SendCode("atariq344@gmail.com");
-                    throw new RuntimeException(ex);
-                }
-//
-//                if(!usernameField.getText().isEmpty()&&!usernameField.getText().isBlank()){
-//                    if(Firebase.userAuth(usernameField.getText())){
-//                        passwordField.setDisable(false);
-//                        if(!mainPane.getChildren().contains(loginButton)){
-//                            mainPane.getChildren().remove(sendCodeButton);
-//                            mainPane.getChildren().add(loginButton);
-//                        }
-//                    }
+//                try {
+//                    Constants.setScene(MainScreen.mainScreen());
+//                } catch (SQLException | ClassNotFoundException ex) {
+//                    new Notification(ex);
+//                    throw new RuntimeException(ex);
 //                }
+//
+                if(!usernameField.getText().isEmpty()&&!usernameField.getText().isBlank()){
+                    if(Firebase.userAuth(usernameField.getText())){
+                        passwordField.setDisable(false);
+                        if(!mainPane.getChildren().contains(loginButton)){
+                            mainPane.getChildren().remove(sendCodeButton);
+                            mainPane.getChildren().add(loginButton);
+                        }
+                    }
+                }
             }
         };
         EventHandler<KeyEvent> passwordKeyHandler= keyEvent -> {
@@ -83,20 +81,19 @@ public class LoginForm {
 
         sendCodeButton.setOnAction(e->{
             //Temporary
-            try {
-                Constants.setScene(MainScreen.mainScreen());
-            } catch (SQLException | ClassNotFoundException ex) {
-                new Notification(ex);
-                Email.SendCode("atariq344@gmail.com");
-                throw new RuntimeException(ex);
-            }
-//            if(!usernameField.getText().isEmpty()&&!usernameField.getText().isBlank()){
-//                if(Firebase.userAuth(usernameField.getText())){
-//                    passwordField.setDisable(false);
-//                    mainPane.getChildren().remove(sendCodeButton);
-//                    mainPane.getChildren().add(loginButton);
-//                }
+//            try {
+//                Constants.setScene(MainScreen.mainScreen());
+//            } catch (SQLException | ClassNotFoundException ex) {
+//                new Notification(ex);
+//                throw new RuntimeException(ex);
 //            }
+            if(!usernameField.getText().isEmpty()&&!usernameField.getText().isBlank()){
+                if(Firebase.userAuth(usernameField.getText())){
+                    passwordField.setDisable(false);
+                    mainPane.getChildren().remove(sendCodeButton);
+                    mainPane.getChildren().add(loginButton);
+                }
+            }
         });
 
 

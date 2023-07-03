@@ -5,6 +5,7 @@ import Styles.Buttons;
 import Styles.Colors;
 import Styles.Labels;
 import Utils.Constants;
+import Utils.TaskManager;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -21,13 +22,15 @@ import java.sql.SQLException;
 public class MainScreen {
     public static Parent mainScreen() throws SQLException, ClassNotFoundException {
         DbConnection.connectDB();
+        TaskManager.checkUpdate();
+//        TaskManager.setUpdate();
 
         BorderPane viewPane = new BorderPane();
         viewPane.setPrefWidth(Constants.screenWidth);
         viewPane.setPrefHeight(Constants.screenHeight);
         //CSS viewPane
 //        viewPane.setStyle("-fx-background-color: #e8e8e8");
-        viewPane.setBackground(new Background(new BackgroundFill(Color.web("#e8e8e8"),new CornerRadii(0,0,0,0,false),null)));
+        viewPane.setBackground(new Background(new BackgroundFill(Colors.mainPaneColor,new CornerRadii(0,0,0,0,false),null)));
 
         //SelectionPane
         VBox selectionPane = new VBox();

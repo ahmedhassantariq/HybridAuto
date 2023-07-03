@@ -1,10 +1,6 @@
 package Utils;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import org.controlsfx.control.Notifications;
-
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Notification {
     private static Notifications notifications = Notifications.create();
@@ -17,6 +13,11 @@ public class Notification {
     public Notification(String cause){
         notifications.title("Notification");
         notifications.text(cause);
+        notifications.show();
+    }
+    public static void Notification(){
+        notifications.title("Notification");
+        notifications.text("cause");
         notifications.show();
     }
 

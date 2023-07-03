@@ -1,7 +1,6 @@
 package Utils;
 
 import Entities.Customer;
-import Entities.Services;
 import Functionality.Forms.OrdersController;
 import Screens.CheckOutForm;
 import com.dlsc.pdfviewfx.PDFView;
@@ -20,18 +19,8 @@ import com.itextpdf.layout.property.HorizontalAlignment;
 import com.itextpdf.layout.property.TextAlignment;
 import com.itextpdf.layout.property.VerticalAlignment;
 import javafx.scene.Scene;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import org.controlsfx.control.NotificationPane;
-import org.controlsfx.control.Notifications;
-import org.controlsfx.control.action.Action;
 
-import javax.print.attribute.HashPrintRequestAttributeSet;
-import javax.print.attribute.PrintRequestAttributeSet;
-import javax.print.attribute.standard.Copies;
-import java.awt.print.PrinterException;
-import java.awt.print.PrinterJob;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -53,7 +42,7 @@ public class PDFDocument {
         localDate = LocalDate.now();
         UUID uuid = UUID.randomUUID();
         fileName = uuid.toString().substring(0,8)+".pdf";
-        destination = "C:\\Users\\atari\\Documents\\GitHub\\HybridAuto\\HybridAuto\\src\\main\\java\\Receipts\\"+orderID+".pdf";
+        destination = FilePaths.pdfFilePath+orderID+".pdf";
         pdfWriter = new PdfWriter(destination);
         pdfDocument = new PdfDocument(pdfWriter);
         com.itextpdf.layout.Document document = new com.itextpdf.layout.Document(pdfDocument);
@@ -211,7 +200,7 @@ public class PDFDocument {
     public static void show(String fileName) {
         //New Invoice
         Stage stage = new Stage();
-        File file = new File("C:\\Users\\atari\\Documents\\GitHub\\HybridAuto\\HybridAuto\\src\\main\\java\\Receipts\\"+fileName);
+        File file = new File(FilePaths.pdfFilePath+fileName);
         pdfDisplayer = new PDFView();
         pdfDisplayer.setShowAll(false);
         pdfDisplayer.setShowToolBar(false);

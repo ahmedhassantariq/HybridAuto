@@ -8,6 +8,7 @@ module HybridAutotech {
     requires com.dlsc.pdfviewfx;
     requires java.sql;
     requires org.apache.commons.lang3;
+    requires org.kordamp.ikonli.evaicons;
     requires MaterialFX;
     exports Executive
 }

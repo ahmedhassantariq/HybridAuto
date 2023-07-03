@@ -12,6 +12,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 public class DashboardForm {
+    private static Color cardBoxBorderColor = Color.web("#dcdcdc");
 
     public static Parent dashboardForm(){
         Parent p1 = Cards.card("Total Sales", Formatter.doublePrefix(DashboardController.totalSales()),"Orders");
@@ -29,12 +30,12 @@ public class DashboardForm {
         cardBox1.setAlignment(Pos.CENTER);
         cardBox1.setPadding(new Insets(10));
         cardBox1.setSpacing(10);
-        cardBox1.setBorder(Border.stroke(Colors.cardBoxBorderColor));
+        cardBox1.setBorder(Border.stroke(cardBoxBorderColor));
         HBox cardBox2 = new HBox(p5,p6,p7,p8);
         cardBox2.setAlignment(Pos.CENTER);
         cardBox2.setPadding(new Insets(10));
         cardBox2.setSpacing(10);
-        cardBox2.setBorder(Border.stroke(Colors.cardBoxBorderColor));
+        cardBox2.setBorder(Border.stroke(cardBoxBorderColor));
 
         VBox dashboardBox = new VBox(Labels.titleLabel("Dashboard"),cardBox1,cardBox2);
         dashboardBox.setPadding(new Insets(10,0,0,0));
