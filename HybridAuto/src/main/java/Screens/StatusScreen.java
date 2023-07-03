@@ -19,8 +19,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import org.kordamp.ikonli.codicons.Codicons;
-import org.kordamp.ikonli.evaicons.Evaicons;
 import org.kordamp.ikonli.javafx.FontIcon;
+import org.kordamp.ikonli.prestashopicons.PrestaShopIcons;
 
 import java.io.File;
 import java.time.LocalDate;
@@ -30,11 +30,11 @@ import java.util.Stack;
 
 public class StatusScreen {
     private static Label dateTimeLabel = Labels.timeLabel();
-    private static Label notificationSymbol = Labels.notificationSymbol("",FontIcon.of(Evaicons.BELL));
-    public static Label settingsSymbol = Labels.notificationSymbol("",FontIcon.of(Evaicons.SETTINGS));
-    private static Label colorTheme = Labels.notificationSymbol("",FontIcon.of(Codicons.COLOR_MODE));
-    private static Label connectivitySymbol = Labels.notificationSymbol("",FontIcon.of(Evaicons.WIFI_OFF));
-    private static Label receiptSymbol = Labels.notificationSymbol("",FontIcon.of(Evaicons.CLIPBOARD));
+    private static Label notificationSymbol = Labels.notificationSymbol("",FontIcon.of(PrestaShopIcons.DO_NOT_IRON));
+    public static Label settingsSymbol = Labels.notificationSymbol("",FontIcon.of(PrestaShopIcons.DO_NOT_IRON));
+    private static Label colorTheme = Labels.notificationSymbol("",FontIcon.of(PrestaShopIcons.DO_NOT_IRON));
+    private static Label connectivitySymbol = Labels.notificationSymbol("",FontIcon.of(PrestaShopIcons.DO_NOT_IRON));
+    private static Label receiptSymbol = Labels.notificationSymbol("",FontIcon.of(PrestaShopIcons.DO_NOT_IRON));
     private static Color notificationIconColor = Color.WHITE;
     public static ProgressBar progressBar = new ProgressBar(0.0);
 
@@ -119,13 +119,13 @@ public class StatusScreen {
     public static void checkInternet() {
 
         if(Internet.isConnected()){
-            FontIcon fontIcon = new FontIcon(Evaicons.WIFI);
+            FontIcon fontIcon = new FontIcon(PrestaShopIcons.MAIL);
             fontIcon.setIconColor(notificationIconColor);
             fontIcon.setIconSize(32);
             connectivitySymbol.setGraphic(fontIcon);
             connectivitySymbol.setTooltip(Labels.tooltip("Connected"));
         }else {
-            FontIcon fontIcon = new FontIcon(Evaicons.WIFI_OFF);
+            FontIcon fontIcon = new FontIcon(PrestaShopIcons.WINDOWS);
             fontIcon.setIconColor(notificationIconColor);
             fontIcon.setIconSize(32);
             connectivitySymbol.setGraphic(fontIcon);

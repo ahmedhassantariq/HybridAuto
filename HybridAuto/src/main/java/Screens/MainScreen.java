@@ -13,7 +13,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import org.kordamp.ikonli.codicons.Codicons;
-import org.kordamp.ikonli.evaicons.Evaicons;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.prestashopicons.PrestaShopIcons;
 
@@ -55,7 +54,7 @@ public class MainScreen {
         MFXButton reportsFormButton = Buttons.DashboardButton("Reports", FontIcon.of(PrestaShopIcons.PAPER_TABLET));
         MFXButton serviceFormButton = Buttons.DashboardButton("Services", FontIcon.of(PrestaShopIcons.SALE_TAG));
         MFXButton billsFormButton = Buttons.DashboardButton("Bills", FontIcon.of(Codicons.BOOK));
-        MFXButton logoutButton = Buttons.DashboardButton("Logout", FontIcon.of(Evaicons.LOG_OUT));
+        MFXButton logoutButton = Buttons.DashboardButton("Logout", FontIcon.of(PrestaShopIcons.FLAG_SCOUT));
 
         //Adding nodes to SelectionPane
         selectionPane.getChildren().addAll(

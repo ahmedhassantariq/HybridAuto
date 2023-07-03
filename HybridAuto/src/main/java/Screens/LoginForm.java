@@ -4,24 +4,21 @@ import Functionality.Database.DB.Firebase;
 import Styles.Buttons;
 import Styles.Colors;
 import Styles.Fields;
-import Utils.*;
 import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.css.themes.Stylesheets;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import org.kordamp.ikonli.evaicons.Evaicons;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.VBox;
 import org.kordamp.ikonli.javafx.FontIcon;
+import org.kordamp.ikonli.prestashopicons.PrestaShopIcons;
 
-import java.io.IOException;
 import java.sql.SQLException;
 
 public class LoginForm {
@@ -37,8 +34,8 @@ public class LoginForm {
         MFXTextField usernameField = Fields.textField("Email",200,50);
         MFXTextField passwordField = Fields.passwordField("Code",200,50);
         //Buttons
-        MFXButton loginButton = Buttons.iconButton("Login",200,40, FontIcon.of(Evaicons.LOG_IN));
-        MFXButton sendCodeButton = Buttons.iconButton("Send Code",200,40, FontIcon.of(Evaicons.EMAIL_OUTLINE));
+        MFXButton loginButton = Buttons.iconButton("Login",200,40, FontIcon.of(PrestaShopIcons.COIN));
+        MFXButton sendCodeButton = Buttons.iconButton("Send Code",200,40, FontIcon.of(PrestaShopIcons.EJECT));
             mainPane.getChildren().addAll(usernameField,passwordField,sendCodeButton);
             passwordField.setDisable(true);
 
