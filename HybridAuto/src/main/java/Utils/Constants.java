@@ -12,6 +12,7 @@ import javafx.scene.paint.Color;
 import java.sql.SQLException;
 
 public class Constants {
+    public static final double appVersion = 1.0;
     public static final double screenHeight = 600;
     public static final double screenWidth = 1100;
 
@@ -25,6 +26,7 @@ public class Constants {
         try {
             scene = new Scene(LoginForm.loginForm(),screenWidth,screenHeight);
         } catch (SQLException | ClassNotFoundException e) {
+            new Notification(e);
             throw new RuntimeException(e);
         }
     }

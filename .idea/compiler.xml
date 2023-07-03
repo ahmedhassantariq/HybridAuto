@@ -13,4 +13,9 @@
       <module name="HybridAuto" target="19" />
     </bytecodeTargetLevel>
   </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="HybridAuto" options="" />
+    </option>
+  </component>
 </project>

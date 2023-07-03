@@ -1,8 +1,12 @@
 package Styles;
 
+import Utils.Formatter;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
+import javafx.css.PseudoClass;
 import javafx.geometry.Pos;
+import javafx.scene.control.Label;
+
 
 public class Fields {
 
@@ -20,5 +24,6 @@ public class Fields {
         passwordField.setFloatingText(fieldLabel);
         return passwordField;
     }
+
 
 }

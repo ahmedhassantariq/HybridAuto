@@ -1,6 +1,6 @@
 package Utils;
 
-import Entities.Product;
+import Entities.Stock;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -12,7 +12,7 @@ import javafx.scene.paint.Color;
 public class TableView {
     private static VBox tableBox;
     private static HBox columnHeading;
-    private static ObservableList<Product> observableList;
+    private static ObservableList<Stock> observableList;
     public TableView(String tableName){
         tableBox = new VBox();
         tableBox.setAlignment(Pos.TOP_CENTER);

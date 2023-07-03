@@ -1,39 +1,67 @@
 package Entities;
 
+import javafx.beans.property.SimpleStringProperty;
+
 import java.util.Objects;
 
 public class Car {
-    private final String carID;
-    private final String manufacturerID;
-    private final String make;
-    private final String model;
-    private final String year;
+    private final SimpleStringProperty carID;
+    private final SimpleStringProperty make;
+    private final SimpleStringProperty model;
+    private final SimpleStringProperty year;
 
-    public Car(String carID, String manufacturerID, String make, String model, String year) {
-        this.carID = carID;
-        this.manufacturerID = manufacturerID;
-        this.make = make;
-        this.model = model;
-        this.year = year;
+    public Car(String carID, String make, String model, String year) {
+        this.carID = new SimpleStringProperty (carID);
+        this.make = new SimpleStringProperty(make);
+        this.model = new SimpleStringProperty(model);
+        this.year = new SimpleStringProperty(year);
     }
 
     public String getCarID() {
+        return carID.get();
+    }
+
+    public SimpleStringProperty carIDProperty() {
         return carID;
     }
 
-    public String getManufacturerID() {
-        return manufacturerID;
+    public String getMake() {
+        return make.get();
     }
 
-    public String getMake() {
+    public SimpleStringProperty makeProperty() {
         return make;
     }
 
     public String getModel() {
+        return model.get();
+    }
+
+    public SimpleStringProperty modelProperty() {
         return model;
     }
 
     public String getYear() {
+        return year.get();
+    }
+
+    public SimpleStringProperty yearProperty() {
+        return year;
+    }
+
+    public SimpleStringProperty CarIDProperty() {
+        return carID;
+    }
+
+    public SimpleStringProperty getMakeProperty() {
+        return make;
+    }
+
+    public SimpleStringProperty getModelProperty() {
+        return model;
+    }
+
+    public SimpleStringProperty getYearProperty() {
         return year;
     }
 

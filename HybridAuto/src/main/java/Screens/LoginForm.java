@@ -1,88 +1,105 @@
 package Screens;
 
+import Functionality.Database.DB.Firebase;
 import Styles.Buttons;
+import Styles.Colors;
 import Styles.Fields;
-import Utils.Constants;
 import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.css.themes.Stylesheets;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.VBox;
+import org.kordamp.ikonli.javafx.FontIcon;
+import org.kordamp.ikonli.prestashopicons.PrestaShopIcons;
 
-import java.io.IOException;
 import java.sql.SQLException;
 
 public class LoginForm {
-    private static Label alertLabel = new Label();
     public static Parent loginForm() throws SQLException, ClassNotFoundException {
+        VBox mainPane = new VBox();
+        mainPane.setBackground(new Background(new BackgroundFill(Colors.mainPaneColor,new CornerRadii(0,0,0,0,false),null)));
+        mainPane.getStylesheets().add(Stylesheets.TEXT_FIELD.loadTheme());
 
-
-        GridPane gridPane = new GridPane();
-        gridPane.getStylesheets().add(Stylesheets.TEXT_FIELD.loadTheme());
-
-        gridPane.setAlignment(Pos.CENTER);
-        gridPane.setVgap(5);
-        gridPane.setHgap(5);
+        mainPane.setAlignment(Pos.CENTER);
+        mainPane.setSpacing(10);
 
         //InputFields
-        MFXTextField usernameField = Fields.textField("UserName",200,50);
-        MFXTextField passwordField = Fields.passwordField("Password",200,50);
+        MFXTextField usernameField = Fields.textField("Email",200,50);
+        MFXTextField passwordField = Fields.passwordField("Code",200,50);
         //Buttons
-        MFXButton loginButton = Buttons.FunctionButton("Login",200,40);
+        MFXButton loginButton = Buttons.iconButton("Login",200,40, FontIcon.of(PrestaShopIcons.COIN));
+        MFXButton sendCodeButton = Buttons.iconButton("Send Code",200,40, FontIcon.of(PrestaShopIcons.EJECT));
+            mainPane.getChildren().addAll(usernameField,passwordField,sendCodeButton);
+            passwordField.setDisable(true);
 
-
-        alertLabel.setVisible(false);
-
-        //Adding Field to GridPane
-        gridPane.add(usernameField,0,1);
-        gridPane.add(passwordField,0,3);
-        gridPane.add(alertLabel,0,4);
-        gridPane.add(loginButton,0,5);
 
 
 
         //Fields and Button Functionality
-
-        EventHandler<KeyEvent> entryFieldKeyHandler= keyEvent -> {
+        EventHandler<KeyEvent> userNameKeyHandler= keyEvent -> {
             if(keyEvent.getCode().equals(KeyCode.ENTER)){
-                try {
-                    login(usernameField.getText(),passwordField.getText());
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+                //Temporary
+//                try {
+//                    Constants.setScene(MainScreen.mainScreen());
+//                } catch (SQLException | ClassNotFoundException ex) {
+//                    new Notification(ex);
+//                    throw new RuntimeException(ex);
+//                }
+//
+                if(!usernameField.getText().isEmpty()&&!usernameField.getText().isBlank()){
+                    if(Firebase.userAuth(usernameField.getText())){
+                        passwordField.setDisable(false);
+                        if(!mainPane.getChildren().contains(loginButton)){
+                            mainPane.getChildren().remove(sendCodeButton);
+                            mainPane.getChildren().add(loginButton);
+                        }
+                    }
                 }
-
             }
         };
-        usernameField.addEventHandler(KeyEvent.KEY_PRESSED,entryFieldKeyHandler);
-        passwordField.addEventHandler(KeyEvent.KEY_PRESSED,entryFieldKeyHandler);
+        EventHandler<KeyEvent> passwordKeyHandler= keyEvent -> {
+            if(keyEvent.getCode().equals(KeyCode.ENTER)){
+                if(!passwordField.getText().isEmpty()&&!passwordField.getText().isBlank()){
+                    Firebase.codeAuth(passwordField.getText());
+                }
+            }
+        };
 
-        loginButton.setOnAction(e->{
-            try {
-                login(usernameField.getText(),passwordField.getText());
-            } catch (ClassNotFoundException ex) {
-                throw new RuntimeException(ex);
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            } catch (SQLException ex) {
-                throw new RuntimeException(ex);
+
+        usernameField.addEventHandler(KeyEvent.KEY_PRESSED,userNameKeyHandler);
+        passwordField.addEventHandler(KeyEvent.KEY_PRESSED,passwordKeyHandler);
+
+        sendCodeButton.setOnAction(e->{
+            //Temporary
+//            try {
+//                Constants.setScene(MainScreen.mainScreen());
+//            } catch (SQLException | ClassNotFoundException ex) {
+//                new Notification(ex);
+//                throw new RuntimeException(ex);
+//            }
+            if(!usernameField.getText().isEmpty()&&!usernameField.getText().isBlank()){
+                if(Firebase.userAuth(usernameField.getText())){
+                    passwordField.setDisable(false);
+                    mainPane.getChildren().remove(sendCodeButton);
+                    mainPane.getChildren().add(loginButton);
+                }
             }
         });
-        return gridPane;
+
+
+        loginButton.setOnAction(e->{
+                if(!passwordField.getText().isEmpty()&&!passwordField.getText().isBlank()){
+                    Firebase.codeAuth(passwordField.getText());
+                }
+        });
+        return mainPane;
     }
 
-    private static void login(String userName, String password) throws SQLException, ClassNotFoundException, IOException {
-        Constants.setScene(MainScreen.mainScreen());
-    }
 }

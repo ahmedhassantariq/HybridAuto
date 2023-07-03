@@ -10,6 +10,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 public class Cards {
+    private static Color cardBoxColor = Color.WHITE;;
+
     public static Parent card(String head,String val,String foot){
         Label header = Labels.titleLabel(head);
         Label value = Labels.cardLabel(val);
@@ -19,9 +21,7 @@ public class Cards {
         cardBox.setAlignment(Pos.CENTER);
         cardBox.setPrefSize(200,200);
         cardBox.setMaxSize(200,200);
-        cardBox.setBackground(new Background(new BackgroundFill(Color.WHITE,new CornerRadii(7,7,7,7,false),null)));
-
-
+        cardBox.setBackground(new Background(new BackgroundFill(cardBoxColor,new CornerRadii(7,7,7,7,false),null)));
         return cardBox;
     }
 }
