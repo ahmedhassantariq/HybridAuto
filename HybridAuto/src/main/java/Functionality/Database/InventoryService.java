@@ -117,7 +117,6 @@ public class InventoryService {
         while(resultSet.next())
         {
             carID = resultSet.getString("product_ID");
-            System.out.println("ID_>"+resultSet.getString("product_ID"));
         }
         return carID;
     }

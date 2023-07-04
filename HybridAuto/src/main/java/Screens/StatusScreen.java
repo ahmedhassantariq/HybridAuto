@@ -1,10 +1,9 @@
 package Screens;
 
 import Styles.Colors;
+import Styles.Icons;
 import Styles.Labels;
-import Utils.Internet;
-import Utils.Notification;
-import Utils.PDFDocument;
+import Utils.*;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -19,31 +18,31 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import org.kordamp.ikonli.javafx.FontIcon;
-import org.kordamp.ikonli.prestashopicons.PrestaShopIcons;
-
 import java.io.File;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Stack;
 
 public class StatusScreen {
     private static Label dateTimeLabel = Labels.timeLabel();
-    private static Label notificationSymbol = Labels.notificationSymbol("",FontIcon.of(PrestaShopIcons.DO_NOT_IRON));
-    public static Label settingsSymbol = Labels.notificationSymbol("",FontIcon.of(PrestaShopIcons.DO_NOT_IRON));
-    private static Label colorTheme = Labels.notificationSymbol("",FontIcon.of(PrestaShopIcons.DO_NOT_IRON));
-    private static Label connectivitySymbol = Labels.notificationSymbol("",FontIcon.of(PrestaShopIcons.DO_NOT_IRON));
-    private static Label receiptSymbol = Labels.notificationSymbol("",FontIcon.of(PrestaShopIcons.DO_NOT_IRON));
+    private static Label notificationSymbol = Labels.notificationSymbol("", Icons.messages);
+    public static Label settingsSymbol = Labels.notificationSymbol("",Icons.settings);
+    private static Label connectivitySymbol = Labels.notificationSymbol("",Icons.wifi_OFF);
+    private static Label receiptSymbol = Labels.notificationSymbol("",Icons.receipts);
     private static Color notificationIconColor = Color.WHITE;
-    public static ProgressBar progressBar = new ProgressBar(0.0);
 
     private static ContextMenu contextMenu = new ContextMenu();
     private static ContextMenu receiptMenu = new ContextMenu();
     private static Stack<String> notificationStack = new Stack<>();
 
     public static Parent statusScreen(){
-        progressBar.setVisible(false);
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+        updateDateTime();
+        checkInternet();
+
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(60), event -> {
             updateDateTime();
             checkInternet();
         }));
@@ -53,7 +52,6 @@ public class StatusScreen {
         //ToolTips
         notificationSymbol.setTooltip(Labels.tooltip("Messages"));
         settingsSymbol.setTooltip(Labels.tooltip("Settings"));
-        colorTheme.setTooltip(Labels.tooltip("Change Color"));
         receiptSymbol.setTooltip(new Tooltip("Receipts"));
 
 
@@ -96,7 +94,7 @@ public class StatusScreen {
             receiptMenu.show(receiptSymbol, Side.RIGHT,0,0);
         });
 
-        HBox statusBox = new HBox(dateTimeLabel, notificationSymbol, settingsSymbol,receiptSymbol, connectivitySymbol,progressBar);
+        HBox statusBox = new HBox(dateTimeLabel, notificationSymbol, settingsSymbol,receiptSymbol, connectivitySymbol);
         statusBox.setAlignment(Pos.CENTER_LEFT);
         statusBox.setSpacing(10);
         statusBox.setBackground(new Background(new BackgroundFill(Colors.statusBoxColor,new CornerRadii(0,15,0,0,false),null)));
@@ -105,10 +103,10 @@ public class StatusScreen {
         return statusBox;
     }
     public static void updateDateTime(){
-        dateTimeLabel.setText(
-                LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))+
+        dateTimeLabel.setText(LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))+
                         " "+ LocalTime.now().format(DateTimeFormatter.ofPattern("hh:mm a"))
         );
+
     }
 
     public static void setNotification(String text){
@@ -116,21 +114,25 @@ public class StatusScreen {
         notificationStack.push(text);
     }
     public static void checkInternet() {
-
+        long time = ChronoUnit.MINUTES.between(Constants.settings.getLocalDateTime(),LocalDateTime.now());
+        if(time>2){
+            Constants.settings.setLocalDateTime(LocalDateTime.now());
         if(Internet.isConnected()){
-            FontIcon fontIcon = new FontIcon(PrestaShopIcons.MAIL);
+            FontIcon fontIcon = Icons.wifi_ON;
             fontIcon.setIconColor(notificationIconColor);
             fontIcon.setIconSize(32);
             connectivitySymbol.setGraphic(fontIcon);
             connectivitySymbol.setTooltip(Labels.tooltip("Connected"));
         }else {
-            FontIcon fontIcon = new FontIcon(PrestaShopIcons.WINDOWS);
+            FontIcon fontIcon = Icons.wifi_OFF;
             fontIcon.setIconColor(notificationIconColor);
             fontIcon.setIconSize(32);
             connectivitySymbol.setGraphic(fontIcon);
             connectivitySymbol.setTooltip(Labels.tooltip("Disconnected"));
 
         }
+        }
     }
+
 
 }

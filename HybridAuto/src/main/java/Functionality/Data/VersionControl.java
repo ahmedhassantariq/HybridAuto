@@ -1,14 +1,15 @@
 package Functionality.Data;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 public class VersionControl implements Serializable {
     private double appVersion;
-    private boolean update;
+    private LocalDateTime localDateTime;
 
-    public VersionControl(double appVersion, boolean update) {
+    public VersionControl(double appVersion, LocalDateTime localDateTime) {
         this.appVersion = appVersion;
-        this.update = update;
+        this.localDateTime = localDateTime;
     }
 
     public double getAppVersion() {
@@ -19,11 +20,11 @@ public class VersionControl implements Serializable {
         this.appVersion = appVersion;
     }
 
-    public boolean isUpdate() {
-        return update;
+    public LocalDateTime getLocalDateTime() {
+        return localDateTime;
     }
 
-    public void setUpdate(boolean update) {
-        this.update = update;
+    public void setLocalDateTime(LocalDateTime localDateTime) {
+        this.localDateTime = localDateTime;
     }
 }

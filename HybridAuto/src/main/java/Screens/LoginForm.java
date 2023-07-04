@@ -4,6 +4,9 @@ import Functionality.Database.DB.Firebase;
 import Styles.Buttons;
 import Styles.Colors;
 import Styles.Fields;
+import Styles.Icons;
+import Utils.Constants;
+import Utils.Notification;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.css.themes.Stylesheets;
@@ -16,8 +19,6 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
-import org.kordamp.ikonli.javafx.FontIcon;
-import org.kordamp.ikonli.prestashopicons.PrestaShopIcons;
 
 import java.sql.SQLException;
 
@@ -34,8 +35,8 @@ public class LoginForm {
         MFXTextField usernameField = Fields.textField("Email",200,50);
         MFXTextField passwordField = Fields.passwordField("Code",200,50);
         //Buttons
-        MFXButton loginButton = Buttons.iconButton("Login",200,40, FontIcon.of(PrestaShopIcons.COIN));
-        MFXButton sendCodeButton = Buttons.iconButton("Send Code",200,40, FontIcon.of(PrestaShopIcons.EJECT));
+        MFXButton loginButton = Buttons.iconButton("Login",200,40, Icons.logIn);
+        MFXButton sendCodeButton = Buttons.iconButton("Send Code",200,40, Icons.sendCode);
             mainPane.getChildren().addAll(usernameField,passwordField,sendCodeButton);
             passwordField.setDisable(true);
 
@@ -52,7 +53,7 @@ public class LoginForm {
 //                    new Notification(ex);
 //                    throw new RuntimeException(ex);
 //                }
-//
+
                 if(!usernameField.getText().isEmpty()&&!usernameField.getText().isBlank()){
                     if(Firebase.userAuth(usernameField.getText())){
                         passwordField.setDisable(false);
@@ -76,14 +77,14 @@ public class LoginForm {
         usernameField.addEventHandler(KeyEvent.KEY_PRESSED,userNameKeyHandler);
         passwordField.addEventHandler(KeyEvent.KEY_PRESSED,passwordKeyHandler);
 
-        sendCodeButton.setOnAction(e->{
-            //Temporary
-//            try {
-//                Constants.setScene(MainScreen.mainScreen());
-//            } catch (SQLException | ClassNotFoundException ex) {
-//                new Notification(ex);
-//                throw new RuntimeException(ex);
-//            }
+        sendCodeButton.setOnAction(e-> {
+
+//                    try {
+//                        Constants.setScene(MainScreen.mainScreen());
+//                    } catch (SQLException | ClassNotFoundException ex) {
+//                        new Notification(ex);
+//                        throw new RuntimeException(ex);
+//                    }
             if(!usernameField.getText().isEmpty()&&!usernameField.getText().isBlank()){
                 if(Firebase.userAuth(usernameField.getText())){
                     passwordField.setDisable(false);
@@ -91,7 +92,7 @@ public class LoginForm {
                     mainPane.getChildren().add(loginButton);
                 }
             }
-        });
+                });
 
 
         loginButton.setOnAction(e->{
@@ -101,5 +102,4 @@ public class LoginForm {
         });
         return mainPane;
     }
-
 }

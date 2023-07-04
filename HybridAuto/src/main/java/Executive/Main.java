@@ -1,9 +1,11 @@
 package Executive;
 
 import Utils.Constants;
-import Utils.Notification;
+import Utils.FileManager;
 import javafx.application.Application;
 import javafx.stage.Stage;
+
+import java.io.File;
 
 public class Main extends Application {
     public static Stage stage;
@@ -12,6 +14,8 @@ public class Main extends Application {
         Main.stage = stage;
         stage.setTitle("Hybrid AutoTech");
         stage.setScene(Constants.scene);
+//        FileManager.writeSettings();
+        FileManager.readSettings();
         stage.setOnCloseRequest(e->{
             System.exit(1);
         });

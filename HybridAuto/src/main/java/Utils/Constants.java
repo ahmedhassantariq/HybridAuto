@@ -1,23 +1,20 @@
 package Utils;
 
 import Executive.Main;
+import Functionality.Data.VersionControl;
 import Screens.LoginForm;
-import io.github.palexdev.materialfx.css.themes.MFXThemeManager;
-import io.github.palexdev.materialfx.css.themes.Stylesheets;
-import io.github.palexdev.materialfx.css.themes.Themes;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.paint.Color;
 
 import java.sql.SQLException;
 
 public class Constants {
-    public static final double appVersion = 1.0;
+    public static VersionControl settings;
     public static final double screenHeight = 600;
     public static final double screenWidth = 1100;
-
     public static final double formHeight = 400;
     public static final double formWidth = 500;
+    public static String logInUsername = "ADMIN";
 
 
     public static Scene scene;

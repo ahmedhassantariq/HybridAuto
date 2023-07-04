@@ -153,6 +153,8 @@ public class InventoryController {
             StatusScreen.setNotification(category.getMake()+" "+category.getModel()+" "+category.getYear()+" Added");
         } catch (SQLException e) {
             new Notification(e);
+        }finally {
+            setMakeComboList();
         }
     }
 

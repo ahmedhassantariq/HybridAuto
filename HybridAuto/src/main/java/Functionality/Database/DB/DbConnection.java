@@ -1,14 +1,9 @@
 package Functionality.Database.DB;
 
 import Entities.Services;
-import Utils.Email;
 import Utils.Notification;
-import Utils.TaskManager;
-import javafx.application.Platform;
 import org.apache.commons.lang3.ObjectUtils;
-import Functionality.Database.DB.Firebase;
 
-import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

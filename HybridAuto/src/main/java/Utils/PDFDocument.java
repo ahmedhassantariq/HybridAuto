@@ -49,7 +49,6 @@ public class PDFDocument {
         pdfDocument.setDefaultPageSize(PageSize.A4);
 
 
-
         float col = 280f;
         float columnWidth[] = {col,col};
         Table table = new Table(columnWidth);
@@ -211,6 +210,9 @@ public class PDFDocument {
             stage.setTitle(fileName);
             stage.setScene(new Scene(pdfDisplayer, 500, 700));
             stage.show();
+            stage.setOnCloseRequest(e->{
+                pdfDisplayer.unload();
+            });
         }else {
             new Notification("Receipt Not Found");
         }

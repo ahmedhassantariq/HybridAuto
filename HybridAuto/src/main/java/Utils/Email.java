@@ -24,7 +24,6 @@ public class Email {
                         return new PasswordAuthentication(username, password);
                     }
                 });
-        String code = null;
         try {
 
             Message message = new MimeMessage(session);
@@ -34,17 +33,16 @@ public class Email {
                     InternetAddress.parse(email)
             );
             message.setSubject("Verification Code - Hybrid AutoTech");
-            Random random = new Random();
-            code = String.valueOf(random.nextInt(000000,999999));
+            String code = String.valueOf(new Random().nextInt(000000,999999));
             message.setText(code);
 
             Transport.send(message);
             new Notification("Code Sent");
-
+            return code;
         } catch (MessagingException e) {
             new Notification(e);
             e.printStackTrace();
         }
-        return code;
+        return null;
     }
 }
